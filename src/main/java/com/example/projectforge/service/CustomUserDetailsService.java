@@ -1,5 +1,6 @@
 package com.example.projectforge.service;
 
+import com.example.projectforge.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
