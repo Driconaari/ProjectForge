@@ -16,23 +16,21 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests = http.authorizeRequests();
-        authorizeRequests.requestMatchers("/resources/**", "/").permitAll()
-                .anyRequest().authenticated();
-
-        FormLoginConfigurer<HttpSecurity> formLogin = http.formLogin();
-        formLogin.loginPage("/login").permitAll();
-
-        LogoutConfigurer<HttpSecurity> logout = http.logout();
-        logout.logoutSuccessUrl("/").permitAll();
+     http
+                 .authorizeRequests((requests) -> requests
+                            .requestMatchers("/login").permitAll()
+                            .anyRequest().authenticated()
+                 )
+                 .formLogin((formLogin) -> formLogin
+                            .loginPage("/login")
+                            .permitAll()
+                 )
+                 .logout((logout) -> logout
+                            .logoutUrl("/logout")
+                            .permitAll()
+                 );
 
         return http.build();
     }
 
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-                .inMemoryAuthentication()
-                .withUser("user").password("{noop}password").roles("USER");
-    }
 }
