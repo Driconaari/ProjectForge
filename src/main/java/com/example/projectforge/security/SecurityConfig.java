@@ -17,7 +17,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests = http.authorizeRequests();
-        authorizeRequests.antMatchers("/resources/**", "/").permitAll()
+        authorizeRequests.requestMatchers("/resources/**", "/").permitAll()
                 .anyRequest().authenticated();
 
         FormLoginConfigurer<HttpSecurity> formLogin = http.formLogin();
