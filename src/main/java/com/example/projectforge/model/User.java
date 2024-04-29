@@ -4,16 +4,18 @@ public class User {
     private Long id;
     private String username;
     private String email;
-    // Additional fields as needed
-
+    private String password;
+    private String roles;
     // Constructors
     public User() {
     }
 
-    public User(Long id, String username, String email) {
+    public User(Long id, String username, String email,String password,String roles) {
         this.id = id;
         this.username = username;
         this.email = email;
+        this.password = password;
+        this.roles = roles;
     }
 
     // Getters and setters
@@ -39,6 +41,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRoles() {
+        return roles;
     }
 
     // Additional methods as needed
