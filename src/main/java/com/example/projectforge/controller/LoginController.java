@@ -4,6 +4,7 @@ import com.example.projectforge.security.WebSecurityConfigurerAdapter;
 import com.example.projectforge.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class LoginController {
 
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
     @GetMapping("/login")
     public String login() {
         return "login";
@@ -29,7 +33,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@RequestParam String username, @RequestParam String password, Model model) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        UserDetails userDetails = CustomUserDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -44,7 +48,7 @@ public class LoginController {
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
-            new SecurityContextLogoutHandler().logout(request,response, authentication);
+            new SecurityContextLogoutHandler().logout(request, response, authentication);
         }
         return "redirect:/login";
     }
