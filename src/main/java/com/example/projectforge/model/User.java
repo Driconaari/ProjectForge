@@ -8,16 +8,18 @@ public class User {
     private String email;
     private String password;
     private String roles;
+    private boolean isAdmin;
     // Constructors
     public User() {
     }
 
-    public User(Long id, String username, String email,String password,String roles) {
+    public User(Long id, String username, String email,String password,String roles, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
         this.roles = roles;
+        this.isAdmin = isAdmin; // Initialize new field
     }
 
     // Getters and setters
@@ -53,5 +55,14 @@ public class User {
         return roles;
     }
 
-    // Additional methods as needed
+    // Additional methods as needed such as admins and so on
+
+
+    public boolean getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(boolean isAdmin) {
+        this.isAdmin = isAdmin;
+    }
 }
