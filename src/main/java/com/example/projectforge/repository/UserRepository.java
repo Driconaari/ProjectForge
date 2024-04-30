@@ -1,11 +1,14 @@
 package com.example.projectforge.repository;
 
 import com.example.projectforge.model.User;
+import org.springframework.stereotype.Repository;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Repository
 public interface UserRepository {
     Map<Long, User> userMap = new HashMap<>();
 

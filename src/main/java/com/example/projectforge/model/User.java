@@ -1,5 +1,7 @@
 package com.example.projectforge.model;
 
+
+
 public class User {
     private Long id;
     private String username;
