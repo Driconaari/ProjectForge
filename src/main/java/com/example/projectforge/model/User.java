@@ -1,8 +1,11 @@
 package com.example.projectforge.model;
 
 
+import jakarta.persistence.Entity;
 
+@Entity
 public class User {
+    @Id
     private Long id;
     private String username;
     private String email;
