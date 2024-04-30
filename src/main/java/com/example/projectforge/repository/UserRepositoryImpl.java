@@ -9,27 +9,32 @@ import java.util.List;
 import java.util.Map;
 
 @Repository
-public interface UserRepository {
-    Map<Long, User> userMap = new HashMap<>();
+public class UserRepositoryImpl implements UserRepo {
+    private Map<Long, User> userMap = new HashMap<>();
 
-    default User save(User user) {
+    @Override
+    public User save(User user) {
         userMap.put(user.getId(), user);
         return user;
     }
 
-    default User findById(Long id) {
+    @Override
+    public User findById(Long id) {
         return userMap.get(id);
     }
 
-    default List<User> findAll() {
+    @Override
+    public List<User> findAll() {
         return new ArrayList<>(userMap.values());
     }
 
-    default void delete(User user) {
+    @Override
+    public void delete(User user) {
         userMap.remove(user.getId());
     }
 
-    default User findByUsername(String username) {
+    @Override
+    public User findByUsername(String username) {
         for (User user : userMap.values()) {
             if (user.getUsername().equals(username)) {
                 return user;
