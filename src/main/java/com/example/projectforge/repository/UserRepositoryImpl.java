@@ -1,6 +1,9 @@
 package com.example.projectforge.repository;
 
 import com.example.projectforge.model.User;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -11,6 +14,9 @@ import java.util.Map;
 @Repository
 public class UserRepositoryImpl implements UserRepo {
     private Map<Long, User> userMap = new HashMap<>();
+
+    @Autowired
+    private EntityManager entityManager;
 
     @Override
     public User save(User user) {
@@ -44,8 +50,9 @@ public class UserRepositoryImpl implements UserRepo {
     }
 
     @Override
+    @Transactional
     public void register(User newUser) {
-        save(newUser);
-
+        entityManager.persist(newUser);
     }
+
 }

@@ -62,17 +62,17 @@ public class LoginController {
     }
 
     @GetMapping("/register")
-public String register(Model model) {
-    model.addAttribute("user", new UserRegistrationDto());
-    return "register";
-}
+    public String register(Model model) {
+        model.addAttribute("user", new UserRegistrationDto());
+        return "register";
+    }
 
-@PostMapping("/register")
-public String register(@ModelAttribute("user") UserRegistrationDto registrationDto) {
-    User newUser = new User();
-    newUser.setUsername(registrationDto.getUsername());
-    newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
-    userRepo.register(newUser);
-    return "redirect:/login";
-}
+    @PostMapping("/register")
+    public String register(@ModelAttribute("user") UserRegistrationDto registrationDto) {
+        User newUser = new User();
+        newUser.setUsername(registrationDto.getUsername());
+        newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
+        userRepo.register(newUser);
+        return "redirect:/login";
+    }
 }

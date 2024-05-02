@@ -11,4 +11,5 @@ public interface UserRepo {
     User findByUsername(String username);
 
     void register(User newUser);
+
 }
