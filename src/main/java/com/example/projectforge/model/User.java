@@ -13,7 +13,10 @@ public class User {
     private String email;
     private String password;
     private String roles;
+
+    @Column(name = "is_admin")
     private boolean isAdmin;
+
     // Constructors
     public User() {
     }
@@ -66,6 +69,8 @@ public class User {
     // Additional methods as needed such as admins and so on
 
 
+
+/*
     public boolean getIsAdmin() {
         return isAdmin;
     }
@@ -73,4 +78,6 @@ public class User {
     public void setIsAdmin(boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
+
+ */
 }
