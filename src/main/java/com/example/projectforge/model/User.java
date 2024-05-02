@@ -21,7 +21,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String email,String password,String roles, boolean isAdmin) {
+    public User(Long id, String username, String email, String password, String roles, boolean isAdmin) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -62,6 +62,7 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public String getRoles() {
         return roles;
     }
@@ -69,8 +70,6 @@ public class User {
     // Additional methods as needed such as admins and so on
 
 
-
-/*
     public boolean getIsAdmin() {
         return isAdmin;
     }
@@ -79,5 +78,4 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
- */
 }
