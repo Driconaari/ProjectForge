@@ -29,6 +29,8 @@ public class LoginController {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+
+    @Autowired
     private UserRepo userRepo;
 
     @GetMapping("/login")
