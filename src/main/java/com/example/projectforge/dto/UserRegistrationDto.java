@@ -4,6 +4,7 @@ public class UserRegistrationDto {
     private String username;
     private String password;
     private String email;
+    private String roles;
 
     // getters
     public String getUsername() {
@@ -17,6 +18,9 @@ public class UserRegistrationDto {
     public String getEmail() {
         return email;
     }
+    public String getRoles() {
+        return roles;
+    }
 
     // setters
     public void setUsername(String username) {
@@ -29,6 +33,10 @@ public class UserRegistrationDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
     }
 
 

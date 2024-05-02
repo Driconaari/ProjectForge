@@ -78,4 +78,7 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
 }

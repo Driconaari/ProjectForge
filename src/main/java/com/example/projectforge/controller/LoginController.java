@@ -73,6 +73,7 @@ public String register(@ModelAttribute("user") UserRegistrationDto registrationD
     newUser.setUsername(registrationDto.getUsername());
     newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
     newUser.setEmail(registrationDto.getEmail()); // Set the email field
+      newUser.setRoles(registrationDto.getRoles());
     userRepo.register(newUser);
     return "redirect:/login";
 }
