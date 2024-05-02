@@ -1,5 +1,8 @@
 package com.example.projectforge.controller;
 
+import com.example.projectforge.dto.UserRegistrationDto;
+import com.example.projectforge.model.User;
+import com.example.projectforge.repository.UserRepo;
 import com.example.projectforge.security.WebSecurityConfigurerAdapter;
 import com.example.projectforge.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,14 +19,17 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import com.example.projectforge.repository.UserRepo;
 
 @Controller
 public class LoginController {
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
+    private UserRepo userRepo;
 
     @GetMapping("/login")
     public String login() {
@@ -52,4 +58,19 @@ public class LoginController {
         }
         return "redirect:/login";
     }
+
+    @GetMapping("/register")
+public String register(Model model) {
+    model.addAttribute("user", new UserRegistrationDto());
+    return "register";
+}
+
+@PostMapping("/register")
+public String register(@ModelAttribute("user") UserRegistrationDto registrationDto) {
+    User newUser = new User();
+    newUser.setUsername(registrationDto.getUsername());
+    newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
+    userRepo.register(newUser);
+    return "redirect:/login";
+}
 }

@@ -42,4 +42,10 @@ public class UserRepositoryImpl implements UserRepo {
         }
         return null;
     }
+
+    @Override
+    public void register(User newUser) {
+        save(newUser);
+
+    }
 }

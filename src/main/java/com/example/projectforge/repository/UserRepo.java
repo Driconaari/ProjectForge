@@ -9,4 +9,6 @@ public interface UserRepo {
     List<User> findAll();
     void delete(User user);
     User findByUsername(String username);
+
+    void register(User newUser);
 }
