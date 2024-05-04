@@ -3,7 +3,6 @@ package com.example.projectforge.controller;
 import com.example.projectforge.dto.UserRegistrationDto;
 import com.example.projectforge.model.User;
 import com.example.projectforge.repository.UserRepo;
-import com.example.projectforge.security.WebSecurityConfigurerAdapter;
 import com.example.projectforge.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -45,7 +44,7 @@ public class LoginController {
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "redirect:/";
+            return "redirect:/homepage";
         } else {
             model.addAttribute("error", "true");
             return "login";
