@@ -2,6 +2,8 @@ package com.example.projectforge.security;
 
 import com.example.projectforge.service.CustomUserDetailsService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,26 +19,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
+    private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
+
     @Autowired
     private CustomUserDetailsService userDetailsService;
 
     @Override
-    public UsernamePasswordAuthenticationToken authenticate(Authentication authentication) throws AuthenticationException {
-        String username = authentication.getName();
-        String password = authentication.getCredentials().toString();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (userDetails == null) {
-            throw new UsernameNotFoundException("User not found");
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        log.debug("Authenticating user");
+        if (authentication instanceof UsernamePasswordAuthenticationToken) {
+            String username = authentication.getName();
+            String password = authentication.getCredentials().toString();
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+            if (userDetails == null) {
+                throw new UsernameNotFoundException("User not found");
+            }
+            PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+                throw new BadCredentialsException("Invalid password");
+            }
+            return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+        } else {
+            throw new ClassCastException("Authentication object is not of type UsernamePasswordAuthenticationToken");
         }
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
-            throw new BadCredentialsException("Invalid password");
-        }
-        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     @Override
     public boolean supports(Class<?> authentication) {
         return authentication.equals(UsernamePasswordAuthenticationToken.class);
     }
+
+
 }

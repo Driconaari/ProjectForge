@@ -45,7 +45,7 @@ public class LoginController {
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "redirect:/";
+            return "redirect:/homepage";
         } else {
             model.addAttribute("error", "true");
             return "login";
