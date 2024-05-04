@@ -30,6 +30,7 @@ public class SecurityConfiguration {
                          //ensure that all other requests are authenticated
                             .anyRequest().authenticated()
                  )
+             //creates its own http request for login
                  .formLogin((formLogin) -> formLogin
                             .loginPage("/login")
                             .permitAll()
@@ -42,5 +43,17 @@ public class SecurityConfiguration {
         return http.build();
     }
 
+
+    // (note)  / route instead of /homepage, it could be due to the default behavior of Spring Security.
+    // If you don't specify a default success URL,
+    // Spring Security will redirect you to the root URL (/) after login.
+    /*
+    .formLogin((formLogin) -> formLogin
+    .loginPage("/login")
+    .defaultSuccessURL("/homepage", true)
+    .permitAll()
+)
+
+     */
 
 }
