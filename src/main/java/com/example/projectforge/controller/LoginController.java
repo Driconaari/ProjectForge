@@ -44,14 +44,14 @@ public class LoginController {
         if (passwordEncoder.matches(password, userDetails.getPassword())) {
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
-            return "redirect:/homepage";
+            return "redirect:/";
         } else {
             model.addAttribute("error", "true");
             return "login";
         }
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/logout")  
     public String logout(HttpServletRequest request, HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null) {
