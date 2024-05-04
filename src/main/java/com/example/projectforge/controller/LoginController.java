@@ -3,7 +3,6 @@ package com.example.projectforge.controller;
 import com.example.projectforge.dto.UserRegistrationDto;
 import com.example.projectforge.model.User;
 import com.example.projectforge.repository.UserRepo;
-import com.example.projectforge.security.WebSecurityConfigurerAdapter;
 import com.example.projectforge.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

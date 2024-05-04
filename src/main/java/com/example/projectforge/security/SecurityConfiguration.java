@@ -25,6 +25,8 @@ public class SecurityConfiguration {
      http
                  .authorizeRequests((requests) -> requests
                             .requestMatchers("/login","register").permitAll()
+                         .requestMatchers("/homepage").hasRole("USER")
+                         .requestMatchers("/admin/**").hasRole("ADMIN")
                             .anyRequest().authenticated()
                  )
                  .formLogin((formLogin) -> formLogin
@@ -38,5 +40,6 @@ public class SecurityConfiguration {
 
         return http.build();
     }
+
 
 }

@@ -21,15 +21,18 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private UserRepo userRepo;
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.projectforge.model.User user = userRepo.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
+  @Override
+public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    com.example.projectforge.model.User user = userRepo.findByUsername(username);
+    if (user == null) {
+        System.out.println("User not found in the database");
+        throw new UsernameNotFoundException("User not found");
     }
+    System.out.println("User found in the database: " + user.getUsername());
+    return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
 }
+}
+
 
 //old metod
     /*
