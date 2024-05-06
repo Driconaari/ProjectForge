@@ -8,6 +8,7 @@ CREATE TABLE users
     roles    VARCHAR(255) NOT NULL,
     is_admin TINYINT      NOT NULL
 );
+
 -- Create table for projects
 CREATE TABLE Projects
 (

@@ -2,41 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Project Details</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Management Tool</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Project Details</h1>
-    </header>
+<h1>Project Management Tool</h1>
 
-    <main>
-        <section id="project-info">
-            <h2>Project Information</h2>
-            <div id="projectDetails">
-                <!-- Project details will be populated here -->
-            </div>
-        </section>
+<h2>Projects</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Project ID</th>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th>Deadline</th>
+    </tr>
+    </thead>
+    <tbody>
+    <?php
+            // PHP code to fetch projects data from the database and populate the table
+            // Replace the connection details with your actual database connection
+            $servername = "localhost";
+            $username = "username";
+            $password = "password";
+            $dbname = "your_database";
 
-        <section id="project-tasks">
-            <h2>Project Tasks</h2>
-            <div id="projectTasks">
-                <!-- Project tasks will be populated here -->
-            </div>
-        </section>
+            // Create connection
+            $conn = new mysqli($servername, $username, $password, $dbname);
 
-        <section id="project-team">
-            <h2>Project Team</h2>
-            <div id="projectTeam">
-                <!-- Project team members will be populated here -->
-            </div>
-        </section>
-    </main>
+            // Check connection
+            if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+    }
 
-    <footer>
-        <p>© 2024 ProjectForge by Your Company</p>
-    </footer>
+    // Fetch projects data
+    $sql = "SELECT * FROM Projects";
+    $result = $conn->query($sql);
 
-    <script src="scripts.js"></script>
+    if ($result->num_rows > 0) {
+    // Output data of each row
+    while($row = $result->fetch_assoc()) {
+    echo "<tr>";
+        echo "<td>".$row["ProjectID"]."</td>";
+        echo "<td>".$row["ProjectName"]."</td>";
+        echo "<td>".$row["Description"]."</td>";
+        echo "<td>".$row["Deadline"]."</td>";
+        echo "</tr>";
+    }
+    } else {
+    echo "<tr><td colspan='4'>No projects found</td></tr>";
+    }
+    $conn->close();
+    ?>
+    </tbody>
+</table>
+
+<!-- Similar tables for Subprojects, Tasks, Subtasks, Time Consumption, etc. -->
+
 </body>
 </html>
