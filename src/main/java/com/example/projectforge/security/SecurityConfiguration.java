@@ -16,29 +16,30 @@ public class SecurityConfiguration {
     private CustomAuthenticationProvider authProvider;
 
     @Autowired
-    public  void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-     http
-                 .authorizeRequests((requests) -> requests
-                            .requestMatchers("/login","register").permitAll()
-                         .requestMatchers("/homepage").hasRole("USER")
-                         .requestMatchers("/admin/**").hasRole("ADMIN")
-                         //ensure that all other requests are authenticated
-                            .anyRequest().authenticated()
-                 )
-             //creates its own http request for login
-                 .formLogin((formLogin) -> formLogin
-                            .loginPage("/login")
-                            .permitAll()
-                 )
-                 .logout((logout) -> logout
-                            .logoutUrl("/logout")
-                            .permitAll()
-                 );
+        http
+               // .requiresChannel(channel -> channel.anyRequest().requiresSecure())// Enforces HTTPS //  ensures that the information exchanged between your website and its visitors is encrypted and won't be intercepted by third parties.
+                .authorizeRequests((requests) -> requests
+                        .requestMatchers("/login", "register").permitAll()
+                        .requestMatchers("/homepage").hasRole("USER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        //ensure that all other requests are authenticated
+                        .anyRequest().authenticated()
+                )
+                //creates its own http request for login
+                .formLogin((formLogin) -> formLogin
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout((logout) -> logout
+                        .logoutUrl("/logout")
+                        .permitAll()
+                );
 
         return http.build();
     }

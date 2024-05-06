@@ -23,6 +23,14 @@
         <h2>Project Breakdown</h2>
         <button onclick="createProject()">Create New Project</button>
         <div id="projectList"></div>
+        <ul>
+            <li> th:each="project : ${projects}">
+                <span> th:text="${project.id}"</span>
+                <span> th:text="${project.name}"</span>
+                <span> th:text="${project.description}"</span>
+                <span> th:text="${project.deadline}"</span>
+            </li>
+        </ul>
     </section>
 
     <section id="gantt-chart">

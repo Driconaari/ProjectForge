@@ -1,4 +1,4 @@
-package com.example.projectforge.repository;
+package com.example.projectforge.userRepository;
 
 import com.example.projectforge.model.User;
 import java.util.List;

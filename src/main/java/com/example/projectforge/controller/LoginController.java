@@ -2,13 +2,12 @@ package com.example.projectforge.controller;
 
 import com.example.projectforge.dto.UserRegistrationDto;
 import com.example.projectforge.model.User;
-import com.example.projectforge.repository.UserRepo;
+import com.example.projectforge.userRepository.UserRepo;
 import com.example.projectforge.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import com.example.projectforge.repository.UserRepo;
 
 @Controller
 public class LoginController {
