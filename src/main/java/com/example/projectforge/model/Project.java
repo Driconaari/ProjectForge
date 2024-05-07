@@ -11,18 +11,18 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int projectId;
+    private int projectID;
     private String projectName;
     private String description;
     private Date deadline;
 
     // Getters and setters
-    public int getProjectId() {
-        return projectId;
+    public int getProjectID() {
+        return projectID;
     }
 
-    public void setProjectId(int projectId) {
-        this.projectId = projectId;
+    public void setProjectID(int projectId) {
+        this.projectID = projectId;
     }
 
     public String getProjectName() {
