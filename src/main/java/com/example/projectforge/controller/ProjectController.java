@@ -15,6 +15,7 @@ public class ProjectController {
     private ProjectRepository projectRepository;
 
 
+    //showing the data with sting from the model class
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("projects", projectRepository.findAll());

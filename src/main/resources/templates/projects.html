@@ -3,76 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Management Tool</title>
+    <title>My Project</title>
     <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
+        body {
+            font-family: Arial, sans-serif;
         }
-        th, td {
-            padding: 8px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
+        .container {
+            width: 80%;
+            margin: 0 auto;
         }
-        th {
-            background-color: #f2f2f2;
+        h1 {
+            color: #333;
         }
     </style>
 </head>
 <body>
-<h1>Project Management Tool</h1>
-
-<h2>Projects</h2>
-<table>
-    <thead>
-    <tr>
-        <th>Project ID</th>
-        <th>Project Name</th>
-        <th>Description</th>
-        <th>Deadline</th>
-    </tr>
-    </thead>
-    <tbody>
-    <?php
-            // PHP code to fetch projects data from the database and populate the table
-            // Replace the connection details with your actual database connection
-            $servername = "localhost";
-            $username = "username";
-            $password = "password";
-            $dbname = "your_database";
-
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            // Check connection
-            if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-    }
-
-    // Fetch projects data
-    $sql = "SELECT * FROM Projects";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-    // Output data of each row
-    while($row = $result->fetch_assoc()) {
-    echo "<tr>";
-        echo "<td>".$row["ProjectID"]."</td>";
-        echo "<td>".$row["ProjectName"]."</td>";
-        echo "<td>".$row["Description"]."</td>";
-        echo "<td>".$row["Deadline"]."</td>";
-        echo "</tr>";
-    }
-    } else {
-    echo "<tr><td colspan='4'>No projects found</td></tr>";
-    }
-    $conn->close();
-    ?>
-    </tbody>
-</table>
-
-<!-- Similar tables for Subprojects, Tasks, Subtasks, Time Consumption, etc. -->
-
+    <div class="container">
+        <h1>Welcome to My Project</h1>
+        <p>This is a simple project page created with HTML.</p>
+    </div>
 </body>
 </html>
