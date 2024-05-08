@@ -23,6 +23,11 @@ public String displayResources(Model model) {
 }
 
 
+@GetMapping("/addResource")
+public String displayAddResourceForm() {
+    return "addResource";
+}
+
   @PostMapping("/resources")
 public String addResource(@ModelAttribute Resource resource, Model model) {
     resourceService.saveResource(resource);
