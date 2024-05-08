@@ -6,7 +6,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.core.GrantedAuthority;
 
 @Configuration
 @EnableWebSecurity
@@ -20,34 +23,53 @@ public class SecurityConfiguration {
         auth.authenticationProvider(authProvider);
     }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-               // .requiresChannel(channel -> channel.anyRequest().requiresSecure())// Enforces HTTPS //  ensures that the information exchanged between your website and its visitors is encrypted and won't be intercepted by third parties.
-                .authorizeRequests((requests) -> requests
-                        .requestMatchers("/login", "register").permitAll()
-                        .requestMatchers("/homepage").hasRole("USER")
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        //ensure that all other requests are authenticated
-                        .anyRequest().authenticated()
-                )
-                //creates its own http request for login
-                .formLogin((formLogin) -> formLogin
-                        .loginPage("/login")
-                        .permitAll()
-                )
-                .logout((logout) -> logout
-                        .logoutUrl("/logout")
-                        .permitAll()
-                );
+   @Bean
+public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .csrf(csrf -> csrf.disable())
+            .authorizeRequests((requests) -> requests
+                    .requestMatchers("/login", "/register", "/addProject").permitAll()
+                    .anyRequest().authenticated()
 
-        return http.build();
+            )
+            .formLogin((formLogin) -> formLogin
+                    .loginPage("/login")
+                    .permitAll()
+            )
+            .logout((logout) -> logout
+                    .logoutUrl("/logout")
+                    .permitAll()
+
+            );
+
+    return http.build();
+}
+
+
+
+    public boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && authentication.isAuthenticated();
     }
 
 
-    // (note)  / route instead of /homepage, it could be due to the default behavior of Spring Security.
-    // If you don't specify a default success URL,
-    // Spring Security will redirect you to the root URL (/) after login.
+    public boolean hasRole(String role) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            for (GrantedAuthority authority : authentication.getAuthorities()) {
+                if (role.equals(authority.getAuthority())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
+
+
+// (note)  / route instead of /homepage, it could be due to the default behavior of Spring Security.
+// If you don't specify a default success URL,
+// Spring Security will redirect you to the root URL (/) after login.
     /*
     .formLogin((formLogin) -> formLogin
     .loginPage("/login")
@@ -57,4 +79,3 @@ public class SecurityConfiguration {
 
      */
 
-}

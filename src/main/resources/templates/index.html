@@ -21,7 +21,7 @@
 <main>
     <section id="projects">
         <h2>Project Breakdown</h2>
-        <button onclick="createProject()">Create New Project</button>
+        <button><a href="/addProject">Create New Project</a></button>
         <div id="projectList"></div>
         <ul>
             <li th:each="project : ${projects}">
@@ -38,13 +38,13 @@
         <div id="ganttChartContainer"></div>
     </section>
 
-<section id="resources">
-    <h2>Resource Management</h2>
-    <div id="resourceManagementContainer">
-        <button><a href="/addResource">Add Resource</a></button>
-        <div id="resourceList"></div>
-    </div>
-</section>
+    <section id="resources">
+        <h2>Resource Management</h2>
+        <div id="resourceManagementContainer">
+            <button><a href="/addResource">Add Resource</a></button>
+            <div id="resourceList"></div>
+        </div>
+    </section>
 
     <section id="time-tracking">
         <h2>Time Tracking and Summarization</h2>
