@@ -38,13 +38,21 @@
         <div id="ganttChartContainer"></div>
     </section>
 
-    <section id="resources">
-        <h2>Resource Management</h2>
-        <div id="resourceManagementContainer">
-            <button onclick="addResource()">Add Resource</button>
-            <div id="resourceList"></div>
-        </div>
-    </section>
+  <section id="resources">
+    <h2>Resource Management</h2>
+    <div id="resourceManagementContainer">
+        <button onclick="showAddResourceForm()">Add Resource</button>
+        <div id="resourceList"></div>
+      <form id="addResourceForm" action="/resources" method="post" th:if="${showForm}">
+    <!-- Assuming a Resource has properties 'resourceName' and 'competencyLevel' -->
+    <label for="resourceName">Resource Name:</label>
+    <input type="text" id="resourceName" name="resourceName" required>
+    <label for="competencyLevel">Competency Level:</label>
+    <input type="text" id="competencyLevel" name="competencyLevel" required>
+    <input type="submit" value="Add Resource">
+</form>
+    </div>
+</section>
 
     <section id="time-tracking">
         <h2>Time Tracking and Summarization</h2>

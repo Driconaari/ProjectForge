@@ -25,4 +25,8 @@ public class ResourceService {
     public List<Resource> getAllResources() {
         return resourceRepository.findAll();
     }
+
+    public void saveResource(Resource resource) {
+        resourceRepository.save(resource);
+    }
 }
