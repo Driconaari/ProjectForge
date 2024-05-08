@@ -18,7 +18,7 @@ public class ProjectController {
     private ProjectRepository projectRepository;
 
 
-    //showing the data with sting from the model class
+    //showing the data with sting from the model class on the index,     //showing the projectslist in the projects.html
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("projects", projectRepository.findAll());
@@ -26,7 +26,8 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public String projects() {
+    public String projects(Model model) {
+        model.addAttribute("projects", projectRepository.findAll());
         return "projects";
     }
 

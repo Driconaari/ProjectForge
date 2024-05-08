@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,6 +21,30 @@
     <div class="container">
         <h1>Welcome to My Project</h1>
         <p>This is a simple project page created with HTML.</p>
+
+        <!-- Table to display all projects -->
+        <table>
+            <thead>
+                <tr>
+                    <th>Project ID</th>
+                    <th>Project Name</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                </tr>
+            </thead>
+            <tbody>
+            <div id="projectList"></div>
+            <!-- Use Thymeleaf to iterate over the list of projects and generate a table row for each project -->
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.projectID}"></td>
+                    <td th:text="${project.projectName}"></td>
+                    <td th:text="${project.description}"></td>
+                    <td th:text="${project.deadline}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <!-- Button to go back to the homepage -->
+        <button onclick="location.href='/'">Go Back to Homepage</button>
     </div>
 </body>
 </html>
