@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>creat new project</title>
+</head>
+<body>
+    <h1>Projects</h1>
+
+    <form action="/createProject" method="post">
+        <div style="margin-top: 100px">
+            <label for="projectName">Project Name:</label><br>
+            <input type="text" id="projectName" name="projectName" required><br>
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" required></textarea><br>
+            <label for="deadline">Deadline:</label><br>
+            <input type="date" id="deadline" name="deadline" required><br><br>
+            <button type="submit">Create Project</button>
+        </div>
+    </form>
+</body>
+</html>

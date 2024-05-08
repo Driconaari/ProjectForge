@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>create new SubTask</title>
+</head>
+<body>
+    <h1>SubTask</h1>
+
+    <form action="/createSubTask" method="post">
+        <div style="margin-top: 100px">
+            <label for="subTaskName">SubTask Name:</label><br>
+            <input type="text" id="subTaskName" name="subTaskName" required><br>
+            <label for="description">Description:</label><br>
+            <textarea id="description" name="description" required></textarea><br>
+            <label for="deadline">Deadline:</label><br>
+            <input type="date" id="deadline" name="deadline" required><br><br>
+            <button type="submit">Create SubTask</button>
+        </div>
+    </form>
+
+</body>
+</html>

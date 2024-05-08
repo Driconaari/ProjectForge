@@ -42,5 +42,17 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
+    @GetMapping("/createSubProject")
+    public String showCreateSubProjectPage() {
+        return "createSubProject"; // Return the name of the HTML file (without the extension)
+    }
+    @GetMapping("/createTask")
+    public String showCreateTaskPage() {
+        return "createTask"; // Return the name of the HTML file (without the extension)
+    }
+    @GetMapping("/createSubTask")
+    public String showCreateSubTaskPage() {
+        return "createSubTask"; // Return the name of the HTML file (without the extension)
+    }
 
 }
