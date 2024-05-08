@@ -10,6 +10,13 @@ CREATE TABLE users
 );
 
 -- Create table for projects
+CREATE TABLE projects
+(
+    id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    name        VARCHAR(255) NOT NULL,
+    description TEXT,
+    deadline    DATE
+);
 CREATE TABLE Projects
 (
     ProjectID   INT PRIMARY KEY,
@@ -17,6 +24,7 @@ CREATE TABLE Projects
     Description TEXT,
     Deadline    DATE
 );
+ALTER TABLE Projects MODIFY ProjectID int NOT NULL AUTO_INCREMENT;
 
 -- Create table for subprojects
 CREATE TABLE Subprojects
