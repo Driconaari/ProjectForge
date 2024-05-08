@@ -1,11 +1,14 @@
 package com.example.projectforge.controller;
 
 
+import com.example.projectforge.model.Project;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import com.example.projectforge.projectRepository.ProjectRepository;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
@@ -15,6 +18,7 @@ public class ProjectController {
     private ProjectRepository projectRepository;
 
 
+    //showing the data with sting from the model class on the index,     //showing the projectslist in the projects.html
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("projects", projectRepository.findAll());
@@ -22,17 +26,20 @@ public class ProjectController {
     }
 
     @GetMapping("/projects")
-    public String projects() {
+    public String projects(Model model) {
+        model.addAttribute("projects", projectRepository.findAll());
         return "projects";
     }
 
-    @GetMapping("/projectMenu")
-    public String showprojectMenuPage() {
-        return "projectMenu"; // Return the name of the HTML file (without the extension)
+    @GetMapping("/addProject")
+    public String addProject() {
+        return "addProject";
     }
-    @GetMapping("/createProject")
-    public String showCreateProjectPage() {
-        return "createProject"; // Return the name of the HTML file (without the extension)
+
+    @PostMapping("/addProject")
+    public String addProject(@ModelAttribute Project project) {
+        projectRepository.save(project);
+        return "redirect:/projects";
     }
 
     @GetMapping("/createSubProject")

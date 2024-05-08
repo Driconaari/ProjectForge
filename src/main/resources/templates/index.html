@@ -11,9 +11,9 @@
     <h1>ProjectForge</h1>
     <nav>
         <ul>
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#gantt-chart">Gantt Chart</a></li>
-            <li><a href="#resources">Resources</a></li>
+            <li><a href="/projects">Projects</a></li>
+            <li><a href="/gantt">Gantt Chart</a></li>
+            <li><a href="/resources">Resources</a></li>
         </ul>
     </nav>
 </header>
@@ -21,14 +21,14 @@
 <main>
     <section id="projects">
         <h2>Project Breakdown</h2>
-            <button onclick='location.href="/projectMenu"'>Create New</button>
+        <button><a href="/addProject">Create New Project</a></button>
         <div id="projectList"></div>
         <ul>
-            <li> th:each="project : ${projects}">
-                <span> th:text="${project.id}"</span>
-                <span> th:text="${project.name}"</span>
-                <span> th:text="${project.description}"</span>
-                <span> th:text="${project.deadline}"</span>
+            <li th:each="project : ${projects}">
+                <span th:text="${project.projectID}"></span>
+                <span th:text="${project.projectName}"></span>
+                <span th:text="${project.description}"></span>
+                <span th:text="${project.deadline}"></span>
             </li>
         </ul>
     </section>
@@ -41,7 +41,7 @@
     <section id="resources">
         <h2>Resource Management</h2>
         <div id="resourceManagementContainer">
-            <button onclick="addResource()">Add Resource</button>
+            <button><a href="/addResource">Add Resource</a></button>
             <div id="resourceList"></div>
         </div>
     </section>

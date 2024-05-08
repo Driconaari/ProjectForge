@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Resources</title>
+</head>
+<body>
+    <h1>Resources</h1>
+
+    <h2>Resource Allocations</h2>
+    <table>
+        <tr>
+            <th>Allocation ID</th>
+            <th>Task ID</th>
+            <th>Resource ID</th>
+            <th>Hours Allocated</th>
+        </tr>
+        <tr th:each="allocation : ${resourceAllocations}">
+            <td th:text="${allocation.allocationID}"></td>
+            <td th:text="${allocation.taskID}"></td>
+            <td th:text="${allocation.resourceID}"></td>
+            <td th:text="${allocation.hoursAllocated}"></td>
+        </tr>
+    </table>
+
+    <h2>Resources</h2>
+    <table>
+        <tr>
+            <th>Resource ID</th>
+            <th>Resource Name</th>
+            <th>Competency Level</th>
+        </tr>
+        <tr th:each="resource : ${resources}">
+            <td th:text="${resource.resourceID}"></td>
+            <td th:text="${resource.resourceName}"></td>
+            <td th:text="${resource.competencyLevel}"></td>
+        </tr>
+    </table>
+</body>
+</html>
