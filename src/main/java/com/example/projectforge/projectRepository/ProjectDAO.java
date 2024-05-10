@@ -19,20 +19,23 @@ public class ProjectDAO implements ProjectRepository {
         this.dataSource = dataSource;
     }
 
-    public void createProject(Project project) throws SQLException {
-        String sql = "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, project.getProjectName());
-            statement.setString(2, project.getDescription());
+   public void createProject(Project project) throws SQLException {
+    String sql = "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, project.getProjectName());
+        statement.setString(2, project.getDescription());
+        if (project.getDeadline() != null) {
             statement.setDate(3, project.getDeadline());
-            statement.setInt(4, project.getParentProject() != null ? project.getParentProject().getProjectID() : null);
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("A new project was inserted successfully!");
-            }
+        }else {
+            statement.setObject(4, null);
+        }
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new project was inserted successfully!");
         }
     }
+}
 
     public Project findByProjectName(String projectName) throws SQLException {
         String sql = "SELECT * FROM Projects WHERE project_name = ?";
@@ -100,26 +103,26 @@ public class ProjectDAO implements ProjectRepository {
         return Optional.empty();
     }
 
-    @Override
-    public void save(Project project) {
-        String sql = project.getProjectID() > 0 ?
-                "UPDATE Projects SET project_name = ?, description = ?, deadline = ?, parent_projectid = ? WHERE projectID = ?" :
-                "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
+   @Override
+public void save(Project project) {
+    String sql = project.getProjectID() > 0 ?
+            "UPDATE Projects SET project_name = ?, description = ?, deadline = ?, parent_projectid = ? WHERE projectID = ?" :
+            "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, project.getProjectName());
-            statement.setString(2, project.getDescription());
-            statement.setDate(3, project.getDeadline());
-            statement.setInt(4, project.getParentProject() != null ? project.getParentProject().getProjectID() : null);
-            if (project.getProjectID() > 0) {
-                statement.setInt(5, project.getProjectID());
-            }
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            // Handle the exception
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, project.getProjectName());
+        statement.setString(2, project.getDescription());
+        statement.setDate(3, project.getDeadline());
+        statement.setObject(4, null);
+        if (project.getProjectID() > 0) {
+            statement.setInt(5, project.getProjectID());
         }
+        statement.executeUpdate();
+    } catch (SQLException e) {
+        // Handle the exception
     }
+}
 
     @Override
     public Iterable<Project> findAll() {

@@ -19,21 +19,24 @@ public class SubProjectDAO implements SubProjectRepository {
         this.dataSource = dataSource;
     }
 
-    @Override
-    public void createSubProject(SubProject subProject) throws SQLException {
-        String sql = "INSERT INTO subprojects (SubprojectName, Description, Deadline, ProjectID) VALUES (?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, subProject.getSubProjectName());
-            statement.setString(2, subProject.getDescription());
+@Override
+public void createSubProject(SubProject subProject) throws SQLException {
+    String sql = "INSERT INTO subprojects (SubprojectName, Description, Deadline, ProjectID) VALUES (?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, subProject.getSubProjectName());
+        statement.setString(2, subProject.getDescription());
+        if (subProject.getDeadline() != null) {
             statement.setDate(3, subProject.getDeadline());
-            statement.setInt(4, subProject.getParentProject() != null ? subProject.getParentProject().getProjectID() : null);
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("A new subproject was inserted successfully!");
-            }
+        }else {
+            statement.setObject(4, null);
+        }
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new subproject was inserted successfully!");
         }
     }
+}
 
     @Override
     public SubProject findBySubProjectName(String subProjectName) throws SQLException {
