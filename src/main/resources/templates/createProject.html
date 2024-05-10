@@ -2,21 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>creat new project</title>
+    <title>Create new project</title>
+    <style>
+        .tutorial {
+            margin-top: 50px;
+        }
+        .actions {
+            margin-top: 50px;
+        }
+        .actions button {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Projects</h1>
+    <div class="tutorial">
+        <h2>Tutorial</h2>
+        <p>Here you can create a new project, add a subproject to an existing project, or add a task to a project or subproject. Click the respective button to proceed.</p>
+    </div>
 
-    <form action="/createProject" method="post">
-        <div style="margin-top: 100px">
-            <label for="projectName">Project Name:</label><br>
-            <input type="text" id="projectName" name="projectName" required><br>
-            <label for="description">Description:</label><br>
-            <textarea id="description" name="description" required></textarea><br>
-            <label for="deadline">Deadline:</label><br>
-            <input type="date" id="deadline" name="deadline" required><br><br>
-            <button type="submit">Create Project</button>
-        </div>
-    </form>
+    <div class="actions">
+        <button onclick="location.href='/addProject'">Add Project</button>
+        <button onclick="location.href='/addSubProject'">Add SubProject</button>
+        <button onclick="location.href='/addTask'">Add Task</button>
+        <button onclick="location.href='/addSubTask'">Add SubTask</button>
+    </div>
 </body>
 </html>

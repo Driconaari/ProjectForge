@@ -17,6 +17,10 @@ public class Project {
     private String description;
     private Date deadline;
 
+    @ManyToOne
+    @JoinColumn(name = "parentProjectID")
+    private Project parentProject;
+
     // Getters and setters
     public int getProjectID() {
         return projectID;
@@ -48,5 +52,15 @@ public class Project {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
+    }
+
+    //setting parent object so that subproject can be added to the parent project
+
+    public Project getParentProject() {
+        return parentProject;
+    }
+
+    public void setParentProject(Project parentProject) {
+        this.parentProject = parentProject;
     }
 }

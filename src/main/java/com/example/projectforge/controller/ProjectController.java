@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.projectforge.projectRepository.ProjectRepository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -31,6 +32,14 @@ public class ProjectController {
         return "projects";
     }
 
+    //create project page
+    @GetMapping("/createProject")
+    public String showCreateProjectPage() {
+        return "createProject"; // Return the name of the HTML file (without the extension)
+    }
+
+
+//projects
     @GetMapping("/addProject")
     public String addProject() {
         return "addProject";
@@ -42,17 +51,37 @@ public class ProjectController {
         return "redirect:/projects";
     }
 
-    @GetMapping("/createSubProject")
-    public String showCreateSubProjectPage() {
-        return "createSubProject"; // Return the name of the HTML file (without the extension)
+    //subprojects
+    @GetMapping("/addSubProject")
+public String showCreateSubProjectPage(Model model) {
+    model.addAttribute("projects", projectRepository.findAll());
+    return "addSubProject"; // Return the name of the HTML file (without the extension)
+}
+
+ @PostMapping("/addSubProject")
+public String addSubProject(@ModelAttribute Project subproject, @RequestParam("project") String projectName) {
+    Project parentProject = projectRepository.findByName(projectName);
+    if (parentProject == null) {
+        throw new IllegalArgumentException("Invalid project name:" + projectName);
     }
-    @GetMapping("/createTask")
+    subproject.setParentProject(parentProject);
+    projectRepository.save(subproject);
+    return "redirect:/projects";
+}
+
+
+
+
+
+    //tasks
+
+    @GetMapping("/addTask")
     public String showCreateTaskPage() {
-        return "createTask"; // Return the name of the HTML file (without the extension)
+        return "addTask"; // Return the name of the HTML file (without the extension)
     }
-    @GetMapping("/createSubTask")
+    @GetMapping("/addSubTask")
     public String showCreateSubTaskPage() {
-        return "createSubTask"; // Return the name of the HTML file (without the extension)
+        return "addSubTask"; // Return the name of the HTML file (without the extension)
     }
 
 }
