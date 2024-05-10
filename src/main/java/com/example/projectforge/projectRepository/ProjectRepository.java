@@ -1,9 +1,20 @@
-// ProjectRepository.java
 package com.example.projectforge.projectRepository;
 
 import com.example.projectforge.model.Project;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ProjectRepository extends JpaRepository<Project, Integer> {
-    Project findByProjectName(String projectName);
+import java.sql.SQLException;
+import java.util.Optional;
+
+@Repository
+public interface ProjectRepository {
+    void createProject(Project project) throws SQLException;
+    Project findByProjectName(String projectName) throws SQLException;
+    Project getProjectById(int projectId) throws SQLException;
+
+    Optional<Project> findById(int parentProjectID);
+
+    void save(Project subproject);
+
+    Iterable<Project> findAll();
 }

@@ -2,6 +2,8 @@ package com.example.projectforge.controller;
 
 
 import com.example.projectforge.model.Project;
+import com.example.projectforge.projectRepository.ProjectDAO;
+import com.example.projectforge.projectRepository.SubProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +25,12 @@ public class ProjectController {
 
     @Autowired
     private SubProjectRepository subProjectRepository;
+
+    @Autowired
+    private ProjectDAO projectDAO;
+
+    @Autowired
+    private SubProjectDAO subProjectDAO;
 
 
     //showing the data with sting from the model class on the index,     //showing the projectslist in the projects.html

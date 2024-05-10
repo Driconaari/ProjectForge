@@ -5,8 +5,14 @@ import jakarta.persistence.*;
 
 import java.sql.Date;
 
+
+//modify your Project class to include a discriminator column.
+// This is necessary because you're using inheritance in your JPA entities, and
+// we're using the SINGLE_TABLE inheritance strategy by default.
 @Entity
 @Table(name = "Projects")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "project_type", discriminatorType = DiscriminatorType.STRING)
 public class Project {
 
     @Id

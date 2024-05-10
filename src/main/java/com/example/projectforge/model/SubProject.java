@@ -3,20 +3,21 @@ package com.example.projectforge.model;
 import jakarta.persistence.*;
 
 @Entity
+@DiscriminatorValue("SubProject")
 public class SubProject extends Project {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Integer subProjectId;
 
     @ManyToOne
     private Project parentProject;
 
-    public Integer getId() {
-        return id;
+    public Integer getSubProjectId() {
+        return subProjectId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setSubProjectId(Integer subProjectId) {
+        this.subProjectId = subProjectId;
     }
 
     public Project getParentProject() {
@@ -26,4 +27,18 @@ public class SubProject extends Project {
     public void setParentProject(Project parentProject) {
         this.parentProject = parentProject;
     }
+
+private String subProjectName;
+
+public String getSubProjectName() {
+    return subProjectName;
+}
+
+public void setSubProjectName(String subProjectName) {
+    this.subProjectName = subProjectName;
+}
+
+  public void setSubProjectID(int subprojectID) {
+    this.subProjectId = subprojectID;
+}
 }
