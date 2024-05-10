@@ -10,5 +10,6 @@ public interface SubProjectRepository {
     void addSubProject(SubProject subProject) throws SQLException;
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
     SubProject getSubProjectById(int subProjectId) throws SQLException;
-    // Add other methods as needed
+
+    SubProject save(SubProject subproject);
 }

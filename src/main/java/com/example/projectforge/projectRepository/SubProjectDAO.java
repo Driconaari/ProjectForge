@@ -126,14 +126,21 @@ public void addSubProject(SubProject subProject) throws SQLException {
         return subProjects;
     }
 
-    public SubProject save(SubProject subProject) throws SQLException {
+@Override
+public SubProject save(SubProject subProject) {
+    try {
         if (subProject.getProjectID() == 0) {
             addSubProject(subProject);
         } else {
             updateSubProject(subProject);
         }
-        return subProject;
+    } catch (SQLException e) {
+        // Handle the SQLException
+        e.printStackTrace();
     }
+    return subProject;
+
+}
 
    private void updateSubProject(SubProject subProject) throws SQLException {
     String sql = "UPDATE subprojects SET SubprojectName = ?, Description = ?, Deadline = ?, ProjectID = ? WHERE SubprojectID = ?";

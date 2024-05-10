@@ -2,6 +2,7 @@ package com.example.projectforge.controller;
 
 
 import com.example.projectforge.model.Project;
+import com.example.projectforge.model.SubProject;
 import com.example.projectforge.projectRepository.ProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectRepository;
@@ -74,13 +75,13 @@ public class ProjectController {
 
 
 @PostMapping("/addSubProject")
-public String addSubProject(@ModelAttribute Project subproject, @RequestParam("parentProjectID") int parentProjectID) {
+public String addSubProject(@ModelAttribute SubProject subproject, @RequestParam("parentProjectID") int parentProjectID) {
     Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
     if (parentProject == null) {
         throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
     }
-    subproject.setProjectName(parentProject.getProjectName());
-    projectRepository.save(subproject);
+    subproject.setParentProject(parentProject);
+    subProjectRepository.save(subproject);
     return "redirect:/projects";
 }
 
