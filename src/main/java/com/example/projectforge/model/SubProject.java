@@ -26,4 +26,8 @@ public class SubProject extends Project {
     public void setSubProjectName(String subProjectName) {
         this.subProjectName = subProjectName;
     }
+
+    public int getSubProjectID() {
+        return getProjectID();
+    }
 }
