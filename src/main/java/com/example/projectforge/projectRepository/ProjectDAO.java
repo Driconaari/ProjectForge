@@ -6,9 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
-public class ProjectDAO {
+public class ProjectDAO implements ProjectRepository {
     private final DataSource dataSource;
 
     @Autowired
@@ -50,7 +53,7 @@ public class ProjectDAO {
         return null;
     }
 
-    private Project getProjectById(int parentProjectid) throws SQLException {
+    public Project getProjectById(int parentProjectid) throws SQLException {
         String sql = "SELECT * FROM Projects WHERE projectID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -72,4 +75,76 @@ public class ProjectDAO {
         return null;
     }
 
+    @Override
+    public Optional<Project> findById(int id) {
+        String sql = "SELECT * FROM Projects WHERE projectID = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                Project project = new Project();
+                project.setProjectID(resultSet.getInt("projectID"));
+                project.setProjectName(resultSet.getString("project_name"));
+                project.setDescription(resultSet.getString("description"));
+                project.setDeadline(resultSet.getDate("deadline"));
+                int parentId = resultSet.getInt("parent_projectid");
+                if (!resultSet.wasNull()) {
+                    project.setParentProject(getProjectById(parentId));
+                }
+                return Optional.of(project);
+            }
+        } catch (SQLException e) {
+            // Handle the exception
+        }
+        return Optional.empty();
+    }
+
+    @Override
+    public void save(Project project) {
+        String sql = project.getProjectID() > 0 ?
+                "UPDATE Projects SET project_name = ?, description = ?, deadline = ?, parent_projectid = ? WHERE projectID = ?" :
+                "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, project.getProjectName());
+            statement.setString(2, project.getDescription());
+            statement.setDate(3, project.getDeadline());
+            statement.setInt(4, project.getParentProject() != null ? project.getParentProject().getProjectID() : null);
+            if (project.getProjectID() > 0) {
+                statement.setInt(5, project.getProjectID());
+            }
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            // Handle the exception
+        }
+    }
+
+    @Override
+    public Iterable<Project> findAll() {
+        List<Project> projects = new ArrayList<>();
+        String sql = "SELECT * FROM Projects";
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(sql)) {
+            while (resultSet.next()) {
+                Project project = new Project();
+                project.setProjectID(resultSet.getInt("projectID"));
+                project.setProjectName(resultSet.getString("project_name"));
+                project.setDescription(resultSet.getString("description"));
+                project.setDeadline(resultSet.getDate("deadline"));
+                int parentId = resultSet.getInt("parent_projectid");
+                if (!resultSet.wasNull()) {
+                    project.setParentProject(getProjectById(parentId));
+                }
+                projects.add(project);
+            }
+        } catch (SQLException e) {
+            // Handle the exception
+        }
+
+        return projects;
+    }
 }
