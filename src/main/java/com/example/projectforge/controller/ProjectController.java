@@ -39,7 +39,7 @@ public class ProjectController {
     }
 
 
-//projects
+    //projects
     @GetMapping("/addProject")
     public String addProject() {
         return "addProject";
@@ -53,24 +53,21 @@ public class ProjectController {
 
     //subprojects
     @GetMapping("/addSubProject")
-public String showCreateSubProjectPage(Model model) {
-    model.addAttribute("projects", projectRepository.findAll());
-    return "addSubProject"; // Return the name of the HTML file (without the extension)
-}
-
- @PostMapping("/addSubProject")
-public String addSubProject(@ModelAttribute Project subproject, @RequestParam("project") String projectName) {
-    Project parentProject = projectRepository.findByName(projectName);
-    if (parentProject == null) {
-        throw new IllegalArgumentException("Invalid project name:" + projectName);
+    public String showCreateSubProjectPage(Model model) {
+        model.addAttribute("projects", projectRepository.findAll());
+        return "addSubProject"; // Return the name of the HTML file (without the extension)
     }
-    subproject.setParentProject(parentProject);
-    projectRepository.save(subproject);
-    return "redirect:/projects";
-}
 
-
-
+    @PostMapping("/addSubProject")
+    public String addSubProject(@ModelAttribute Project subproject, @RequestParam("parentProjectID") int parentProjectID) {
+        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
+        if (parentProject == null) {
+            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+        }
+        subproject.setParentProject(parentProject);
+        projectRepository.save(subproject);
+        return "redirect:/projects";
+    }
 
 
     //tasks
@@ -79,6 +76,7 @@ public String addSubProject(@ModelAttribute Project subproject, @RequestParam("p
     public String showCreateTaskPage() {
         return "addTask"; // Return the name of the HTML file (without the extension)
     }
+
     @GetMapping("/addSubTask")
     public String showCreateSubTaskPage() {
         return "addSubTask"; // Return the name of the HTML file (without the extension)

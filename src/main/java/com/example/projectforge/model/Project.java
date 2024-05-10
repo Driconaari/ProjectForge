@@ -12,13 +12,14 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectID;
-    @Column(name = "projectName")
+    @Column(name = "project_name", unique = true) //makes sure projectnames are unique
     private String projectName;
     private String description;
     private Date deadline;
 
+
     @ManyToOne
-    @JoinColumn(name = "parentProjectID")
+    @JoinColumn(name = "parent_projectid")
     private Project parentProject;
 
     // Getters and setters
