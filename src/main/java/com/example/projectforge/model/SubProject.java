@@ -1,6 +1,5 @@
 package com.example.projectforge.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -27,5 +26,4 @@ public class SubProject extends Project {
     public void setParentProject(Project parentProject) {
         this.parentProject = parentProject;
     }
-
 }
