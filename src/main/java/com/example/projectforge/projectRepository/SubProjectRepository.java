@@ -4,6 +4,7 @@ import com.example.projectforge.model.SubProject;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public interface SubProjectRepository {
@@ -12,4 +13,7 @@ public interface SubProjectRepository {
     SubProject getSubProjectById(int subProjectId) throws SQLException;
 
     SubProject save(SubProject subproject);
+
+    List<SubProject> findAll();
+
 }

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.security.auth.Subject;
+import java.util.List;
 
 
 @Controller
@@ -34,10 +35,16 @@ public class ProjectController {
     private SubProjectDAO subProjectDAO;
 
 
-    //showing the data with sting from the model class on the index,     //showing the projectslist in the projects.html
+    //showing the data with sting from the model class on the index, both projects and subprojecs
+    // showing the projectslist in the projects.html
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("projects", projectRepository.findAll());
+
+        //showing the subprojects in the index.html
+        List<SubProject> subProjects = subProjectRepository.findAll();
+        model.addAttribute("subProjects", subProjects);
+
         return "index";
     }
 
@@ -84,6 +91,9 @@ public String addSubProject(@ModelAttribute SubProject subproject, @RequestParam
     subProjectRepository.save(subproject);
     return "redirect:/projects";
 }
+
+
+
 
 
     //tasks

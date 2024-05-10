@@ -105,27 +105,31 @@ public void addSubProject(SubProject subProject) throws SQLException {
         return null;
     }
 
-    public List<SubProject> findAll() throws SQLException {
-        List<SubProject> subProjects = new ArrayList<>();
-        String sql = "SELECT * FROM subprojects";
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                SubProject subProject = new SubProject();
-                subProject.setProjectID(resultSet.getInt("SubprojectID"));
-                subProject.setSubProjectName(resultSet.getString("SubprojectName"));
-                subProject.setDescription(resultSet.getString("Description"));
-                subProject.setDeadline(resultSet.getDate("Deadline"));
-                int parentId = resultSet.getInt("ProjectID");
-                if (!resultSet.wasNull()) {
-                    subProject.setParentProject(getProjectById(parentId));
-                }
-                subProjects.add(subProject);
+  @Override
+public List<SubProject> findAll() {
+    List<SubProject> subProjects = new ArrayList<>();
+    String sql = "SELECT * FROM subprojects";
+    try (Connection connection = dataSource.getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(sql)) {
+        while (resultSet.next()) {
+            SubProject subProject = new SubProject();
+            subProject.setProjectID(resultSet.getInt("SubprojectID"));
+            subProject.setSubProjectName(resultSet.getString("SubprojectName"));
+            subProject.setDescription(resultSet.getString("Description"));
+            subProject.setDeadline(resultSet.getDate("Deadline"));
+            int parentId = resultSet.getInt("ProjectID");
+            if (!resultSet.wasNull()) {
+                subProject.setParentProject(getProjectById(parentId));
             }
+            subProjects.add(subProject);
         }
-        return subProjects;
+    } catch (SQLException e) {
+        // Handle the SQLException
+        e.printStackTrace();
     }
+    return subProjects;
+}
 
 @Override
 public SubProject save(SubProject subProject) {
