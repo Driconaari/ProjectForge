@@ -2,6 +2,7 @@ package com.example.projectforge.controller;
 
 
 import com.example.projectforge.model.Project;
+import com.example.projectforge.projectRepository.SubProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,12 +12,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.security.auth.Subject;
+
 
 @Controller
 public class ProjectController {
 
     @Autowired
     private ProjectRepository projectRepository;
+
+    @Autowired
+    private SubProjectRepository subProjectRepository;
 
 
     //showing the data with sting from the model class on the index,     //showing the projectslist in the projects.html
@@ -58,16 +64,16 @@ public class ProjectController {
         return "addSubProject"; // Return the name of the HTML file (without the extension)
     }
 
-    @PostMapping("/addSubProject")
-    public String addSubProject(@ModelAttribute Project subproject, @RequestParam("parentProjectID") int parentProjectID) {
-        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-        if (parentProject == null) {
-            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
-        }
-        subproject.setParentProject(parentProject);
-        projectRepository.save(subproject);
-        return "redirect:/projects";
+@PostMapping("/addSubProject")
+public String addSubProject(@ModelAttribute Project subproject, @RequestParam("parentProjectID") int parentProjectID) {
+    Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
+    if (parentProject == null) {
+        throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
     }
+    subproject.setProjectName(parentProject.getProjectName());
+    projectRepository.save(subproject);
+    return "redirect:/projects";
+}
 
 
     //tasks
