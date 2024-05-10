@@ -73,14 +73,6 @@ public class ProjectController {
     }
 
 
-    @GetMapping("/addSubProject")
-    public String showAddSubProjectForm(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
-        return "addSubProject";
-    }
-
-    //old
-    /*
 @PostMapping("/addSubProject")
 public String addSubProject(@ModelAttribute Project subproject, @RequestParam("parentProjectID") int parentProjectID) {
     Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
@@ -92,8 +84,6 @@ public String addSubProject(@ModelAttribute Project subproject, @RequestParam("p
     return "redirect:/projects";
 }
 
-'
-     */
 
     //tasks
 
