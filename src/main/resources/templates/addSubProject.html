@@ -8,7 +8,7 @@
     <h1>SubProjects</h1>
 
     <form action="/addSubProject" method="post">
-    <label for="projectName">Subproject Name:</label>
+    <label for="project_name">Subproject Name:</label>
     <input type="text" id="subprojectName" name="subprojectName" required>
     <label for="description">Description:</label>
     <input type="text" id="description" name="description" required>
@@ -18,7 +18,7 @@
     <select id="project" name="project">
         <option value="" selected disabled>Select a project</option>
         <th:block th:each="project : ${projects}">
-            <option th:value="${project.projectId}" th:text="${project.projectName}"></option>
+            <option th:value="${project.projectID}" th:text="${project.project_name}"></option>
         </th:block>
     </select>
     <input type="submit" value="Add Subproject">
