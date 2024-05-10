@@ -2,27 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>create new SubProject</title>
+    <title>Add Subproject</title>
 </head>
 <body>
-    <h1>SubProjects</h1>
-
+    <h1>Add Subproject</h1>
     <form action="/addSubProject" method="post">
-    <label for="subprojectName">Subproject Name:</label>
-    <input type="text" id="subprojectName" name="subprojectName" required>
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" required>
-    <label for="deadline">Deadline:</label>
-    <input type="date" id="deadline" name="deadline" required>
-    <label for="project">Parent Project:</label>
-    <select id="project" name="parentProjectID">
-        <option value="" selected disabled>Select a project</option>
-        <th:block th:each="project : ${projects}">
-            <option th:value="${project.projectID}" th:text="${project.projectName}"></option>
-        </th:block>
-    </select>
-    <input type="submit" value="Add Subproject">
-</form>
-
+        <label for="subprojectName">Subproject Name:</label>
+        <input type="text" id="subprojectName" name="subprojectName" required>
+        <br>
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+        <br>
+        <label for="deadline">Deadline:</label>
+        <input type="date" id="deadline" name="deadline">
+        <br>
+        <label for="parentProject">Parent Project:</label>
+        <select id="parentProject" name="parentProjectID">
+            <th:block th:each="project : ${projects}">
+                <option th:value="${project.projectID}" th:text="${project.projectName}"></option>
+            </th:block>
+        </select>
+        <br>
+        <input type="submit" value="Add Subproject">
+    </form>
 </body>
 </html>

@@ -7,7 +7,7 @@ import java.sql.SQLException;
 
 @Repository
 public interface SubProjectRepository {
-    void createSubProject(SubProject subProject) throws SQLException;
+    void addSubProject(SubProject subProject) throws SQLException;
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
     SubProject getSubProjectById(int subProjectId) throws SQLException;
     // Add other methods as needed

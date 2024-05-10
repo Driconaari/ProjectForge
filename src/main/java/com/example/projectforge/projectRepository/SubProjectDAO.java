@@ -20,7 +20,7 @@ public class SubProjectDAO implements SubProjectRepository {
     }
 
 @Override
-public void createSubProject(SubProject subProject) throws SQLException {
+public void addSubProject(SubProject subProject) throws SQLException {
     String sql = "INSERT INTO subprojects (SubprojectName, Description, Deadline, ProjectID) VALUES (?, ?, ?, ?)";
     try (Connection connection = dataSource.getConnection();
          PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -28,8 +28,13 @@ public void createSubProject(SubProject subProject) throws SQLException {
         statement.setString(2, subProject.getDescription());
         if (subProject.getDeadline() != null) {
             statement.setDate(3, subProject.getDeadline());
-        }else {
-            statement.setObject(4, null);
+        } else {
+            statement.setNull(3, Types.DATE);
+        }
+        if (subProject.getParentProject() != null) {
+            statement.setInt(4, subProject.getParentProject().getProjectID());
+        } else {
+            statement.setNull(4, Types.INTEGER);
         }
         int rowsInserted = statement.executeUpdate();
         if (rowsInserted > 0) {
@@ -123,23 +128,27 @@ public void createSubProject(SubProject subProject) throws SQLException {
 
     public SubProject save(SubProject subProject) throws SQLException {
         if (subProject.getProjectID() == 0) {
-            createSubProject(subProject);
+            addSubProject(subProject);
         } else {
             updateSubProject(subProject);
         }
         return subProject;
     }
 
-    private void updateSubProject(SubProject subProject) throws SQLException {
-        String sql = "UPDATE subprojects SET SubprojectName = ?, Description = ?, Deadline = ?, ProjectID = ? WHERE SubprojectID = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, subProject.getSubProjectName());
-            statement.setString(2, subProject.getDescription());
-            statement.setDate(3, subProject.getDeadline());
-            statement.setInt(4, subProject.getParentProject() != null ? subProject.getParentProject().getProjectID() : null);
-            statement.setInt(5, subProject.getProjectID());
-            statement.executeUpdate();
+   private void updateSubProject(SubProject subProject) throws SQLException {
+    String sql = "UPDATE subprojects SET SubprojectName = ?, Description = ?, Deadline = ?, ProjectID = ? WHERE SubprojectID = ?";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, subProject.getSubProjectName());
+        statement.setString(2, subProject.getDescription());
+        statement.setDate(3, subProject.getDeadline());
+        if (subProject.getParentProject() != null) {
+            statement.setInt(4, subProject.getParentProject().getProjectID());
+        } else {
+            statement.setNull(4, Types.INTEGER);
         }
+        statement.setInt(5, subProject.getProjectID());
+        statement.executeUpdate();
     }
+}
 }

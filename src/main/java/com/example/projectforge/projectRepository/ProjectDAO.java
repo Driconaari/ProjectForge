@@ -103,7 +103,7 @@ public class ProjectDAO implements ProjectRepository {
         return Optional.empty();
     }
 
-   @Override
+ @Override
 public void save(Project project) {
     String sql = project.getProjectID() > 0 ?
             "UPDATE Projects SET project_name = ?, description = ?, deadline = ?, parent_projectid = ? WHERE projectID = ?" :
@@ -114,7 +114,11 @@ public void save(Project project) {
         statement.setString(1, project.getProjectName());
         statement.setString(2, project.getDescription());
         statement.setDate(3, project.getDeadline());
-        statement.setObject(4, null);
+        if (project.getParentProject() != null) {
+            statement.setInt(4, project.getParentProject().getProjectID());
+        } else {
+            statement.setNull(4, Types.INTEGER);
+        }
         if (project.getProjectID() > 0) {
             statement.setInt(5, project.getProjectID());
         }
