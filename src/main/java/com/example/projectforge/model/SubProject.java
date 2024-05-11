@@ -2,6 +2,8 @@ package com.example.projectforge.model;
 
 import jakarta.persistence.*;
 
+import java.sql.Date;
+
 @Entity
 @Table(name = "SubProjects")
 public class SubProject {
@@ -15,9 +17,30 @@ public class SubProject {
     private Project parentProject;
 
     private String subProjectName;
+    private Date deadline;
+    private String description;
 
     // Getters and setters...
 
+    public Date getDeadline() {
+        return deadline;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public int getSubProjectID() {
+        return subProjectID;
+    }
+
+    public Project getParentProject() {
+        return parentProject;
+    }
+
+    public String getSubProjectName() {
+        return subProjectName;
+    }
 
     public void setSubProjectID(int subProjectID) {
         this.subProjectID = subProjectID;
@@ -31,15 +54,11 @@ public class SubProject {
         this.subProjectName = subProjectName;
     }
 
-    public int getSubProjectID() {
-        return subProjectID;
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
-    public Project getParentProject() {
-        return parentProject;
-    }
-
-    public String getSubProjectName() {
-        return subProjectName;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

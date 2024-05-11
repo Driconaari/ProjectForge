@@ -21,14 +21,21 @@ public class SubProjectDAO implements SubProjectRepository {
 
     @Override
     public void addSubProject(SubProject subProject) throws SQLException {
-        String sql = "INSERT INTO SubProjects (subProjectName, parentProject) VALUES (?, ?)";
+        String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, subProject.getSubProjectName());
-            if (subProject.getParentProject() != null) {
-                statement.setInt(2, subProject.getParentProject().getProjectID());
+            statement.setString(2, subProject.getDescription());
+            if (subProject.getDeadline() != null) {
+                java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
+                statement.setDate(3, sqlDate);
             } else {
-                statement.setNull(2, Types.INTEGER);
+                statement.setNull(3, Types.DATE);
+            }
+            if (subProject.getParentProject() != null) {
+                statement.setInt(4, subProject.getParentProject().getProjectID());
+            } else {
+                statement.setNull(4, Types.INTEGER);
             }
             statement.executeUpdate();
         }

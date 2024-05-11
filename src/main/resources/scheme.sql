@@ -34,19 +34,19 @@ CREATE TABLE Projects
 ALTER TABLE Projects MODIFY ProjectID int NOT NULL AUTO_INCREMENT;
 
 -- Create table for subprojects
-create table subprojects
+CREATE TABLE subprojects
 (
-    SubprojectID   int          not null
-        primary key,
-    ProjectID      int          null,
-    SubprojectName varchar(255) null,
-    Description    text         null,
-    Deadline       date         null
+    subProjectID   INT AUTO_INCREMENT PRIMARY KEY,
+    parentProject  INT NULL,
+    subProjectName VARCHAR(255) NULL,
+    description    VARCHAR(255) NULL,
+    deadline       DATETIME(6) NULL,
+    CONSTRAINT subprojects_ibfk_1
+        FOREIGN KEY (parentProject) REFERENCES projects (projectID)
 );
 
-create index subprojects_ibfk_1
-    on subprojects (ProjectID);
-
+CREATE INDEX parentProject
+    ON subprojects (parentProject);
 
 
 -- Create table for tasks
