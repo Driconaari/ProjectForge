@@ -20,4 +20,6 @@ public interface SubProjectRepository {
     List<SubProject> findAll();
 
     void deleteById(int id);
+
+    SubProject saveSubProject(SubProject subProject) throws SQLException;
 }
