@@ -19,7 +19,7 @@ public class SubProjectDAO implements SubProjectRepository {
         this.dataSource = dataSource;
     }
 
-  public SubProject save(SubProject subProject) throws SQLException {
+public SubProject save(SubProject subProject) {
     String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
     try (Connection connection = dataSource.getConnection();
          PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -44,6 +44,8 @@ public class SubProjectDAO implements SubProjectRepository {
                 return findById(id).orElse(null);
             }
         }
+    } catch (SQLException e) {
+        // Handle the exception
     }
     return null;
 }
