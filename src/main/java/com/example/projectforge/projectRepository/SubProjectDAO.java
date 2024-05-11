@@ -19,36 +19,48 @@ public class SubProjectDAO implements SubProjectRepository {
         this.dataSource = dataSource;
     }
 
-public SubProject save(SubProject subProject) {
-    String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
-    try (Connection connection = dataSource.getConnection();
-         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        statement.setString(1, subProject.getSubProjectName());
-        statement.setString(2, subProject.getSubProjectDescription());
-        if (subProject.getDeadline() != null) {
-            java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
-            statement.setDate(3, sqlDate);
-        } else {
-            statement.setNull(3, Types.DATE);
+    private SubProject createSubProjectFromResultSet(ResultSet resultSet) throws SQLException {
+        SubProject subProject = new SubProject();
+        subProject.setSubProjectID(resultSet.getInt("subProjectID"));
+        subProject.setSubProjectName(resultSet.getString("subProjectName"));
+        int parentId = resultSet.getInt("parentProject");
+        if (!resultSet.wasNull()) {
+            ProjectDAO projectDAO = new ProjectDAO(dataSource);
+            subProject.setParentProject(projectDAO.findById(parentId).orElse(null));
         }
-        if (subProject.getParentProject() != null) {
-            statement.setInt(4, subProject.getParentProject().getProjectID());
-        } else {
-            statement.setNull(4, Types.INTEGER);
-        }
-        statement.executeUpdate();
-
-        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                int id = generatedKeys.getInt(1);
-                return findById(id).orElse(null);
-            }
-        }
-    } catch (SQLException e) {
-        // Handle the exception
+        return subProject;
     }
-    return null;
-}
+
+    public SubProject save(SubProject subProject) {
+        String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            statement.setString(1, subProject.getSubProjectName());
+            statement.setString(2, subProject.getDescription());
+            if (subProject.getDeadline() != null) {
+                java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
+                statement.setDate(3, sqlDate);
+            } else {
+                statement.setNull(3, Types.DATE);
+            }
+            if (subProject.getParentProject() != null) {
+                statement.setInt(4, subProject.getParentProject().getProjectID());
+            } else {
+                statement.setNull(4, Types.INTEGER);
+            }
+            statement.executeUpdate();
+
+            try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+                if (generatedKeys.next()) {
+                    int id = generatedKeys.getInt(1);
+                    return findById(id).orElse(null);
+                }
+            }
+        } catch (SQLException e) {
+            // Handle the exception
+        }
+        return null;
+    }
 
     @Override
     public SubProject findBySubProjectName(String subProjectName) throws SQLException {
@@ -60,7 +72,6 @@ public SubProject save(SubProject subProject) {
         return null;
     }
 
-
     @Override
     public Optional<SubProject> findById(int id) {
         String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
@@ -69,14 +80,7 @@ public SubProject save(SubProject subProject) {
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                SubProject subProject = new SubProject();
-                subProject.setSubProjectID(resultSet.getInt("subProjectID"));
-                subProject.setSubProjectName(resultSet.getString("subProjectName"));
-                int parentId = resultSet.getInt("parentProject");
-                if (!resultSet.wasNull()) {
-                    ProjectDAO projectDAO = new ProjectDAO(dataSource);
-                    subProject.setParentProject(projectDAO.findById(parentId).orElse(null));
-                }
+                SubProject subProject = createSubProjectFromResultSet(resultSet);
                 return Optional.of(subProject);
             }
         } catch (SQLException e) {
@@ -94,14 +98,7 @@ public SubProject save(SubProject subProject) {
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
-                SubProject subProject = new SubProject();
-                subProject.setSubProjectID(resultSet.getInt("subProjectID"));
-                subProject.setSubProjectName(resultSet.getString("subProjectName"));
-                int parentId = resultSet.getInt("parentProject");
-                if (!resultSet.wasNull()) {
-                    ProjectDAO projectDAO = new ProjectDAO(dataSource);
-                    subProject.setParentProject(projectDAO.findById(parentId).orElse(null));
-                }
+                SubProject subProject = createSubProjectFromResultSet(resultSet);
                 subProjects.add(subProject);
             }
         } catch (SQLException e) {
