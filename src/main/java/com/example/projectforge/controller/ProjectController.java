@@ -6,6 +6,7 @@ import com.example.projectforge.model.SubProject;
 import com.example.projectforge.projectRepository.ProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.security.auth.Subject;
+import java.sql.SQLException;
 import java.util.List;
 
 
@@ -72,13 +74,14 @@ public class ProjectController {
         return "addProject";
     }
 
-    @PostMapping("/addProject")
-    public String addProject(@ModelAttribute Project project) {
-        logger.info("Received project: {}", project);
-        projectRepository.save(project);
-        logger.info("Project saved: {}", project);
-        return "redirect:/projects";
-    }
+  @PostMapping("/addProject")
+@Transactional
+public String addProject(@ModelAttribute Project project) throws SQLException {
+    logger.info("Received project: {}", project);
+    projectRepository.createProject(project);
+    logger.info("Project saved: {}", project);
+    return "redirect:/projects";
+}
 
     //subprojects
     @GetMapping("/addSubProject")
