@@ -84,9 +84,10 @@ public class ProjectController {
     }
 
     //subprojects
-  @GetMapping("/addSubProject")
+@GetMapping("/addSubProject")
 public String showAddSubProjectForm(Model model) {
     model.addAttribute("subproject", new SubProject());
+    model.addAttribute("projects", projectRepository.findAll());
     return "addSubProject";
 }
 
