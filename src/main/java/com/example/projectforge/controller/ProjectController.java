@@ -74,6 +74,7 @@ public class ProjectController {
         return "addProject";
     }
 
+    //added sqlexception which is reallu nice to locate wrong DAO
   @PostMapping("/addProject")
 @Transactional
 public String addProject(@ModelAttribute Project project) throws SQLException {
