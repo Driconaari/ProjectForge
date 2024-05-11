@@ -15,14 +15,16 @@ import java.util.Optional;
 @Repository
 public class SubProjectDAO implements SubProjectRepository {
     private final DataSource dataSource;
+    private final ProjectDAO projectDAO;
     private static final Logger logger = LoggerFactory.getLogger(SubProjectDAO.class);
 
     @Autowired
-    public SubProjectDAO(DataSource dataSource) {
+    public SubProjectDAO(DataSource dataSource, ProjectDAO projectDAO) {
         this.dataSource = dataSource;
+        this.projectDAO = projectDAO;
     }
 
-    private void setPreparedStatementParameters(PreparedStatement statement, SubProject subProject) throws SQLException {
+    private void setSubProjectParameters(PreparedStatement statement, SubProject subProject) throws SQLException {
         statement.setString(1, subProject.getSubProjectName());
         statement.setString(2, subProject.getDescription());
         if (subProject.getDeadline() != null) {
@@ -38,37 +40,31 @@ public class SubProjectDAO implements SubProjectRepository {
         }
     }
 
+
+    private SubProject insertSubProject(SubProject subProject) {
+        String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            setSubProjectParameters(statement, subProject);
+            statement.executeUpdate();
+            // Rest of your code...
+        } catch (SQLException e) {
+            logger.error("Error inserting subproject", e);
+        }
+        return null;
+    }
+
+
     private SubProject createSubProjectFromResultSet(ResultSet resultSet) throws SQLException {
         SubProject subProject = new SubProject();
         subProject.setSubProjectID(resultSet.getInt("subProjectID"));
         subProject.setSubProjectName(resultSet.getString("subProjectName"));
         int parentId = resultSet.getInt("parentProject");
         if (!resultSet.wasNull()) {
-            ProjectDAO projectDAO = new ProjectDAO(dataSource);
             subProject.setParentProject(projectDAO.findById(parentId).orElse(null));
         }
         return subProject;
     }
-
-
-   private SubProject insertSubProject(SubProject subProject) {
-    String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
-    try (Connection connection = dataSource.getConnection();
-         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        setPreparedStatementParameters(statement, subProject);
-        statement.executeUpdate();
-
-        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
-            if (generatedKeys.next()) {
-                int id = generatedKeys.getInt(1);
-                return findById(id).orElse(null);
-            }
-        }
-    } catch (SQLException e) {
-        logger.error("Error inserting subproject", e);
-    }
-    return null;
-}
 
     @Override
     public SubProject saveSubProject(SubProject subProject) throws SQLException {
@@ -77,27 +73,32 @@ public class SubProjectDAO implements SubProjectRepository {
 
     public SubProject save(SubProject subProject) {
         logger.info("Saving subproject: {}", subProject);
-        SubProject savedSubProject = insertSubProject(subProject);
+        SubProject savedSubProject = null;
+        try {
+            savedSubProject = saveSubProject(subProject);
+        } catch (SQLException e) {
+            logger.error("Error saving subproject", e);
+        }
         logger.info("Saved subproject: {}", savedSubProject);
         return savedSubProject;
     }
 
 
-@Override
-public SubProject getSubProjectById(int subProjectId) throws SQLException {
-    String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
-    try (Connection connection = dataSource.getConnection();
-         PreparedStatement statement = connection.prepareStatement(sql)) {
-        statement.setInt(1, subProjectId);
-        ResultSet resultSet = statement.executeQuery();
-        if (resultSet.next()) {
-            return createSubProjectFromResultSet(resultSet);
+    @Override
+    public SubProject getSubProjectById(int subProjectId) throws SQLException {
+        String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setInt(1, subProjectId);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                return createSubProjectFromResultSet(resultSet);
+            }
+        } catch (SQLException e) {
+            // Handle the exception
         }
-    } catch (SQLException e) {
-        // Handle the exception
+        return null;
     }
-    return null;
-}
 
     @Override
     public Optional<SubProject> findById(int id) {
