@@ -1,26 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Add Subproject</title>
 </head>
 <body>
     <h1>Add Subproject</h1>
-    <form action="/addSubProject" method="post">
+    <form action="#" th:action="@{/addSubProject}" th:object="${subproject}" method="post">
         <label for="subProjectName">Subproject Name:</label>
-        <input type="text" id="subProjectName" name="subprojectName" required>
+        <input type="text" id="subProjectName" th:field="*{subProjectName}" required>
         <br>
         <label for="description">Description:</label>
-        <input type="text" id="description" name="description" required>
+        <input type="text" id="description" th:field="*{description}" required>
         <br>
         <label for="deadline">Deadline:</label>
-        <input type="date" id="deadline" name="deadline">
+        <input type="date" id="deadline" th:field="*{deadline}">
         <br>
         <label for="parentProject">Parent Project:</label>
-        <select id="parentProject" name="parentProjectID">
-            <th:block th:each="project : ${projects}">
-                <option th:value="${project.projectID}" th:text="${project.projectName}"></option>
-            </th:block>
+        <select id="parentProject" th:field="*{parentProject.projectID}">
+            <option th:each="project : ${projects}" th:value="${project.projectID}" th:text="${project.projectName}"></option>
         </select>
         <br>
         <input type="submit" value="Add Subproject">

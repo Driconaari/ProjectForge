@@ -84,11 +84,11 @@ public class ProjectController {
     }
 
     //subprojects
-    @GetMapping("/addSubProject")
-    public String showCreateSubProjectPage(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
-        return "addSubProject"; // Return the name of the HTML file (without the extension)
-    }
+  @GetMapping("/addSubProject")
+public String showAddSubProjectForm(Model model) {
+    model.addAttribute("subproject", new SubProject());
+    return "addSubProject";
+}
 
 //added sqlexception for subproject too
 @PostMapping("/addSubProject")
