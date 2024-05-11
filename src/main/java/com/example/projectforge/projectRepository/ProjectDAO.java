@@ -19,7 +19,7 @@ public class ProjectDAO implements ProjectRepository {
         this.dataSource = dataSource;
     }
 
-    public void createProject(Project project) throws SQLException {
+    public void saveProject(Project project) throws SQLException {
         String sql = "INSERT INTO Projects (projectName, description, deadline, project_type, parent_projectid, project_name) VALUES (?, ?, ?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -112,34 +112,10 @@ public class ProjectDAO implements ProjectRepository {
     }
 
     @Override
-    public void save(Project project) {
-        String sql = project.getProjectID() > 0 ?
-                "UPDATE Projects SET project_name = ?, description = ?, deadline = ?, parent_projectid = ? WHERE projectID = ?" :
-                "INSERT INTO Projects (project_name, description, deadline, parent_projectid) VALUES (?, ?, ?, ?)";
+    public void save(Project subproject) {
 
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, project.getProjectName());
-            statement.setString(2, project.getDescription());
-            if (project.getDeadline() != null) {
-                java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
-                statement.setDate(3, sqlDate);
-            } else {
-                statement.setNull(3, Types.DATE);
-            }
-            if (project.getParentProject() != null) {
-                statement.setInt(4, project.getParentProject().getProjectID());
-            } else {
-                statement.setNull(4, Types.INTEGER);
-            }
-            if (project.getProjectID() > 0) {
-                statement.setInt(5, project.getProjectID());
-            }
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            // Handle the exception
-        }
     }
+
 
     @Override
     public Iterable<Project> findAll() {

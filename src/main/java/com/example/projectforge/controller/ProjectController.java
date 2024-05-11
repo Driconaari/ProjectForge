@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.security.auth.Subject;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class ProjectController {
     @Transactional
     public String addProject(@ModelAttribute Project project) throws SQLException {
         logger.info("Received project: {}", project);
-        projectRepository.createProject(project);
+        projectRepository.saveProject(project);
         logger.info("Project saved: {}", project);
         return "redirect:/projects";
     }

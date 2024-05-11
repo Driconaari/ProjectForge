@@ -8,7 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface ProjectRepository {
-    void createProject(Project project) throws SQLException;
+    void saveProject(Project project) throws SQLException;
     Project findByProjectName(String projectName) throws SQLException;
     Project getProjectById(int projectId) throws SQLException;
 
