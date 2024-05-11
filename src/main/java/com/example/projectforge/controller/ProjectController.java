@@ -75,14 +75,14 @@ public class ProjectController {
     }
 
     //added sqlexception which is reallu nice to locate wrong DAO
-  @PostMapping("/addProject")
-@Transactional
-public String addProject(@ModelAttribute Project project) throws SQLException {
-    logger.info("Received project: {}", project);
-    projectRepository.createProject(project);
-    logger.info("Project saved: {}", project);
-    return "redirect:/projects";
-}
+    @PostMapping("/addProject")
+    @Transactional
+    public String addProject(@ModelAttribute Project project) throws SQLException {
+        logger.info("Received project: {}", project);
+        projectRepository.createProject(project);
+        logger.info("Project saved: {}", project);
+        return "redirect:/projects";
+    }
 
     //subprojects
     @GetMapping("/addSubProject")
@@ -91,20 +91,17 @@ public String addProject(@ModelAttribute Project project) throws SQLException {
         return "addSubProject"; // Return the name of the HTML file (without the extension)
     }
 
-
-@PostMapping("/addSubProject")
-public String addSubProject(@ModelAttribute SubProject subproject, @RequestParam("parentProjectID") int parentProjectID) {
-    Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-    if (parentProject == null) {
-        throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+//added sqlexception for subproject too
+    @PostMapping("/addSubProject")
+    public String addSubProject(@ModelAttribute SubProject subproject, @RequestParam("parentProjectID") int parentProjectID) throws SQLException {
+        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
+        if (parentProject == null) {
+            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+        }
+        subproject.setParentProject(parentProject);
+        subProjectRepository.save(subproject);
+        return "redirect:/projects";
     }
-    subproject.setParentProject(parentProject);
-    subProjectRepository.save(subproject);
-    return "redirect:/projects";
-}
-
-
-
 
 
     //tasks
