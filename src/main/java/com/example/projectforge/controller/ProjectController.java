@@ -6,6 +6,8 @@ import com.example.projectforge.model.SubProject;
 import com.example.projectforge.projectRepository.ProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectDAO;
 import com.example.projectforge.projectRepository.SubProjectRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +23,9 @@ import java.util.List;
 
 @Controller
 public class ProjectController {
+
+    //logger to log the data
+    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
     @Autowired
     private ProjectRepository projectRepository;
@@ -69,7 +74,9 @@ public class ProjectController {
 
     @PostMapping("/addProject")
     public String addProject(@ModelAttribute Project project) {
+        logger.info("Received project: {}", project);
         projectRepository.save(project);
+        logger.info("Project saved: {}", project);
         return "redirect:/projects";
     }
 
