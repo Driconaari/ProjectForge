@@ -24,7 +24,7 @@ public SubProject save(SubProject subProject) {
     try (Connection connection = dataSource.getConnection();
          PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
         statement.setString(1, subProject.getSubProjectName());
-        statement.setString(2, subProject.getDescription());
+        statement.setString(2, subProject.getSubProjectDescription());
         if (subProject.getDeadline() != null) {
             java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
             statement.setDate(3, sqlDate);

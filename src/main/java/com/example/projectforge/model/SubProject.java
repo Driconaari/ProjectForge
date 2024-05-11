@@ -58,7 +58,11 @@ public class SubProject {
         this.deadline = deadline;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setSubProjectDescription(String Subdescription) {
+        this.description = Subdescription;
+    }
+
+    public String getSubProjectDescription() {
+        return this.description;
     }
 }

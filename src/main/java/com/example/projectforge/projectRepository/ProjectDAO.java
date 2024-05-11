@@ -20,30 +20,30 @@ public class ProjectDAO implements ProjectRepository {
     }
 
     public void saveProject(Project project) throws SQLException {
-        String sql = "INSERT INTO Projects (projectName, description, deadline, project_type, parent_projectid, project_name) VALUES (?, ?, ?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, project.getProjectName());
-            statement.setString(2, project.getDescription());
-            if (project.getDeadline() != null) {
-                java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
-                statement.setDate(3, sqlDate);
-            } else {
-                statement.setNull(3, Types.DATE);
-            }
-            statement.setString(4, project.getProjectType());
-            if (project.getParentProject() != null) {
-                statement.setInt(5, project.getParentProject().getProjectID());
-            } else {
-                statement.setNull(5, Types.INTEGER);
-            }
-            statement.setString(6, project.getProjectName());
-            int rowsInserted = statement.executeUpdate();
-            if (rowsInserted > 0) {
-                System.out.println("A new project was inserted successfully!");
-            }
+    String sql = "INSERT INTO Projects (projectName, description, deadline, project_type, parent_projectid, project_name) VALUES (?, ?, ?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setString(1, project.getProjectName());
+        statement.setString(2, project.getDescription());
+        if (project.getDeadline() != null) {
+            java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
+            statement.setDate(3, sqlDate);
+        } else {
+            statement.setNull(3, Types.DATE);
+        }
+        statement.setString(4, project.getProjectType());
+        if (project.getParentProject() != null) {
+            statement.setInt(5, project.getParentProject().getProjectID());
+        } else {
+            statement.setNull(5, Types.INTEGER);
+        }
+        statement.setString(6, project.getProjectName());
+        int rowsInserted = statement.executeUpdate();
+        if (rowsInserted > 0) {
+            System.out.println("A new project was inserted successfully!");
         }
     }
+}
 
     public Project findByProjectName(String projectName) throws SQLException {
         String sql = "SELECT * FROM Projects WHERE project_name = ?";
