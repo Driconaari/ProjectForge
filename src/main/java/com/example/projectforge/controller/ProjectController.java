@@ -91,7 +91,7 @@ public class ProjectController {
     }
 
 //added sqlexception for subproject too
- @PostMapping("/addSubProject")
+@PostMapping("/addSubProject")
 public String addSubProject(@ModelAttribute SubProject subproject, @RequestParam("parentProjectID") int parentProjectID) throws SQLException {
     logger.info("Received subproject: {}", subproject);
     Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
