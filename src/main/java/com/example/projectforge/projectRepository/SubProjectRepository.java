@@ -13,7 +13,9 @@ public interface SubProjectRepository {
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
     SubProject getSubProjectById(int subProjectId) throws SQLException;
 
-    SubProject save(SubProject subproject);
+    SubProject save(SubProject subproject) throws SQLException;
+
+    SubProject saveSubProject(SubProject subproject) throws SQLException;
 
     Optional<SubProject> findById(int id);
 
@@ -21,5 +23,4 @@ public interface SubProjectRepository {
 
     void deleteById(int id);
 
-    SubProject saveSubProject(SubProject subProject) throws SQLException;
 }

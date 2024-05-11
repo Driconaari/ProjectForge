@@ -6,6 +6,8 @@ import com.example.projectforge.projectRepository.SubProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+
 @Service
 public class SubProjectService {
 
@@ -16,7 +18,7 @@ public class SubProjectService {
         this.subProjectRepository = subProjectRepository;
     }
 
-    public SubProject createAndSaveSubProject() {
+    public SubProject createAndSaveSubProject() throws SQLException {
         SubProject subProject = new SubProject();
         // set properties of subProject
         return subProjectRepository.save(subProject);

@@ -47,7 +47,28 @@ public class SubProjectDAO implements SubProjectRepository {
         return subProject;
     }
 
-    public SubProject saveSubProject(SubProject subProject) {
+  @Override
+public SubProject save(SubProject subProject) {
+    String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        setPreparedStatementParameters(statement, subProject);
+        statement.executeUpdate();
+
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                int id = generatedKeys.getInt(1);
+                return findById(id).orElse(null);
+            }
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+    }
+    return null;
+}
+
+    @Override
+    public SubProject saveSubProject(SubProject subProject) throws SQLException {
         String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -65,7 +86,6 @@ public class SubProjectDAO implements SubProjectRepository {
         }
         return null;
     }
-
     @Override
     public SubProject findBySubProjectName(String subProjectName) throws SQLException {
         return null;
@@ -76,10 +96,6 @@ public class SubProjectDAO implements SubProjectRepository {
         return null;
     }
 
-    @Override
-    public com.example.projectforge.model.SubProject save(com.example.projectforge.model.SubProject subproject) {
-        return null;
-    }
 
     @Override
     public Optional<SubProject> findById(int id) {
