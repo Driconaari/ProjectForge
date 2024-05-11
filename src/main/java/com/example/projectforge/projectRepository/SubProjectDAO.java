@@ -19,27 +19,35 @@ public class SubProjectDAO implements SubProjectRepository {
         this.dataSource = dataSource;
     }
 
-    @Override
-    public void addSubProject(SubProject subProject) throws SQLException {
-        String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, subProject.getSubProjectName());
-            statement.setString(2, subProject.getDescription());
-            if (subProject.getDeadline() != null) {
-                java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
-                statement.setDate(3, sqlDate);
-            } else {
-                statement.setNull(3, Types.DATE);
+  @Override
+public SubProject addSubProject(SubProject subProject) throws SQLException {
+    String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        statement.setString(1, subProject.getSubProjectName());
+        statement.setString(2, subProject.getDescription());
+        if (subProject.getDeadline() != null) {
+            java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
+            statement.setDate(3, sqlDate);
+        } else {
+            statement.setNull(3, Types.DATE);
+        }
+        if (subProject.getParentProject() != null) {
+            statement.setInt(4, subProject.getParentProject().getProjectID());
+        } else {
+            statement.setNull(4, Types.INTEGER);
+        }
+        statement.executeUpdate();
+
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                int id = generatedKeys.getInt(1);
+                return findById(id).orElse(null);
             }
-            if (subProject.getParentProject() != null) {
-                statement.setInt(4, subProject.getParentProject().getProjectID());
-            } else {
-                statement.setNull(4, Types.INTEGER);
-            }
-            statement.executeUpdate();
         }
     }
+    return null;
+}
 
     @Override
     public SubProject findBySubProjectName(String subProjectName) throws SQLException {
