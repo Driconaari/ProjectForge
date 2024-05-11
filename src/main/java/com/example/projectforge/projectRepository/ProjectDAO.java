@@ -26,7 +26,8 @@ public class ProjectDAO implements ProjectRepository {
         statement.setString(1, project.getProjectName());
         statement.setString(2, project.getDescription());
         if (project.getDeadline() != null) {
-            statement.setDate(3, project.getDeadline());
+            java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
+            statement.setDate(3, sqlDate);
         }else {
             statement.setObject(4, null);
         }
@@ -113,7 +114,12 @@ public void save(Project project) {
          PreparedStatement statement = connection.prepareStatement(sql)) {
         statement.setString(1, project.getProjectName());
         statement.setString(2, project.getDescription());
-        statement.setDate(3, project.getDeadline());
+        if (project.getDeadline() != null) {
+            java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
+            statement.setDate(3, sqlDate);
+        } else {
+            statement.setNull(3, Types.DATE);
+        }
         if (project.getParentProject() != null) {
             statement.setInt(4, project.getParentProject().getProjectID());
         } else {
