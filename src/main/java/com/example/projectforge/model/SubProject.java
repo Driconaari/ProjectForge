@@ -3,24 +3,28 @@ package com.example.projectforge.model;
 import jakarta.persistence.*;
 
 @Entity
-@DiscriminatorValue("SubProject")
-public class SubProject extends Project {
+@Table(name = "SubProjects")
+public class SubProject {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int subProjectID;
 
     @ManyToOne
+    @JoinColumn(name = "parentProject")
     private Project parentProject;
 
     private String subProjectName;
 
-    public Project getParentProject() {
-        return parentProject;
+    // Getters and setters...
+
+
+    public void setSubProjectID(int subProjectID) {
+        this.subProjectID = subProjectID;
     }
 
     public void setParentProject(Project parentProject) {
         this.parentProject = parentProject;
-    }
-
-    public String getSubProjectName() {
-        return subProjectName;
     }
 
     public void setSubProjectName(String subProjectName) {
@@ -28,6 +32,14 @@ public class SubProject extends Project {
     }
 
     public int getSubProjectID() {
-        return getProjectID();
+        return subProjectID;
+    }
+
+    public Project getParentProject() {
+        return parentProject;
+    }
+
+    public String getSubProjectName() {
+        return subProjectName;
     }
 }
