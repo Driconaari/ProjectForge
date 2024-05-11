@@ -19,8 +19,7 @@ public class SubProjectDAO implements SubProjectRepository {
         this.dataSource = dataSource;
     }
 
-  @Override
-public SubProject addSubProject(SubProject subProject) throws SQLException {
+  public SubProject save(SubProject subProject) throws SQLException {
     String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
     try (Connection connection = dataSource.getConnection();
          PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -59,29 +58,6 @@ public SubProject addSubProject(SubProject subProject) throws SQLException {
         return null;
     }
 
-    @Override
-    public SubProject save(SubProject subProject) {
-        String sql = subProject.getSubProjectID() > 0 ?
-                "UPDATE SubProjects SET subProjectName = ?, parentProject = ? WHERE subProjectID = ?" :
-                "INSERT INTO SubProjects (subProjectName, parentProject) VALUES (?, ?)";
-
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setString(1, subProject.getSubProjectName());
-            if (subProject.getParentProject() != null) {
-                statement.setInt(2, subProject.getParentProject().getProjectID());
-            } else {
-                statement.setNull(2, Types.INTEGER);
-            }
-            if (subProject.getSubProjectID() > 0) {
-                statement.setInt(3, subProject.getSubProjectID());
-            }
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            // Handle the exception
-        }
-        return subProject;
-    }
 
     @Override
     public Optional<SubProject> findById(int id) {

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @Repository
 public interface SubProjectRepository {
-    void addSubProject(SubProject subProject) throws SQLException;
+
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
     SubProject getSubProjectById(int subProjectId) throws SQLException;
 
