@@ -121,7 +121,7 @@ public class ProjectDAO implements ProjectRepository {
     @Override
     public Iterable<Project> findAll() {
         List<Project> projects = new ArrayList<>();
-        String sql = "SELECT p.*, sp.* FROM Projects p LEFT JOIN SubProjects sp ON p.projectID = sp.parentProject";
+        String sql = "SELECT * FROM Projects";
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
@@ -129,17 +129,13 @@ public class ProjectDAO implements ProjectRepository {
             while (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
-                project.setProjectName(resultSet.getString("projectName"));
+                project.setProjectName(resultSet.getString("project_name"));
                 project.setDescription(resultSet.getString("description"));
                 project.setDeadline(resultSet.getDate("deadline"));
-
-                SubProject subProject = new SubProject();
-                subProject.setSubProjectID(resultSet.getInt("subProjectID"));
-                subProject.setSubProjectName(resultSet.getString("subProject_name"));
-                subProject.setDescription(resultSet.getString("description"));
-                subProject.setDeadline(resultSet.getDate("deadline"));
-
-                project.getSubProjects().add(subProject);
+                int parentId = resultSet.getInt("parent_projectid");
+                if (!resultSet.wasNull()) {
+                    project.setParentProject(getProjectById(parentId));
+                }
                 projects.add(project);
             }
         } catch (SQLException e) {
