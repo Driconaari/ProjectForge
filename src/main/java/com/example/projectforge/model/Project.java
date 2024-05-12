@@ -15,9 +15,8 @@ public class Project {
     private int projectID;
 
 
-
     @OneToMany(mappedBy = "parentProject", cascade = CascadeType.ALL)
-    private  List<SubProject> subprojects;
+    private List<SubProject> subprojects;
 
     public void setProjectID(int projectID) {
         this.projectID = projectID;
@@ -67,11 +66,11 @@ public class Project {
         return parentProject;
     }
 
-    public List<SubProject> getSubprojects(){
+    public List<SubProject> getSubprojects() {
         return subprojects;
     }
 
-    public void setSubprojects(List<SubProject> subprojects){
+    public void setSubprojects(List<SubProject> subprojects) {
         this.subprojects = subprojects;
     }
 
@@ -91,6 +90,6 @@ public class Project {
     private Project parentProject;
 
     public List<SubProject> getSubProjects() {
-    return this.subprojects;
-}
+        return this.subprojects;
+    }
 }
