@@ -4,73 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            width: 80%;
-            margin: 0 auto;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+    <!-- Styles omitted for brevity -->
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to My Project</h1>
-        <p>This is a simple project page created with HTML.</p>
+<div class="container">
+    <h1>Welcome to My Project</h1>
+    <p>This is a simple project page created with HTML.</p>
 
-        <!-- Table to display all projects -->
-        <table>
-            <thead>
-                <tr>
-                    <th>Project ID</th>
-                    <th>Project Name</th>
-                    <th>Description</th>
-                    <th>Deadline</th>
-                    <th>SubProjects</th>
-                </tr>
-            </thead>
-            <tbody>
-            <div id="projectList"></div>
-            <!-- Use Thymeleaf to iterate over the list of projects and generate a table row for each project -->
-                <tr th:each="project : ${projects}">
-                    <td th:text="${project.projectID}"></td>
-                    <td th:text="${project.projectName}"></td>
-                    <td th:text="${project.description}"></td>
-                    <td th:text="${project.deadline}"></td>
-                    <td>
-                        <!-- Nested table to display subprojects -->
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>SubProject ID</th>
-                                    <th>SubProject Name</th>
-                                    <th>Description</th>
-                                    <th>Deadline</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <!-- Use Thymeleaf to iterate over the list of subprojects and generate a table row for each subproject -->
-                                <tr th:each="subproject : ${project.subprojects}">
-                                    <td th:text="${subproject.subprojectID}"></td>
-                                    <td th:text="${subproject.subprojectName}"></td>
-                                    <td th:text="${subproject.description}"></td>
-                                    <td th:text="${subproject.deadline}"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <!-- Buttons to add new project and subproject -->
-        <button onclick="location.href='/addProject'">Add New Project</button>
-        <button onclick="location.href='/addSubProject'">Add New SubProject</button>
-        <!-- Button to go back to the homepage -->
-        <button onclick="location.href='/'">Go Back to Homepage</button>
-    </div>
+    <!-- Table to display all projects -->
+    <table>
+        <thead>
+        <tr>
+            <th>Project ID</th>
+            <th>Project Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>SubProjects</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Use Thymeleaf to iterate over the list of projects and generate a table row for each project -->
+        <tr th:each="project : ${projects}">
+            <td th:text="${project.projectID}"></td>
+            <td th:text="${project.projectName}"></td>
+            <td th:text="${project.description}"></td>
+            <td th:text="${project.deadline}"></td>
+            <td>
+                <!-- Nested table to display subprojects -->
+                <table>
+                    <thead>
+                    <tr>
+                        <th>SubProject ID</th>
+                        <th>SubProject Name</th>
+                        <th>Description</th>
+                        <th>Deadline</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Iterate over each subproject of the current project -->
+                    <tr th:each="subproject : ${project.subprojects}">
+                        <td th:text="${subproject.subprojectID}"></td>
+                        <td th:text="${subproject.subprojectName}"></td>
+                        <td th:text="${subproject.description}"></td>
+                        <td th:text="${subproject.deadline}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <!-- Buttons to add new project and subproject -->
+    <button onclick="location.href='/addProject'">Add New Project</button>
+    <button onclick="location.href='/addSubProject'">Add New SubProject</button>
+    <!-- Button to go back to the homepage -->
+    <button onclick="location.href='/'">Go Back to Homepage</button>
+</div>
 </body>
 </html>

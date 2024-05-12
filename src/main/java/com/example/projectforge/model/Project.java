@@ -90,4 +90,7 @@ public class Project {
     @JoinColumn(name = "parent_projectid")
     private Project parentProject;
 
+    public List<SubProject> getSubProjects() {
+    return this.subprojects;
+}
 }
