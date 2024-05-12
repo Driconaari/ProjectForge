@@ -54,11 +54,14 @@ public class ProjectController {
         return "index";
     }
 
-  @GetMapping("/projects")
+@GetMapping("/projects")
 public String showProjects(Model model) {
     Iterable<Project> projects = projectRepository.findAll();
-    logger.info("Projects: {}", projects); // Add this line
+    Iterable<SubProject> subProjects = subProjectRepository.findAll();
+    logger.info("Projects: {}", projects);
+    logger.info("SubProjects: {}", subProjects);
     model.addAttribute("projects", projects);
+    model.addAttribute("subProjects", subProjects);
     return "projects";
 }
 
