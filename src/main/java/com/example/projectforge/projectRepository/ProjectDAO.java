@@ -154,4 +154,3 @@ public class ProjectDAO implements ProjectRepository {
         return new ArrayList<>(projectMap.values());
     }
 }
-}
