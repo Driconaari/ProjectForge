@@ -30,6 +30,7 @@
                     <th>Project Name</th>
                     <th>Description</th>
                     <th>Deadline</th>
+                    <th>SubProjects</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,6 +41,28 @@
                     <td th:text="${project.projectName}"></td>
                     <td th:text="${project.description}"></td>
                     <td th:text="${project.deadline}"></td>
+                    <td>
+                        <!-- Nested table to display subprojects -->
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>SubProject ID</th>
+                                    <th>SubProject Name</th>
+                                    <th>Description</th>
+                                    <th>Deadline</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Use Thymeleaf to iterate over the list of subprojects and generate a table row for each subproject -->
+                                <tr th:each="subproject : ${project.subprojects}">
+                                    <td th:text="${subproject.subprojectID}"></td>
+                                    <td th:text="${subproject.subprojectName}"></td>
+                                    <td th:text="${subproject.description}"></td>
+                                    <td th:text="${subproject.deadline}"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
                 </tr>
             </tbody>
         </table>

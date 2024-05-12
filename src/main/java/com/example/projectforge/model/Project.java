@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Projects")
@@ -12,6 +13,11 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectID;
+
+
+
+    @OneToMany(mappedBy = "parentProject", cascade = CascadeType.ALL)
+    private  List<SubProject> subprojects;
 
     public void setProjectID(int projectID) {
         this.projectID = projectID;
@@ -59,6 +65,14 @@ public class Project {
 
     public Project getParentProject() {
         return parentProject;
+    }
+
+    public List<SubProject> getSubprojects(){
+        return subprojects;
+    }
+
+    public void setSubprojects(List<SubProject> subprojects){
+        this.subprojects = subprojects;
     }
 
     @Column(name = "projectName", unique = true, nullable = false)
