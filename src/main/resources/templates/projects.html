@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
+    <!-- Include Bootstrap CSS for responsive styling -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <!-- Styles omitted for brevity -->
 </head>
 <body>
@@ -12,7 +14,7 @@
     <p>This is a simple project page created with HTML.</p>
 
     <!-- Table to display all projects -->
-    <table>
+    <table class="table">
         <thead>
         <tr>
             <th>Project ID</th>
@@ -31,7 +33,7 @@
             <td th:text="${project.deadline}"></td>
             <td>
                 <!-- Nested table to display subprojects -->
-                <table>
+                <table class="table">
                     <thead>
                     <tr>
                         <th>SubProject ID</th>
@@ -55,10 +57,13 @@
         </tbody>
     </table>
     <!-- Buttons to add new project and subproject -->
-    <button onclick="location.href='/addProject'">Add New Project</button>
-    <button onclick="location.href='/addSubProject'">Add New SubProject</button>
+    <button class="btn btn-primary" onclick="location.href='/addProject'">Add New Project</button>
+    <button class="btn btn-primary" onclick="location.href='/addSubProject'">Add New SubProject</button>
     <!-- Button to go back to the homepage -->
-    <button onclick="location.href='/'">Go Back to Homepage</button>
+    <button class="btn btn-secondary" onclick="location.href='/'">Go Back to Homepage</button>
 </div>
+<!-- Include Bootstrap JS and jQuery for interactive features -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

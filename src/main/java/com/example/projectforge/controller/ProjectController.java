@@ -54,11 +54,13 @@ public class ProjectController {
         return "index";
     }
 
-    @GetMapping("/projects")
-    public String projects(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
-        return "projects";
-    }
+  @GetMapping("/projects")
+public String showProjects(Model model) {
+    Iterable<Project> projects = projectRepository.findAll();
+    logger.info("Projects: {}", projects); // Add this line
+    model.addAttribute("projects", projects);
+    return "projects";
+}
 
     //create project page
     @GetMapping("/createProject")
@@ -84,28 +86,26 @@ public class ProjectController {
     }
 
     //subprojects
-@GetMapping("/addSubProject")
-public String showAddSubProjectForm(Model model) {
-    model.addAttribute("subproject", new SubProject());
-    model.addAttribute("projects", projectRepository.findAll());
-    return "addSubProject";
-}
-
-//added sqlexception for subproject too
-@PostMapping("/addSubProject")
-public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
-    int parentProjectID = subproject.getParentProject().getProjectID();
-    Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-    if (parentProject == null) {
-        throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+    @GetMapping("/addSubProject")
+    public String showAddSubProjectForm(Model model) {
+        model.addAttribute("subproject", new SubProject());
+        model.addAttribute("projects", projectRepository.findAll());
+        return "addSubProject";
     }
-    subproject.setParentProject(parentProject);
-    subProjectRepository.save(subproject);
-    logger.info("SubProject saved: {}", subproject);
-    return "redirect:/projects";
-}
 
-
+    //added sqlexception for subproject too
+    @PostMapping("/addSubProject")
+    public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
+        int parentProjectID = subproject.getParentProject().getProjectID();
+        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
+        if (parentProject == null) {
+            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+        }
+        subproject.setParentProject(parentProject);
+        subProjectRepository.save(subproject);
+        logger.info("SubProject saved: {}", subproject);
+        return "redirect:/projects";
+    }
 
 
     //tasks

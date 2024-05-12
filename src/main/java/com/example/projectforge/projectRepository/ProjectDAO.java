@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.*;
-import java.sql.Date;
 import java.util.*;
 
 @Repository
@@ -20,7 +19,7 @@ public class ProjectDAO implements ProjectRepository {
     }
 
     public void saveProject(Project project) throws SQLException {
-        String sql = "INSERT INTO Projects (projectName, description, deadline, project_type, parent_projectid, project_name) VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Projects (projectName, description, deadline, project_name) VALUES (?, ?, ?, ?)";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, project.getProjectName());
@@ -31,13 +30,7 @@ public class ProjectDAO implements ProjectRepository {
             } else {
                 statement.setNull(3, Types.DATE);
             }
-            statement.setString(4, project.getProjectType());
-            if (project.getParentProject() != null) {
-                statement.setInt(5, project.getParentProject().getProjectID());
-            } else {
-                statement.setNull(5, Types.INTEGER);
-            }
-            statement.setString(6, project.getProjectName());
+            statement.setString(4, project.getProjectName());
             int rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("A new project was inserted successfully!");
@@ -46,7 +39,7 @@ public class ProjectDAO implements ProjectRepository {
     }
 
     public Project findByProjectName(String projectName) throws SQLException {
-        String sql = "SELECT * FROM Projects WHERE project_name = ?";
+        String sql = "SELECT * FROM Projects WHERE projectName = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setString(1, projectName);
@@ -54,32 +47,28 @@ public class ProjectDAO implements ProjectRepository {
             if (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
-                project.setProjectName(resultSet.getString("project_name"));
+                project.setProjectName(resultSet.getString("projectName"));
                 project.setDescription(resultSet.getString("description"));
                 project.setDeadline(resultSet.getDate("deadline"));
-                project.setParentProject(getProjectById(resultSet.getInt("parent_projectid")));
                 return project;
             }
         }
         return null;
     }
 
-    public Project getProjectById(int parentProjectid) throws SQLException {
+    @Override
+    public Project getProjectById(int projectId) throws SQLException {
         String sql = "SELECT * FROM Projects WHERE projectID = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, parentProjectid);
+            statement.setInt(1, projectId);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
-                project.setProjectName(resultSet.getString("project_name"));
+                project.setProjectName(resultSet.getString("projectName"));
                 project.setDescription(resultSet.getString("description"));
                 project.setDeadline(resultSet.getDate("deadline"));
-                int parentId = resultSet.getInt("parent_projectid");
-                if (!resultSet.wasNull()) {
-                    project.setParentProject(getProjectById(parentId));
-                }
                 return project;
             }
         }
@@ -96,13 +85,9 @@ public class ProjectDAO implements ProjectRepository {
             if (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
-                project.setProjectName(resultSet.getString("project_name"));
+                project.setProjectName(resultSet.getString("projectName"));
                 project.setDescription(resultSet.getString("description"));
                 project.setDeadline(resultSet.getDate("deadline"));
-                int parentId = resultSet.getInt("parent_projectid");
-                if (!resultSet.wasNull()) {
-                    project.setParentProject(getProjectById(parentId));
-                }
                 return Optional.of(project);
             }
         } catch (SQLException e) {
@@ -112,45 +97,55 @@ public class ProjectDAO implements ProjectRepository {
     }
 
     @Override
-    public void save(Project subproject) {
-
+    public void save(Project project) {
+        String sql = "INSERT INTO Projects (projectName, description, deadline) VALUES (?, ?, ?)";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+            statement.setString(1, project.getProjectName());
+            statement.setString(2, project.getDescription());
+            if (project.getDeadline() != null) {
+                java.sql.Date sqlDate = new java.sql.Date(project.getDeadline().getTime());
+                statement.setDate(3, sqlDate);
+            } else {
+                statement.setNull(3, Types.DATE);
+            }
+            int rowsInserted = statement.executeUpdate();
+            if (rowsInserted > 0) {
+                System.out.println("A new project was inserted successfully!");
+            }
+        } catch (SQLException e) {
+            // Handle the exception
+        }
     }
-
 
     @Override
     public Iterable<Project> findAll() {
-        Map<Integer, Project> projectMap = new HashMap<>();
+        List<Project> projects = new ArrayList<>();
         String sql = "SELECT p.*, sp.* FROM Projects p LEFT JOIN SubProjects sp ON p.projectID = sp.parentProject";
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
-                int projectId = resultSet.getInt("projectID");
-                Project project = projectMap.get(projectId);
-                if (project == null) {
-                    project = new Project();
-                    project.setProjectID(projectId);
-                    project.setProjectName(resultSet.getString("project_name"));
-                    project.setDescription(resultSet.getString("description"));
-                    project.setDeadline(resultSet.getDate("deadline"));
-                    int parentId = resultSet.getInt("parent_projectid");
-                    if (!resultSet.wasNull()) {
-                        project.setParentProject(getProjectById(parentId));
-                    }
-                    projectMap.put(projectId, project);
-                }
+                Project project = new Project();
+                project.setProjectID(resultSet.getInt("projectID"));
+                project.setProjectName(resultSet.getString("projectName"));
+                project.setDescription(resultSet.getString("description"));
+                project.setDeadline(resultSet.getDate("deadline"));
+
                 SubProject subProject = new SubProject();
                 subProject.setSubProjectID(resultSet.getInt("subProjectID"));
                 subProject.setSubProjectName(resultSet.getString("subProject_name"));
                 subProject.setDescription(resultSet.getString("description"));
                 subProject.setDeadline(resultSet.getDate("deadline"));
+
                 project.getSubProjects().add(subProject);
+                projects.add(project);
             }
         } catch (SQLException e) {
             // Handle the exception
         }
 
-        return new ArrayList<>(projectMap.values());
+        return projects;
     }
 }
