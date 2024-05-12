@@ -1,8 +1,9 @@
 package com.example.projectforge.model;
 
 import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table(name = "SubProjects")
@@ -17,7 +18,10 @@ public class SubProject {
     private Project parentProject;
 
     private String subProjectName;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
+
     private String description;
 
     // Getters and setters...
