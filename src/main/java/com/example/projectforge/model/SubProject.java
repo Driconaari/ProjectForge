@@ -14,6 +14,9 @@ public class SubProject {
     @Column(name = "sub_projectid")
     private int subProjectID;
 
+    @Column(name = "subProjectName")
+    private String subProjectName;
+
     @Column(name = "description")
     private String description;
 
@@ -38,6 +41,10 @@ public class SubProject {
         this.deadline = deadline;
     }
 
+    public void setSubProjectName(String subProjectName) {
+        this.subProjectName = subProjectName;
+    }
+
     public int getSubProjectID() {
         return subProjectID;
     }
@@ -56,5 +63,9 @@ public class SubProject {
 
     public void setParentProject(Project parentProject) {
         this.parentProject = parentProject;
+    }
+
+    public String getSubProjectName() {
+        return subProjectName;
     }
 }
