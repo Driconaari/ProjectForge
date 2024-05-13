@@ -7,9 +7,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.core.GrantedAuthority;
 
 @Configuration
 @EnableWebSecurity
@@ -65,6 +65,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
         return false;
     }
 }
+
 
 
 // (note)  / route instead of /homepage, it could be due to the default behavior of Spring Security.

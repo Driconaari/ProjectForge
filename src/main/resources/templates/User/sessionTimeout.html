@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Your Session has run out</h1>
+
+<div>
+  <a th:href="@{/signin}">
+    <button type="button" class="btn">Return to sign in</button>
+  </a>
+
+  <a th:href="@{/signup}">
+    <button type="button" class="btn">Create account</button>
+  </a>
+</div>
+
+</body>
+</html>
