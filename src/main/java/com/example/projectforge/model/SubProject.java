@@ -1,8 +1,8 @@
 package com.example.projectforge.model;
 
+import com.example.projectforge.model.Project;
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
-import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 
 @Entity
@@ -18,24 +18,35 @@ public class SubProject {
     @JoinColumn(name = "parentProject")
     private Project parentProject;
 
-    @NotNull
     @Column(name = "subProjectName")
     private String subProjectName;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)  // Ensure date is stored without time
-    private Date deadline;
-
+    @Column(name = "description")
     private String description;
 
-    // Getters and setters...
+    @Column(name = "deadline")
+    private Date deadline;
 
-    public Date getDeadline() {
-        return deadline;
+    // getters and setters...'
+
+    public void setSubProjectID(int subProjectID) {
+        this.subProjectID = subProjectID;
     }
 
-    public String getDescription() {
-        return description;
+    public void setParentProject(Project parentProject) {
+        this.parentProject = parentProject;
+    }
+
+    public void setSubProjectName(String subProjectName) {
+        this.subProjectName = subProjectName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setDeadline(Date deadline) {
+        this.deadline = deadline;
     }
 
     public int getSubProjectID() {
@@ -50,23 +61,11 @@ public class SubProject {
         return subProjectName;
     }
 
-    public void setSubProjectID(int subProjectID) {
-        this.subProjectID = subProjectID;
+    public String getDescription() {
+        return description;
     }
 
-    public void setParentProject(Project parentProject) {
-        this.parentProject = parentProject;
-    }
-
-    public void setSubProjectName(String subProjectName) {
-        this.subProjectName = subProjectName;
-    }
-
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
+    public Date getDeadline() {
+        return deadline;
     }
 }
