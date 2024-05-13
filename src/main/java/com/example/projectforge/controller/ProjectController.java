@@ -104,12 +104,6 @@ public String showSubProjects(Model model) {
     //added sqlexception for subproject too
     @PostMapping("/addSubProject")
     public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
-        int parentProjectID = subproject.getParentProject().getProjectID();
-        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-        if (parentProject == null) {
-            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
-        }
-        subproject.setParentProject(parentProject);
         subProjectRepository.save(subproject);
         logger.info("SubProject saved: {}", subproject);
         return "redirect:/projects";

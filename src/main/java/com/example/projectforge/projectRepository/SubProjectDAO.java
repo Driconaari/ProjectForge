@@ -24,21 +24,15 @@ public class SubProjectDAO implements SubProjectRepository {
         this.projectDAO = projectDAO;
     }
 
-    private void setSubProjectParameters(PreparedStatement statement, SubProject subProject) throws SQLException {
-        statement.setString(1, subProject.getSubProjectName());
-        statement.setString(2, subProject.getDescription());
-            if (subProject.getDeadline() != null) {
-                java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
-                statement.setDate(3, sqlDate);
-            } else {
-                statement.setNull(3, Types.DATE);
-        }
-        if (subProject.getParentProject() != null) {
-            statement.setInt(4, subProject.getParentProject().getProjectID());
-        } else {
-            statement.setNull(4, Types.INTEGER);
-        }
+  private void setSubProjectParameters(PreparedStatement statement, SubProject subProject) throws SQLException {
+    statement.setString(1, subProject.getDescription());
+    if (subProject.getDeadline() != null) {
+        java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
+        statement.setDate(2, sqlDate);
+    } else {
+        statement.setNull(2, Types.DATE);
     }
+}
 
 private SubProject insertSubProject(SubProject subProject) throws SQLException {
     String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
@@ -61,16 +55,16 @@ private SubProject insertSubProject(SubProject subProject) throws SQLException {
     return subProject;
 }
 
-    private SubProject createSubProjectFromResultSet(ResultSet resultSet) throws SQLException {
-        SubProject subProject = new SubProject();
-        subProject.setSubProjectID(resultSet.getInt("subProjectID"));
-        subProject.setSubProjectName(resultSet.getString("subProjectName"));
-        int parentId = resultSet.getInt("parentProject");
-        if (!resultSet.wasNull()) {
-            subProject.setParentProject(projectDAO.findById(parentId).orElse(null));
-        }
-        return subProject;
+  private SubProject createSubProjectFromResultSet(ResultSet resultSet) throws SQLException {
+    SubProject subProject = new SubProject();
+    subProject.setSubProjectID(resultSet.getInt("subProjectID"));
+    subProject.setDescription(resultSet.getString("description"));
+    java.sql.Date deadline = resultSet.getDate("deadline");
+    if (deadline != null) {
+        subProject.setDeadline(new java.util.Date(deadline.getTime()));
     }
+    return subProject;
+}
 
     @Override
     public SubProject saveSubProject(SubProject subProject) throws SQLException {
