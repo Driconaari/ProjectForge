@@ -14,8 +14,6 @@ public interface SubProjectRepository {
 
     SubProject save(SubProject subproject) throws SQLException;
 
-    SubProject saveSubProject(SubProject subproject) throws SQLException;
-
     Optional<SubProject> findById(int id);
 
     List<SubProject> findAll();

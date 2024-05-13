@@ -66,10 +66,6 @@ public class SubProjectDAO implements SubProjectRepository {
         return subProject;
     }
 
-    @Override
-    public SubProject saveSubProject(SubProject subProject) throws SQLException {
-        return insertSubProject(subProject);
-    }
 
     public SubProject save(SubProject subProject) {
         logger.info("Saving subproject: {}", subProject);
