@@ -10,13 +10,20 @@ CREATE TABLE users
 );
 
 -- Create table for projects
-CREATE TABLE projects
+create table projects
 (
-    id          BIGINT       NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name        VARCHAR(255) NOT NULL,
-    description TEXT,
-    deadline    DATE
+    ProjectID        int auto_increment
+        primary key,
+    project_name     varchar(255) not null,
+    Description      text         null,
+    Deadline         date         null,
+    parent_projectid int          null,
+    project_type     varchar(255) null,
+    constraint FK7e8cct8ontgmxcdeqet6irard
+        foreign key (parent_projectid) references projects (ProjectID)
 );
+
+
 CREATE TABLE Projects
 (
     ProjectID   INT PRIMARY KEY,
@@ -27,15 +34,20 @@ CREATE TABLE Projects
 ALTER TABLE Projects MODIFY ProjectID int NOT NULL AUTO_INCREMENT;
 
 -- Create table for subprojects
-CREATE TABLE Subprojects
+CREATE TABLE subprojects
 (
-    SubprojectID   INT PRIMARY KEY,
-    ProjectID      INT,
-    SubprojectName VARCHAR(255),
-    Description    TEXT,
-    Deadline       DATE,
-    FOREIGN KEY (ProjectID) REFERENCES Projects (ProjectID)
+    subProjectID   INT AUTO_INCREMENT PRIMARY KEY,
+    parentProject  INT NULL,
+    subProjectName VARCHAR(255) NULL,
+    description    VARCHAR(255) NULL,
+    deadline       DATETIME(6) NULL,
+    CONSTRAINT subprojects_ibfk_1
+        FOREIGN KEY (parentProject) REFERENCES projects (projectID)
 );
+
+CREATE INDEX parentProject
+    ON subprojects (parentProject);
+
 
 -- Create table for tasks
 CREATE TABLE Tasks
