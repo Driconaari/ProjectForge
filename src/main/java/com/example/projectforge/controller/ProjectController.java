@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import com.example.projectforge.projectRepository.ProjectRepository;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import java.sql.SQLException;
 import java.util.List;
 
@@ -57,12 +55,18 @@ public class ProjectController {
 @GetMapping("/projects")
 public String showProjects(Model model) {
     Iterable<Project> projects = projectRepository.findAll();
-    Iterable<SubProject> subProjects = subProjectRepository.findAll();
     logger.info("Projects: {}", projects);
-    logger.info("SubProjects: {}", subProjects);
     model.addAttribute("projects", projects);
-    model.addAttribute("subProjects", subProjects);
     return "projects";
+}
+
+//Show subprojects
+    @GetMapping("/subprojects")
+public String showSubProjects(Model model) {
+    Iterable<SubProject> subProjects = subProjectRepository.findAll();
+    logger.info("SubProjects: {}", subProjects);
+    model.addAttribute("subProjects", subProjects);
+    return "subprojects";
 }
 
     //create project page

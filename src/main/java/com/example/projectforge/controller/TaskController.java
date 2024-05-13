@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TaskController {
 
 
-
     //tasks
     @GetMapping("/addTask")
     public String showCreateTaskPage() {
