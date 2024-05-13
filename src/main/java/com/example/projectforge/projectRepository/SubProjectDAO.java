@@ -104,24 +104,24 @@ private SubProject insertSubProject(SubProject subProject) throws SQLException {
         return Optional.empty();
     }
 
-    @Override
-    public List<SubProject> findAll() {
-        List<SubProject> subProjects = new ArrayList<>();
-        String sql = "SELECT * FROM SubProjects";
+   @Override
+public List<SubProject> findAll() {
+    List<SubProject> subProjects = new ArrayList<>();
+    String sql = "SELECT subProjectID, description, deadline, parentProject FROM SubProjects";
 
-        try (Connection connection = dataSource.getConnection();
-             Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-            while (resultSet.next()) {
-                SubProject subProject = createSubProjectFromResultSet(resultSet);
-                subProjects.add(subProject);
-            }
-        } catch (SQLException e) {
-            // Handle the exception
+    try (Connection connection = dataSource.getConnection();
+         Statement statement = connection.createStatement();
+         ResultSet resultSet = statement.executeQuery(sql)) {
+        while (resultSet.next()) {
+            SubProject subProject = createSubProjectFromResultSet(resultSet);
+            subProjects.add(subProject);
         }
-
-        return subProjects;
+    } catch (SQLException e) {
+        // Handle the exception
     }
+
+    return subProjects;
+}
 
     @Override
     public void deleteById(int id) {

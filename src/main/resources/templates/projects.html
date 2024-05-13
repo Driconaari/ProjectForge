@@ -4,17 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Projects and SubProjects</title>
-    <!-- Include Bootstrap CSS for responsive styling -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <!-- Styles omitted for brevity -->
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
 </head>
 <body>
-<div class="container">
     <h1>Welcome to Projects and SubProjects</h1>
     <p>This is a simple page created with HTML to display both projects and subprojects.</p>
 
     <!-- Table to display all projects -->
-    <table class="table">
+    <table>
         <thead>
         <tr>
             <th>Project ID</th>
@@ -35,7 +34,7 @@
     </table>
 
     <!-- Table to display all subprojects -->
-    <table class="table">
+    <table>
         <thead>
         <tr>
             <th>SubProject ID</th>
@@ -56,13 +55,9 @@
     </table>
 
     <!-- Buttons to add new project and subproject -->
-    <button class="btn btn-primary" onclick="location.href='/addProject'">Add New Project</button>
-    <button class="btn btn-primary" onclick="location.href='/addSubProject'">Add New SubProject</button>
+    <button onclick="location.href='/addProject'">Add New Project</button>
+    <button onclick="location.href='/addSubProject'">Add New SubProject</button>
     <!-- Button to go back to the homepage -->
-    <button class="btn btn-secondary" onclick="location.href='/'">Go Back to Homepage</button>
-</div>
-<!-- Include Bootstrap JS and jQuery for interactive features -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <button onclick="location.href='/'">Go Back to Homepage</button>
 </body>
 </html>
