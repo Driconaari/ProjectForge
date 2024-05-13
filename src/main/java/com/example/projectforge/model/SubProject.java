@@ -1,8 +1,8 @@
 package com.example.projectforge.model;
 
 import jakarta.persistence.*;
+import org.antlr.v4.runtime.misc.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
-
 import java.util.Date;
 
 @Entity
@@ -11,16 +11,19 @@ public class SubProject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SubProjectID") // specify the exact column name in the database
-    private int sub_projectid;
+    @Column(name = "subProjectID")
+    private int subProjectID;
 
     @ManyToOne
     @JoinColumn(name = "parentProject")
     private Project parentProject;
 
+    @NotNull
+    @Column(name = "subProjectName")
     private String subProjectName;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)  // Ensure date is stored without time
     private Date deadline;
 
     private String description;
@@ -35,8 +38,8 @@ public class SubProject {
         return description;
     }
 
-    public int getSub_projectid() {
-        return sub_projectid;
+    public int getSubProjectID() {
+        return subProjectID;
     }
 
     public Project getParentProject() {
@@ -47,8 +50,8 @@ public class SubProject {
         return subProjectName;
     }
 
-    public void setSubProjectID(int sub_projectid) {
-        this.sub_projectid = sub_projectid;
+    public void setSubProjectID(int subProjectID) {
+        this.subProjectID = subProjectID;
     }
 
     public void setParentProject(Project parentProject) {
