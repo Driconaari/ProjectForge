@@ -10,17 +10,18 @@ CREATE TABLE users
 );
 
 -- Create table for projects
-create table projects
+CREATE TABLE projects
 (
-    ProjectID        int auto_increment
+    projectID    int auto_increment
         primary key,
-    project_name     varchar(255) not null,
-    Description      text         null,
-    Deadline         date         null,
-    parent_projectid int          null,
-    project_type     varchar(255) null,
-    constraint FK7e8cct8ontgmxcdeqet6irard
-        foreign key (parent_projectid) references projects (ProjectID)
+    projectName  varchar(255) not null,
+    description  varchar(255) null,
+    deadline     datetime(6)  null,
+    project_name varchar(255) not null,
+    constraint UK_5brqsoho9qc97d54l39n7osde
+        unique (project_name),
+    constraint projectName
+        unique (projectName)
 );
 
 
