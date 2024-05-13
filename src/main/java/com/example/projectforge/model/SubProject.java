@@ -49,4 +49,12 @@ public class SubProject {
     public Date getDeadline() {
         return deadline;
     }
+
+    public Project getParentProject() {
+        return parentProject;
+    }
+
+    public void setParentProject(Project parentProject) {
+        this.parentProject = parentProject;
+    }
 }
