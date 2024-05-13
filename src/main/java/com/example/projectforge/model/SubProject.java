@@ -27,6 +27,7 @@ public class SubProject {
     @ManyToOne
     @JoinColumn(name = "parentProject")
     private Project parentProject;
+
     // getters and setters...
 
     public void setSubProjectID(int subProjectID) {

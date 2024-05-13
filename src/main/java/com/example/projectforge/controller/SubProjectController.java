@@ -3,6 +3,7 @@ package com.example.projectforge.controller;
 import com.example.projectforge.model.Project;
 import com.example.projectforge.model.SubProject;
 import com.example.projectforge.projectRepository.ProjectRepository;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import com.example.projectforge.projectRepository.SubProjectRepository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
 
@@ -50,17 +52,14 @@ public class SubProjectController {
 
     //added sqlexception for subproject too
     @PostMapping("/addSubProject")
-    public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
-        int parentProjectID = subproject.getParentProject().getProjectID();
-        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-        if (parentProject == null) {
-            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
-        }
-        subproject.setParentProject(parentProject);
-        subProjectRepository.save(subproject);
-        logger.info("SubProject saved: {}", subproject);
+    @Transactional
+    public String addSubProject(@ModelAttribute SubProject subProject, @RequestParam("projectId") int projectId) throws SQLException {
+        Project parentProject = projectRepository.findById(projectId).orElseThrow(() -> new IllegalArgumentException("Invalid project Id:" + projectId));
+        subProject.setParentProject(parentProject);
+        subProjectRepository.save(subProject);
         return "redirect:/projects";
     }
-
-
 }
+
+
+

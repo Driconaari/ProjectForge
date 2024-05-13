@@ -1,7 +1,6 @@
 package com.example.projectforge.projectRepository;
 
 import com.example.projectforge.model.Project;
-import com.example.projectforge.model.SubProject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

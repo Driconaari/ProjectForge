@@ -52,13 +52,16 @@ public class ProjectController {
         return "index";
     }
 
-@GetMapping("/projects")
-public String showProjects(Model model) {
-    Iterable<Project> projects = projectRepository.findAll();
-    logger.info("Projects: {}", projects);
-    model.addAttribute("projects", projects);
-    return "projects";
-}
+    @GetMapping("/projects")
+    public String showProjects(Model model) {
+        Iterable<Project> projects = projectRepository.findAll();
+        for (Project project : projects) {
+            logger.info("Project: {}", project);
+            logger.info("SubProjects: {}", project.getSubprojects());
+        }
+        model.addAttribute("projects", projects);
+        return "projects";
+    }
 
     //create project page
     @GetMapping("/createProject")
