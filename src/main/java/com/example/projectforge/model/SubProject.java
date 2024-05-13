@@ -21,6 +21,9 @@ public class SubProject {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
+    @ManyToOne
+    @JoinColumn(name = "parentProject")
+    private Project parentProject;
     // getters and setters...
 
     public void setSubProjectID(int subProjectID) {

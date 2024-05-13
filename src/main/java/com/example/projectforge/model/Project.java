@@ -18,6 +18,15 @@ public class Project {
     @OneToMany(mappedBy = "parentProject", cascade = CascadeType.ALL)
     private List<SubProject> subprojects;
 
+    @Column(name = "projectName", unique = true, nullable = false)
+    private String projectName;
+
+    private String description;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date deadline;
+
+
     public void setProjectID(int projectID) {
         this.projectID = projectID;
     }
@@ -32,14 +41,6 @@ public class Project {
 
     public void setDeadline(Date deadline) {
         this.deadline = deadline;
-    }
-
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
-    }
-
-    public void setParentProject(Project parentProject) {
-        this.parentProject = parentProject;
     }
 
     public String getProjectName() {
@@ -58,14 +59,6 @@ public class Project {
         return deadline;
     }
 
-    public String getProjectType() {
-        return projectType;
-    }
-
-    public Project getParentProject() {
-        return parentProject;
-    }
-
     public List<SubProject> getSubprojects() {
         return subprojects;
     }
@@ -74,20 +67,6 @@ public class Project {
         this.subprojects = subprojects;
     }
 
-    @Column(name = "projectName", unique = true, nullable = false)
-    private String projectName;
-
-    private String description;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deadline;
-
-    @Column(name = "project_type")
-    private String projectType;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_projectid")
-    private Project parentProject;
 
     public List<SubProject> getSubProjects() {
         return this.subprojects;
