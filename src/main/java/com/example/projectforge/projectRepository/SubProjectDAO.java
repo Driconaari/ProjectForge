@@ -84,21 +84,6 @@ public class SubProjectDAO implements SubProjectRepository {
     }
 
 
-    @Override
-    public SubProject getSubProjectById(int subProjectId) throws SQLException {
-        String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, subProjectId);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                return createSubProjectFromResultSet(resultSet);
-            }
-        } catch (SQLException e) {
-            // Handle the exception
-        }
-        return null;
-    }
 
     @Override
     public Optional<SubProject> findById(int id) {

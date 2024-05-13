@@ -11,7 +11,6 @@ import java.util.Optional;
 public interface SubProjectRepository {
 
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
-    SubProject getSubProjectById(int subProjectId) throws SQLException;
 
     SubProject save(SubProject subproject) throws SQLException;
 
@@ -22,5 +21,6 @@ public interface SubProjectRepository {
     List<SubProject> findAll();
 
     void deleteById(int id);
+
 
 }
