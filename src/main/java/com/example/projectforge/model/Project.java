@@ -21,14 +21,11 @@ public class Project {
     @Column(name = "projectName", unique = true, nullable = false)
     private String projectName;
 
+    @Column(name = "description")
     private String description;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
-
-    @ManyToOne
-    @JoinColumn(name = "ProjectID")
-    private Project parentProject;
 
 
     public void setProjectID(int projectID) {
@@ -76,8 +73,8 @@ public class Project {
         return this.subprojects;
     }
 
-    public void setParentProject(Project parentProject) {
-        this.parentProject = parentProject;
-    }
 
+    public void setSubProjects(List<SubProject> subProjects) {
+        this.subprojects = subProjects;
+    }
 }

@@ -129,13 +129,9 @@ public class ProjectDAO implements ProjectRepository {
             while (resultSet.next()) {
                 Project project = new Project();
                 project.setProjectID(resultSet.getInt("projectID"));
-                project.setProjectName(resultSet.getString("project_name"));
+                project.setProjectName(resultSet.getString("projectName")); // changed from project_name to projectName
                 project.setDescription(resultSet.getString("description"));
                 project.setDeadline(resultSet.getDate("deadline"));
-                int parentId = resultSet.getInt("parent_projectid");
-                if (!resultSet.wasNull()) {
-                    project.setParentProject(getProjectById(parentId));
-                }
                 projects.add(project);
             }
         } catch (SQLException e) {

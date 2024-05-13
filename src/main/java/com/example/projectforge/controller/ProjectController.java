@@ -60,16 +60,6 @@ public String showProjects(Model model) {
     return "projects";
 }
 
-//Show subprojects
-@GetMapping("/subprojects")
-public String showSubProjects(Model model) {
-    Iterable<SubProject> subProjects = subProjectRepository.findAll();
-    System.out.println(subProjects); // Add this line
-    logger.info("SubProjects: {}", subProjects);
-    model.addAttribute("subProjects", subProjects);
-    return "subprojects";
-}
-
     //create project page
     @GetMapping("/createProject")
     public String showCreateProjectPage() {
@@ -90,22 +80,6 @@ public String showSubProjects(Model model) {
         logger.info("Received project: {}", project);
         projectRepository.saveProject(project);
         logger.info("Project saved: {}", project);
-        return "redirect:/projects";
-    }
-
-    //subprojects
-    @GetMapping("/addSubProject")
-    public String showAddSubProjectForm(Model model) {
-        model.addAttribute("subproject", new SubProject());
-        model.addAttribute("projects", projectRepository.findAll());
-        return "addSubProject";
-    }
-
-    //added sqlexception for subproject too
-    @PostMapping("/addSubProject")
-    public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
-        subProjectRepository.save(subproject);
-        logger.info("SubProject saved: {}", subproject);
         return "redirect:/projects";
     }
 
