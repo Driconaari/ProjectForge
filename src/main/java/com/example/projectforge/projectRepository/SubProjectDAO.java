@@ -27,11 +27,11 @@ public class SubProjectDAO implements SubProjectRepository {
     private void setSubProjectParameters(PreparedStatement statement, SubProject subProject) throws SQLException {
         statement.setString(1, subProject.getSubProjectName());
         statement.setString(2, subProject.getDescription());
-        if (subProject.getDeadline() != null) {
-            java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
-            statement.setDate(3, sqlDate);
-        } else {
-            statement.setNull(3, Types.DATE);
+            if (subProject.getDeadline() != null) {
+                java.sql.Date sqlDate = new java.sql.Date(subProject.getDeadline().getTime());
+                statement.setDate(3, sqlDate);
+            } else {
+                statement.setNull(3, Types.DATE);
         }
         if (subProject.getParentProject() != null) {
             statement.setInt(4, subProject.getParentProject().getProjectID());

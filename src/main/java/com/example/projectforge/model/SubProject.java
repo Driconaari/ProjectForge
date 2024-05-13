@@ -6,12 +6,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "SubProjects")
+@Table(name = "subprojects")
 public class SubProject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int subProjectID;
+    @Column(name = "SubProjectID") // specify the exact column name in the database
+    private int sub_projectid;
 
     @ManyToOne
     @JoinColumn(name = "parentProject")
@@ -34,8 +35,8 @@ public class SubProject {
         return description;
     }
 
-    public int getSubProjectID() {
-        return subProjectID;
+    public int getSub_projectid() {
+        return sub_projectid;
     }
 
     public Project getParentProject() {
@@ -46,8 +47,8 @@ public class SubProject {
         return subProjectName;
     }
 
-    public void setSubProjectID(int subProjectID) {
-        this.subProjectID = subProjectID;
+    public void setSubProjectID(int sub_projectid) {
+        this.sub_projectid = sub_projectid;
     }
 
     public void setParentProject(Project parentProject) {
@@ -65,5 +66,4 @@ public class SubProject {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }
