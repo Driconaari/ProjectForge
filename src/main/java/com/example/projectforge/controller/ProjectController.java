@@ -68,7 +68,7 @@ public String showProjects(Model model) {
     //create project page
     @GetMapping("/createProject")
     public String showCreateProjectPage() {
-        return "createProject"; // Return the name of the HTML file (without the extension)
+        return "createProject";
     }
 
 
@@ -78,7 +78,7 @@ public String showProjects(Model model) {
         return "addProject";
     }
 
-    //added sqlexception which is reallu nice to locate wrong DAO
+    //added sqlexception which is really nice to locate wrong DAO
     @PostMapping("/addProject")
     @Transactional
     public String addProject(@ModelAttribute Project project) throws SQLException {
