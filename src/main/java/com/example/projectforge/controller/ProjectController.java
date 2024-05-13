@@ -61,9 +61,10 @@ public String showProjects(Model model) {
 }
 
 //Show subprojects
-    @GetMapping("/subprojects")
+@GetMapping("/subprojects")
 public String showSubProjects(Model model) {
     Iterable<SubProject> subProjects = subProjectRepository.findAll();
+    System.out.println(subProjects); // Add this line
     logger.info("SubProjects: {}", subProjects);
     model.addAttribute("subProjects", subProjects);
     return "subprojects";

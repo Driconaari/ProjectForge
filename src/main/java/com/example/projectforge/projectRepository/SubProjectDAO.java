@@ -40,20 +40,26 @@ public class SubProjectDAO implements SubProjectRepository {
         }
     }
 
-
-    private SubProject insertSubProject(SubProject subProject) {
-        String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            setSubProjectParameters(statement, subProject);
-            statement.executeUpdate();
-            // Rest of your code...
-        } catch (SQLException e) {
-            logger.error("Error inserting subproject", e);
+private SubProject insertSubProject(SubProject subProject) throws SQLException {
+    String sql = "INSERT INTO SubProjects (subProjectName, description, deadline, parentProject) VALUES (?, ?, ?, ?)";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+        setSubProjectParameters(statement, subProject);
+        statement.executeUpdate();
+        try (ResultSet generatedKeys = statement.getGeneratedKeys()) {
+            if (generatedKeys.next()) {
+                subProject.setSubProjectID(generatedKeys.getInt(1));
+            }
+            else {
+                throw new SQLException("Creating subproject failed, no ID obtained.");
+            }
         }
-        return null;
+    } catch (SQLException e) {
+        logger.error("Error inserting subproject", e);
+        throw e; // Rethrow the exception
     }
-
+    return subProject;
+}
 
     private SubProject createSubProjectFromResultSet(ResultSet resultSet) throws SQLException {
         SubProject subProject = new SubProject();
