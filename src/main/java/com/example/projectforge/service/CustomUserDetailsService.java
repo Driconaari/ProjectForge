@@ -33,18 +33,18 @@ public class CustomUserDetailsService implements UserDetailsService {
         System.out.println("User found in the database: " + user.getUsername());
 
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if (user.getIsAdmin()) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        switch (user.getRole_id()) {
+            case 1:
+                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+                break;
+            case 2:
+                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+                break;
+            // Add more cases as needed for different roles
+            default:
+                throw new IllegalArgumentException("Invalid role_id: " + user.getRole_id());
         }
         return (UserDetails) user; // Return the user object directly
-    }
 
-    public long getUserID(int projectId) {
-        Project project = projectRepository.getProjectByProjectID(projectId);
-        if (project != null) {
-            return project.getUser_id();
-        }
-        return -1; // return -1 or throw an exception if the project is not found
     }
-//
 }

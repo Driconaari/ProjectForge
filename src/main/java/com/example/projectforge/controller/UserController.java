@@ -90,7 +90,7 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
         newUser.setUsername(registrationDto.getUsername());
         newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
         newUser.setEmail(registrationDto.getEmail());
-        newUser.setRoles(registrationDto.getRoles());
+        newUser.setRole_id(registrationDto.getRoles());
         userRepository.register(newUser);
         return "redirect:/login";
     }

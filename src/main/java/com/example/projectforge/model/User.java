@@ -1,93 +1,50 @@
 package com.example.projectforge.model;
 
 import jakarta.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 @Entity
-@Table(name = "users")
-public class User implements UserDetails {
+@Table(name = "user")
+public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id; // Changed from id to user_id
+    private int user_id;
     private String username;
-    private String email;
     private String password;
-    private String roles;
+    private int role_id;
+    private String email;
 
-    @Column(name = "is_admin")
-    private boolean isAdmin;
+    public User(int user_id, String username, String password) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+    }
 
-    // Constructors
+    public User(int user_id, String username, String password, int role_id) {
+        this.user_id = user_id;
+        this.username = username;
+        this.password = password;
+        this.role_id = role_id;
+    }
+
+    //Default constructor
     public User() {
     }
 
-    public User(Long user_id, String username, String email, String password, String roles, boolean isAdmin) {
-        this.user_id = user_id; // Changed from id to user_id
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-        this.isAdmin = isAdmin;
+    public int getUser_id() {
+        return user_id;
     }
 
-    // Getters and setters
-    public Long getUser_id() { // Changed from getId to getUser_id
-        return user_id; // Changed from id to user_id
-    }
-
-    public void setUser_id(Long user_id) { // Changed from setId to setUser_id
-        this.user_id = user_id; // Changed from id to user_id
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
     public String getUsername() {
         return username;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return false;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return false;
-    }
-
     public void setUsername(String username) {
         this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        for (String role : this.roles.split(",")) {
-            authorities.add(new SimpleGrantedAuthority(role));
-        }
-        return authorities;
     }
 
     public String getPassword() {
@@ -98,23 +55,21 @@ public class User implements UserDetails {
         this.password = password;
     }
 
-    public String getRoles() {
-        return roles;
+    public int getRole_id() {
+        return role_id;
     }
 
-    public boolean getIsAdmin() {
-        return isAdmin;
+    public void setRole_id(String role_id) {
+        this.role_id = role_id;
     }
 
-    public void setIsAdmin(boolean isAdmin) {
-        this.isAdmin = isAdmin;
-    }
+    public void setUserId(int newUserId) {
+    this.user_id = newUserId;
+}
 
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
 
-    public void setUserId(Long newUserId) {
-        this.user_id = newUserId;
-    }
+   public void setEmail(String email) {
+    this.email = email;
+}
+
 }
