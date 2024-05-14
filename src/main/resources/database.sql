@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS pct_db2;
-USE pct_db2;
+    USE repo;
 
 DROP TABLE IF EXISTS subtask;
 DROP TABLE IF EXISTS task;
@@ -17,10 +17,12 @@ CREATE TABLE user (
                       user_id INT NOT NULL AUTO_INCREMENT,
                       username VARCHAR(255) NOT NULL,
                       password VARCHAR(255) NOT NULL,
+                      email VARCHAR(255) NOT NULL,
                       role_id INT NOT NULL,
                       PRIMARY KEY (user_id),
                       FOREIGN KEY (role_id) REFERENCES role (role_id),
-                      UNIQUE (username)
+                      UNIQUE (username),
+                      UNIQUE (email)
 );
 
 CREATE TABLE project (

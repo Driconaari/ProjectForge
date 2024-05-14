@@ -113,4 +113,8 @@ public class User implements UserDetails {
     public void setRoles(String roles) {
         this.roles = roles;
     }
+
+    public void setUserId(Long newUserId) {
+        this.user_id = newUserId;
+    }
 }
