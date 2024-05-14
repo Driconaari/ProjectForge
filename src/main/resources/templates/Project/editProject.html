@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Project</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<h1 align="center">Edit Project</h1>
+
+<div>
+    <form method="post" th:action="@{/projects/{user_id}/edit/{project_id}(user_id=${user_id}, project_id=${project_id})}">
+
+        <label for="project_name">Project name:</label>
+        <input id="project_name" type="text" th:name="project_name" th:value="${project.project_name}">
+
+        <label for="project_description">Project description:</label>
+        <input id="project_description" type="text" th:name="project_description" th:value="${project.project_description}" >
+
+        <label for="task_start_date">Start Date</label>
+        <input id="task_start_date" type="date" th:field="${project.start_date}" min="2000-01-01" max="3000-12-31">
+
+        <label for="task_end_date">Start Date</label>
+        <input id="task_end_date" type="date" th:field="${project.end_date}" min="2000-01-01" max="3000-12-31">
+
+        <input type="hidden" th:field="*{project_id}" required>
+
+        <input type="hidden" th:name="user" th:value="*{user_id}" required>
+
+        <button class="btn" type="submit">Save</button>
+
+        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
+            <button type="button" class="btn">Return to projects</button>
+        </a>
+
+    </form>
+
+
+
+
+
+</div>
+</body>
+</html>
