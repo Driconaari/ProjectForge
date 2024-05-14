@@ -1,6 +1,5 @@
 package com.example.projectforge.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -8,7 +7,7 @@ import jakarta.persistence.*;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long user_id; // Changed from id to user_id
     private String username;
     private String email;
     private String password;
@@ -21,22 +20,22 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String email, String password, String roles, boolean isAdmin) {
-        this.id = id;
+    public User(Long user_id, String username, String email, String password, String roles, boolean isAdmin) {
+        this.user_id = user_id; // Changed from id to user_id
         this.username = username;
         this.email = email;
         this.password = password;
         this.roles = roles;
-        this.isAdmin = isAdmin; // Initialize new field
+        this.isAdmin = isAdmin;
     }
 
     // Getters and setters
-    public Long getId() {
-        return id;
+    public Long getUser_id() { // Changed from getId to getUser_id
+        return user_id; // Changed from id to user_id
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUser_id(Long user_id) { // Changed from setId to setUser_id
+        this.user_id = user_id; // Changed from id to user_id
     }
 
     public String getUsername() {
@@ -66,9 +65,6 @@ public class User {
     public String getRoles() {
         return roles;
     }
-
-    // Additional methods as needed such as admins and so on
-
 
     public boolean getIsAdmin() {
         return isAdmin;

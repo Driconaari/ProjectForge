@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Create Subtask</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<h1>Create Subtask</h1>
+
+<form th:action="@{/subtasks/create/{task_id}(task_id=${task_id})}" method="post"
+      th:object="${subtask}">
+
+  <div>
+    <label class="createSubtaskForm">Subtask name:</label>
+    <input type="text" th:field="*{subtask_name}" placeholder="Subtask name" required>
+  </div>
+
+  <div>
+    <label class="createSubtaskForm">Estimated hours:</label>
+    <input type="text" th:field="*{hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
+  </div>
+
+  <div>
+    <label class="createSubtaskForm">Start Date</label>
+    <input type="date" th:field="*{start_date}" th:min="${task_start_date}" th:max="${task_end_date}" required>
+  </div>
+
+  <div>
+    <label class="createSubtaskForm">End Date</label>
+    <input type="date" th:field="*{end_date}" th:min="${task_start_date}" th:max="${task_end_date}" required>
+  </div>
+
+  <div>
+    <label class="createTaskForm">Status</label>
+    <label>
+      <select name="status" id="status">
+        <option value="1">TODO</option>
+        <option value="2">In Progress</option>
+        <option value="3">Done</option>
+      </select>
+    </label>
+  </div>
+
+  <br>
+
+  <div>
+    <input type="submit" value="Create Subtask" class="btn success"/>
+    <input type="reset" value="Reset" class="btn reset"/>
+  </div>
+
+  <br>
+
+  <a th:href="@{/subtasks/{task_id}(task_id=${task_id})}">
+    <button type="button" class="btn go-back">Go Back</button>
+  </a>
+
+</form>
+
+</body>
+</html>
