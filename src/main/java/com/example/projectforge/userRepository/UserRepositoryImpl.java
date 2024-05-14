@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserRepositoryImpl implements UserRepo {
+public class UserRepositoryImpl implements UserRepository {
 
     @Autowired
     private EntityManager entityManager;
@@ -51,6 +51,32 @@ public class UserRepositoryImpl implements UserRepo {
     @Transactional
     public void register(User newUser) {
         entityManager.persist(newUser);
+    }
+
+    @Override
+    public User login(String username, String password) {
+        return null;
+    }
+
+
+    @Override
+    public boolean isUsernameTaken(String username) {
+        return false;
+    }
+
+    @Override
+    public int getUserID(int projectId) {
+        return 0;
+    }
+
+    @Override
+    public void editUser(User user, long userId) {
+
+    }
+
+    @Override
+    public User getUserFromId(long userId) {
+        return null;
     }
 
 }

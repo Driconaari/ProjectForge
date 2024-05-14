@@ -1,80 +1,90 @@
 package com.example.projectforge.model;
 
-import jakarta.persistence.*;
-import org.springframework.format.annotation.DateTimeFormat;
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
-@Entity
-@Table(name = "Projects")
 public class Project {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int projectID;
+    private int project_id;
+    private String project_name;
+    private String project_description;
+    private LocalDate start_date;
+    private LocalDate end_date;
+    private long user_id;
 
+    private double projectCalculatedTime;
 
-    @OneToMany(mappedBy = "parentProject", cascade = CascadeType.ALL)
-    private List<SubProject> subprojects;
-
-    @Column(name = "projectName", unique = true, nullable = false)
-    private String projectName;
-
-    @Column(name = "description")
-    private String description;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date deadline;
-
-
-    public void setProjectID(int projectID) {
-        this.projectID = projectID;
+    public Project(int project_id , String project_name, String project_description, LocalDate start_date, LocalDate end_date, long user_id) {
+        this.project_id = project_id;
+        this.project_name = project_name;
+        this.project_description = project_description;
+        this.user_id = user_id;
+        this.start_date = start_date;
+        this.end_date = end_date;
     }
 
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
+    //Default constructor
+    public Project() {
+
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public int getProject_id() {
+        return project_id;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public void setProject_id(int project_id) {
+        this.project_id = project_id;
     }
 
-    public String getProjectName() {
-        return projectName;
+    public String getProject_name() {
+        return project_name;
     }
 
-    public int getProjectID() {
-        return projectID;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public Date getDeadline() {
-        return deadline;
-    }
-
-    public List<SubProject> getSubprojects() {
-        return subprojects;
-    }
-
-    public void setSubprojects(List<SubProject> subprojects) {
-        this.subprojects = subprojects;
+    public void setProject_name(String project_name) {
+        this.project_name = project_name;
     }
 
 
-    public List<SubProject> getSubProjects() {
-        return this.subprojects;
+    public String getProject_description() {
+        return project_description;
     }
 
+    public void setProject_description(String project_description) {
+        this.project_description = project_description;
+    }
 
-    public void setSubProjects(List<SubProject> subProjects) {
-        this.subprojects = subProjects;
+    public LocalDate getStart_date() {
+        return start_date;
+    }
+
+    public double getProjectCalculatedTime() {
+        return projectCalculatedTime;
+    }
+
+    public void setStart_date(LocalDate start_date) {
+        this.start_date = start_date;
+    }
+
+    public LocalDate getEnd_date() {
+        return end_date;
+    }
+
+    public void setEnd_date(LocalDate end_date) {
+        this.end_date = end_date;
+    }
+
+    public long getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public void setTasks(List<Task> tasks) {
+    }
+
+    public void setProjectCalculatedTime(double projectCalculatedTime) {
+        this.projectCalculatedTime = projectCalculatedTime;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.projectforge.service;
 
-import com.example.projectforge.userRepository.UserRepo;
+import com.example.projectforge.model.Project;
+import com.example.projectforge.repository.ProjectRepository;
+import com.example.projectforge.userRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,11 +18,14 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.projectforge.model.User user = userRepo.findByUsername(username);
+    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+        com.example.projectforge.model.User user = userRepository.findById((long) Integer.parseInt(userId));
         if (user == null) {
             System.out.println("User not found in the database");
             throw new UsernameNotFoundException("User not found");
@@ -31,24 +36,15 @@ public class CustomUserDetailsService implements UserDetailsService {
         if (user.getIsAdmin()) {
             authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
         }
-        return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
-
+        return (UserDetails) user; // Return the user object directly
     }
-}
 
-//old metod
-    /*
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        com.example.projectforge.model.User user = userRepository.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+    public long getUserID(int projectId) {
+        Project project = projectRepository.getProjectByProjectID(projectId);
+        if (project != null) {
+            return project.getUser_id();
         }
-
-        List<GrantedAuthority> authorities = Arrays.stream(user.getRoles().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
-
-        return new User(user.getUsername(), user.getPassword(), authorities);
+        return -1; // return -1 or throw an exception if the project is not found
     }
-
-     */
+//
+}

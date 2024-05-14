@@ -1,89 +1,173 @@
 package com.example.projectforge.controller;
 
-
 import com.example.projectforge.model.Project;
-import com.example.projectforge.model.SubProject;
-import com.example.projectforge.projectRepository.ProjectDAO;
-import com.example.projectforge.projectRepository.SubProjectDAO;
-import com.example.projectforge.projectRepository.SubProjectRepository;
-import jakarta.transaction.Transactional;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import com.example.projectforge.model.Task;
+import com.example.projectforge.service.CustomUserDetailsService;
+import com.example.projectforge.service.ProjectService;
+import com.example.projectforge.service.TaskService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import com.example.projectforge.projectRepository.ProjectRepository;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import java.sql.SQLException;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 import java.util.List;
 
-
-@Controller
+@RequestMapping(path = "")
+@org.springframework.stereotype.Controller
 public class ProjectController {
 
-    //logger to log the data
-    private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
+    private final ProjectService projectService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final TaskService taskService;
 
-    @Autowired
-    private ProjectRepository projectRepository;
-
-    @Autowired
-    private SubProjectRepository subProjectRepository;
-
-    @Autowired
-    private ProjectDAO projectDAO;
-
-    @Autowired
-    private SubProjectDAO subProjectDAO;
-
-
-    //showing the data with sting from the model class on the index, both projects and subprojecs
-    // showing the projectslist in the projects.html
-    @GetMapping("/")
-    public String index(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
-
-        //showing the subprojects in the index.html
-        List<SubProject> subProjects = subProjectRepository.findAll();
-        model.addAttribute("subProjects", subProjects);
-
-        return "index";
+    public ProjectController(ProjectService projectService, CustomUserDetailsService customUserDetailsService, TaskService taskService) {
+        this.projectService = projectService;
+        this.customUserDetailsService = customUserDetailsService;
+        this.taskService = taskService;
     }
 
-    @GetMapping("/projects")
-    public String showProjects(Model model) {
-        Iterable<Project> projects = projectRepository.findAll();
-        for (Project project : projects) {
-            logger.info("Project: {}", project);
-            logger.info("SubProjects: {}", project.getSubprojects());
+    public boolean isSignedIn(HttpSession session) {
+        return session.getAttribute("user") != null;
+    }
+
+    @GetMapping("/testCreateProject")
+public String testCreateProjectPage() {
+    return "Project/createProject"; // This should be the name of your create project view
+}
+
+    //Get projects from user_id
+    @GetMapping(path = "projects")
+    public String showProjects(Model model, HttpSession session) {
+        long user_id = getUserIdFromSession(session);
+        if (user_id != -1) {
+            List<Project> projects = projectService.getProjectsByID(user_id);
+
+            for (Project project : projects) {
+                int project_id = project.getProject_id();
+                List<Task> tasks = taskService.getTaskByProID(project_id);
+
+                double projectCalculatedTime = 0;
+
+                for (Task task : tasks) {
+                    double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                    task.setCalculatedTime(taskCalculatedTime);
+                    projectCalculatedTime += taskCalculatedTime;
+                }
+
+                project.setTasks(tasks);
+                project.setProjectCalculatedTime(projectCalculatedTime);
+            }
+
+            model.addAttribute("projects", projects);
+            return "Project/projects";
         }
-        model.addAttribute("projects", projects);
-        return "projects";
+        return "redirect:/sessionTimeout";
+
     }
 
-    //create project page
-    @GetMapping("/createProject")
-    public String showCreateProjectPage() {
-        return "createProject";
+   private long getUserIdFromSession(HttpSession session) {
+    com.example.projectforge.model.User user = (com.example.projectforge.model.User) session.getAttribute("user");
+    if (user != null) {
+        return user.getUser_id();
+    }
+    return -1; // return -1 or throw an exception if the user is not signed in
+}
+
+    //Create project page
+@GetMapping("/projects/create/{user_id}")
+public String showCreateProjectForm(@PathVariable long user_id, HttpSession session, Model model) {
+    // Get the user_id of the currently logged-in user
+    long signedInUserId = getUserIdFromSession(session);
+
+    // Check if the user_id from the path variable matches the signed-in user's id
+    if (user_id == signedInUserId) {
+        // If they match, proceed with the project creation
+        model.addAttribute("project", new Project());  // Adds an empty project to the model
+        return "Project/createProject";  // Returns the view name for Thymeleaf to render
+    } else {
+        // If they don't match, return an error or redirect to an error page
+        return "redirect:/error";
+    }
+}
+
+
+
+    //Create project
+@PostMapping(path = "projects/create/{user_id}")
+public String createProject(@ModelAttribute("project") Project project, @PathVariable long user_id, HttpSession session) {
+    // Get the user_id of the currently logged-in user
+    long signedInUserId = getUserIdFromSession(session);
+
+    // Check if the user_id from the path variable matches the signed-in user's id
+    if (user_id == signedInUserId) {
+        // If they match, proceed with the project creation
+        projectService.createProject(project, user_id);
+        return "redirect:/projects/" + user_id;
+    } else {
+        // If they don't match, return an error or redirect to an error page
+        return "redirect:/error";
+    }
+}
+
+
+    //Edit project page
+    @GetMapping(path = "/projects/{user_id}/edit/{project_id}")
+    public String showEditProject(Model model, @PathVariable int project_id, @PathVariable int user_id, HttpSession session) {
+
+        if (isSignedIn(session)) {
+            Project project = projectService.getProjectByIDs(project_id, user_id);
+            model.addAttribute("project", project);
+            model.addAttribute("project_id", project_id);
+            model.addAttribute("user_id", user_id);
+            return "Project/editProject";
+        }
+        return "redirect:/sessionTimeout";
+    }
+
+    //Edit project
+    @PostMapping(path = "/projects/{user_id}/edit/{project_id}")
+    public String editProject(@PathVariable int project_id, @PathVariable int user_id, @ModelAttribute Project updatedProject) {
+        Project existingProject = projectService.getProjectByIDs(project_id, user_id);
+
+        existingProject.setProject_name(updatedProject.getProject_name());
+        existingProject.setProject_description(updatedProject.getProject_description());
+
+        // Check and update start_date if not null
+        LocalDate updatedStartDate = updatedProject.getStart_date();
+        if (updatedStartDate != null) {
+            existingProject.setStart_date(updatedStartDate);
+        }
+
+        // Check and update end_date if not null
+        LocalDate updatedEndDate = updatedProject.getEnd_date();
+        if (updatedEndDate != null) {
+            existingProject.setEnd_date(updatedEndDate);
+        }
+
+        projectService.editProject(existingProject, project_id, user_id);
+        return "redirect:/projects/" + user_id;
     }
 
 
-    //projects
-    @GetMapping("/addProject")
-    public String addProject() {
-        return "addProject";
+    //Delete project page
+    @GetMapping(path = "/deleteProject/{project_id}")
+    public String deleteProject(@PathVariable("project_id") int project_id, Model model, HttpSession session) {
+
+        if (isSignedIn(session)) {
+            model.addAttribute("project_id", project_id);
+            Project project = projectService.getProjectByProjectID(project_id);
+            model.addAttribute("project", project);
+            return "Project/deleteProject";
+        }
+        return "redirect:/sessionTimeout";
     }
 
-    //added sqlexception which is really nice to locate wrong DAO
-    @PostMapping("/addProject")
-    @Transactional
-    public String addProject(@ModelAttribute Project project) throws SQLException {
-        logger.info("Received project: {}", project);
-        projectRepository.saveProject(project);
-        logger.info("Project saved: {}", project);
-        return "redirect:/projects";
+    //Delete Project
+    @PostMapping(path = "/deleteProject/{project_id}")
+    public String removeProject(@PathVariable("project_id") int project_id, Model model) {
+        long user_id = customUserDetailsService.getUserID(project_id);
+        projectService.deleteProject(project_id);
+        return "redirect:/projects/" + user_id;
     }
 
 
