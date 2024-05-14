@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public class UserRepositoryImpl implements UserRepo {
 
-    @Autowire   d
+    @Autowired
     private EntityManager entityManager;
 
     @Override
