@@ -1,18 +1,17 @@
 package com.example.projectforge.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "SubProjects")
-public class SubProject {
+@Table(name = "Tasks")
+public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "SubProjectID")
-    private int subProjectID;
+    @Column(name = "TaskID")
+    private int taskID;
 
-    @Column(name = "SubProjectName")
-    private String subProjectName;
+    @Column(name = "TaskName")
+    private String taskName;
 
     @Column(name = "Description")
     private String description;
@@ -21,20 +20,20 @@ public class SubProject {
     private String deadline;
 
     // Getters and Setters
-    public int getSubProjectID() {
-        return subProjectID;
+    public int getTaskID() {
+        return taskID;
     }
 
-    public void setSubProjectID(int subProjectID) {
-        this.subProjectID = subProjectID;
+    public void setTaskID(int taskID) {
+        this.taskID = taskID;
     }
 
-    public String getSubProjectName() {
-        return subProjectName;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setSubProjectName(String subProjectName) {
-        this.subProjectName = subProjectName;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getDescription() {

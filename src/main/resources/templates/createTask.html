@@ -2,22 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>create new Task</title>
+    <title>Create New Task</title>
 </head>
 <body>
-    <h1>Task</h1>
-
-    <form action="/createTask" method="post">
-        <div style="margin-top: 100px">
-            <label for="taskName">Task Name:</label><br>
-            <input type="text" id="taskName" name="taskName" required><br>
-            <label for="description">Description:</label><br>
-            <textarea id="description" name="description" required></textarea><br>
-            <label for="deadline">Deadline:</label><br>
-            <input type="date" id="deadline" name="deadline" required><br><br>
-            <button type="submit">Create Task</button>
-        </div>
-    </form>
-
+<h1>Create New Task</h1>
+<form action="/createTask" method="post">
+    <div style="margin-top: 100px">
+        <label for="taskName">Task Name:</label><br>
+        <input type="text" id="taskName" name="taskName" required><br>
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description" required></textarea><br>
+        <label for="deadline">Deadline:</label><br>
+        <input type="date" id="deadline" name="deadline" required><br><br>
+        <button type="submit">Create Task</button>
+    </div>
+</form>
 </body>
 </html>

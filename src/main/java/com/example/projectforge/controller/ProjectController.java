@@ -1,8 +1,14 @@
 package com.example.projectforge.controller;
 
 import com.example.projectforge.dto.ProjectDto;
+import com.example.projectforge.dto.SubProjectDto;
+import com.example.projectforge.dto.TaskDto;
+import com.example.projectforge.dto.SubTaskDto;
 import com.example.projectforge.service.ProjectService;
-import com.example.projectforge.projectRepository.ProjectRepository; // Add this import
+import com.example.projectforge.service.SubProjectService;
+import com.example.projectforge.service.TaskService;
+import com.example.projectforge.service.SubTaskService;
+import com.example.projectforge.projectRepository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,6 +25,15 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
+    @Autowired
+    private SubProjectService subProjectService;
+
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private SubTaskService subTaskService;
+
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("projects", projectRepository.findAll());
@@ -31,40 +46,56 @@ public class ProjectController {
     }
 
     @GetMapping("/projectMenu")
-    public String showprojectMenuPage() {
-        return "projectMenu"; // Return the name of the HTML file (without the extension)
+    public String showProjectMenuPage() {
+        return "projectMenu";
     }
 
     @GetMapping("/createProject")
     public String showCreateProjectPage(Model model) {
         model.addAttribute("project", new ProjectDto());
-        return "createProject"; // Return the name of the HTML file (without the extension)
+        return "createProject";
     }
 
     @PostMapping("/createProject")
     public String createProject(@ModelAttribute("project") ProjectDto projectDto) {
-        // Ensure projectService is not null
-        if(projectService != null) {
-            projectService.createProject(projectDto);
-            return "redirect:/"; // Redirect to the home page or any other appropriate page
-        } else {
-            // Handle the case when projectService is null
-            return "error"; // Redirect to an error page
-        }
+        projectService.createProject(projectDto);
+        return "redirect:/";
     }
 
     @GetMapping("/createSubProject")
-    public String showCreateSubProjectPage() {
-        return "createSubProject"; // Return the name of the HTML file (without the extension)
+    public String showCreateSubProjectPage(Model model) {
+        model.addAttribute("subProject", new SubProjectDto());
+        return "createSubProject";
+    }
+
+    @PostMapping("/createSubProject")
+    public String createSubProject(@ModelAttribute("subProject") SubProjectDto subProjectDto) {
+        subProjectService.createSubProject(subProjectDto);
+        return "redirect:/";
     }
 
     @GetMapping("/createTask")
-    public String showCreateTaskPage() {
-        return "createTask"; // Return the name of the HTML file (without the extension)
+    public String showCreateTaskPage(Model model) {
+        model.addAttribute("task", new TaskDto());
+        return "createTask";
     }
 
+    @PostMapping("/createTask")
+    public String createTask(@ModelAttribute("task") TaskDto taskDto) {
+        taskService.createTask(taskDto);
+        return "redirect:/";
+    }
+
+
     @GetMapping("/createSubTask")
-    public String showCreateSubTaskPage() {
-        return "createSubTask"; // Return the name of the HTML file (without the extension)
+    public String showCreateSubTaskPage(Model model) {
+        model.addAttribute("subTask", new SubTaskDto());
+        return "createSubTask";
+    }
+
+    @PostMapping("/createSubTask")
+    public String createSubTask(@ModelAttribute("subTask") SubTaskDto subTaskDto) {
+        subTaskService.createSubTask(subTaskDto);
+        return "redirect:/";
     }
 }
