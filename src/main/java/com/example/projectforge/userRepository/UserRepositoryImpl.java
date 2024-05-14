@@ -15,13 +15,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private EntityManager entityManager;
 
-    @Override
+   @Override
 public User save(User user) {
     // Get the highest user_id in the database
-    Long maxUserId = entityManager.createQuery("SELECT MAX(u.userId) FROM User u", Long.class).getSingleResult();
+    Long maxUserId = entityManager.createQuery("SELECT MAX(u.user_id) FROM User u", Long.class).getSingleResult();
 
     // If there are no users in the database, start at 1, otherwise increment the highest user_id
-    Long newUserId = maxUserId == null ? 1 : maxUserId + 1;
+    int newUserId = maxUserId == null ? 1 : maxUserId.intValue() + 1;
 
     // Set the new user's ID
     user.setUserId(newUserId);
@@ -33,7 +33,7 @@ public User save(User user) {
 }
 
     @Override
-    public User findById(Long id) {
+    public User findById(String id) {
         return entityManager.find(User.class, id);
     }
 

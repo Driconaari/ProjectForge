@@ -219,4 +219,27 @@ public class ProjectRepository implements IProjectRepository {
         }
     }
 
+  public Project findById(int projectId) {
+    Project project = null;
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM project WHERE project_id = ?;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, projectId);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            String project_name = rs.getString("project_name");
+            String project_description = rs.getString("project_description");
+            long user_id = rs.getLong("user_id");
+            LocalDate start_date = rs.getDate("start_date").toLocalDate();
+            LocalDate end_date = rs.getDate("end_date").toLocalDate();
+
+            project = new Project(projectId, project_name, project_description, start_date, end_date, user_id);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return project;
+}
 }

@@ -23,28 +23,36 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Autowired
     private ProjectRepository projectRepository;
 
-    @Override
-    public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        com.example.projectforge.model.User user = userRepository.findById((long) Integer.parseInt(userId));
-        if (user == null) {
-            System.out.println("User not found in the database");
-            throw new UsernameNotFoundException("User not found");
-        }
-        System.out.println("User found in the database: " + user.getUsername());
-
-        List<GrantedAuthority> authorities = new ArrayList<>();
-        switch (user.getRole_id()) {
-            case 1:
-                authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-                break;
-            case 2:
-                authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-                break;
-            // Add more cases as needed for different roles
-            default:
-                throw new IllegalArgumentException("Invalid role_id: " + user.getRole_id());
-        }
-        return (UserDetails) user; // Return the user object directly
-
+@Override
+public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+    com.example.projectforge.model.User user = userRepository.findById(userId);
+    if (user == null) {
+        System.out.println("User not found in the database");
+        throw new UsernameNotFoundException("User not found");
     }
+    System.out.println("User found in the database: " + user.getUsername());
+
+List<GrantedAuthority> authorities = new ArrayList<>();
+switch (user.getRole_id()) {
+    case "1":
+        authorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+        break;
+    case "2":
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+        break;
+    // Add more cases as needed for different roles
+    default:
+        throw new IllegalArgumentException("Invalid role_id: " + user.getRole_id());
+}
+user.setAuthorities(authorities); // Set the authorities to the user
+return user; // Return the user object directly
+}
+
+    public long getUserID(int projectId) {
+    Project project = projectRepository.findById(projectId);
+    if (project != null) {
+        return project.getUser_id();
+    }
+    return -1; // return -1 or throw an exception if the project is not found
+}
 }
