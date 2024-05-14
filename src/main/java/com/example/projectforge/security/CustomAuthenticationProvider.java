@@ -1,7 +1,6 @@
 package com.example.projectforge.security;
 
 import com.example.projectforge.service.CustomUserDetailsService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +21,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     private static final Logger log = LoggerFactory.getLogger(CustomAuthenticationProvider.class);
 
     @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private CustomUserDetailsService customUserDetailsService;
 
 @Override
 public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -30,7 +29,7 @@ public Authentication authenticate(Authentication authentication) throws Authent
     if (authentication instanceof UsernamePasswordAuthenticationToken) {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
         if (userDetails == null) {
             throw new UsernameNotFoundException("User not found");
         }
