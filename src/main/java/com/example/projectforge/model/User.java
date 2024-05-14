@@ -1,6 +1,7 @@
 package com.example.projectforge.model;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -8,6 +9,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Transactional
 @Table(name = "user")
 public class User implements UserDetails {
 
