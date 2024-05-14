@@ -23,9 +23,10 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf ->csrf.disable())
                // .requiresChannel(channel -> channel.anyRequest().requiresSecure())// Enforces HTTPS //  ensures that the information exchanged between your website and its visitors is encrypted and won't be intercepted by third parties.
                 .authorizeRequests((requests) -> requests
-                        .requestMatchers("/login", "register").permitAll()
+                        .requestMatchers("/login", "register", "/createProject").permitAll()
                         .requestMatchers("/homepage").hasRole("USER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         //ensure that all other requests are authenticated

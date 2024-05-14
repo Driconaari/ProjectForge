@@ -11,7 +11,9 @@ public class Project {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ProjectID")
     private int projectID;
+
     private String projectName;
     private String description;
     private Date deadline;
