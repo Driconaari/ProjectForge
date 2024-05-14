@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "user")
 public class User implements UserDetails {
 
-    private List<GrantedAuthority> authorities;
-
+@ElementCollection
+private List<String> authorities;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
@@ -105,10 +105,9 @@ public class User implements UserDetails {
 }
 
 
-public void setAuthorities(List<GrantedAuthority> authorities) {
+public void setAuthorities(List<String> authorities) {
     this.authorities = authorities;
 }
-
 public long getUserId() {
     return this.user_id;
 }
