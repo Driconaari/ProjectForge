@@ -118,4 +118,8 @@ public class User implements UserDetails {
     public String getEmail() {
         return this.email;
     }
+
+    public Object getRoleId() {
+        return this.role_id;
+    }
 }

@@ -27,4 +27,6 @@ public interface UserRepository {
     void editUser(User user, long userId);
 
     User getUserFromId(long userId);
+
+    String findRoleNameByRoleId(String roleId);
 }

@@ -2,6 +2,7 @@ package com.example.projectforge.userRepository;
 
 import com.example.projectforge.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -19,7 +20,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private RowMapper<User> rowMapper = new RowMapper<User>() {
+    private final RowMapper<User> rowMapper = new RowMapper<User>() {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
@@ -31,21 +32,23 @@ public class UserRepositoryImpl implements UserRepository {
         }
     };
 
-    @Override
-    public User save(User user) {
-        String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
-        try {
-            int rowsAffected = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
-            if (rowsAffected > 0) {
-                System.out.println("User saved: " + user.getUsername());
-            } else {
-                System.out.println("No rows affected. User was not saved.");
-            }
-        } catch (Exception e) {
-            System.out.println("Error saving user: " + e.getMessage());
+@Override
+public User save(User user) {
+    String sql = "INSERT INTO user (username, password, email, role_id) VALUES (?, ?, ?, ?)";
+    try {
+        // Set role_id as "ROLE_USER" as standard
+        String roleId = "ROLE_USER";
+        int rowsAffected = jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail(), roleId);
+        if (rowsAffected > 0) {
+            System.out.println("User saved: " + user.getUsername());
+        } else {
+            System.out.println("No rows affected. User was not saved.");
         }
-        return user;
+    } catch (Exception e) {
+        System.out.println("Error saving user: " + e.getMessage());
     }
+    return user;
+}
 
     @Override
     public User findById(String id) {
@@ -104,4 +107,14 @@ public class UserRepositoryImpl implements UserRepository {
         // Implement user retrieval by ID logic here
         return null;
     }
+
+    @Override
+public String findRoleNameByRoleId(String roleId) {
+    String sql = "SELECT role_name FROM role WHERE role_id = ?";
+    try {
+        return jdbcTemplate.queryForObject(sql, new Object[]{roleId}, String.class);
+    } catch (EmptyResultDataAccessException e) {
+        return null;
+    }
+}
 }
