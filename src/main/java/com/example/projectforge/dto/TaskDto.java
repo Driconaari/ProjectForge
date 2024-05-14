@@ -1,17 +1,17 @@
 package com.example.projectforge.dto;
 
-public class SubProjectDto {
-    private String subProjectName;
+public class TaskDto {
+    private String taskName;
     private String description;
     private String deadline;
 
     // Getters and Setters
-    public String getSubProjectName() {
-        return subProjectName;
+    public String getTaskName() {
+        return taskName;
     }
 
-    public void setSubProjectName(String subProjectName) {
-        this.subProjectName = subProjectName;
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
     }
 
     public String getDescription() {

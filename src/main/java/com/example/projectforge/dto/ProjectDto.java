@@ -1,29 +1,32 @@
 package com.example.projectforge.dto;
 
-import java.util.Date;
-
 public class ProjectDto {
-    private int projectID;
     private String projectName;
     private String description;
-    private Date deadline;
+    private String deadline; // Ensure this matches the input type in your HTML form
 
-
-
-
-    public int getProjectID() {
-        return projectID;
-    }
-
+    // Getters and Setters
     public String getProjectName() {
         return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public java.sql.Date getDeadline() {
-        return (java.sql.Date) deadline;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
     }
 }

@@ -3,28 +3,30 @@ package com.example.projectforge.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
-
 @Entity
 @Table(name = "Projects")
 public class Project {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ProjectID")
     private int projectID;
 
+    @Column(name = "ProjectName")
     private String projectName;
-    private String description;
-    private Date deadline;
 
-    // Getters and setters
+    @Column(name = "Description")
+    private String description;
+
+    @Column(name = "Deadline")
+    private String deadline;
+
+    // Getters and Setters
     public int getProjectID() {
         return projectID;
     }
 
-    public void setProjectID(int projectId) {
-        this.projectID = projectId;
+    public void setProjectID(int projectID) {
+        this.projectID = projectID;
     }
 
     public String getProjectName() {
@@ -43,11 +45,11 @@ public class Project {
         this.description = description;
     }
 
-    public Date getDeadline() {
+    public String getDeadline() {
         return deadline;
     }
 
-    public void setDeadline(Date deadline) {
+    public void setDeadline(String deadline) {
         this.deadline = deadline;
     }
 }
