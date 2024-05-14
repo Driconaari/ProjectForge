@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
         com.example.projectforge.model.User user = userRepository.findById(userId);
-        if (user == null) {
+        if (user != null) {
             System.out.println("User not found in the database");
             throw new UsernameNotFoundException("User not found");
         }

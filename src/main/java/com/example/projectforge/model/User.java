@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name = "user")
 public class User implements UserDetails {
 
-@ElementCollection
-private List<String> authorities;
+    @ElementCollection
+    private List<String> authorities;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long user_id;
@@ -96,23 +96,24 @@ private List<String> authorities;
     }
 
     public void setUserId(long newUserId) {
-    this.user_id = newUserId;
-}
+        this.user_id = newUserId;
+    }
 
 
-   public void setEmail(String email) {
-    this.email = email;
-}
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
 
-public void setAuthorities(List<String> authorities) {
-    this.authorities = authorities;
-}
-public long getUserId() {
-    return this.user_id;
-}
+    public void setAuthorities(List<String> authorities) {
+        this.authorities = authorities;
+    }
 
-   public String getEmail() {
-    return this.email;
-}
+    public long getUserId() {
+        return this.user_id;
+    }
+
+    public String getEmail() {
+        return this.email;
+    }
 }

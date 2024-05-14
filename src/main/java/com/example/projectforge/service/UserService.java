@@ -2,10 +2,12 @@ package com.example.projectforge.service;
 
 import com.example.projectforge.model.User;
 import com.example.projectforge.userRepository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Transactional
 public class UserService {
 
     private final UserRepository userRepository;
@@ -19,7 +21,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
     //Sign in
-    public User signIn(String username, String password){
+    public User login(String username, String password){
         return userRepository.login(username, password);
     }
 

@@ -31,12 +31,17 @@ public class UserRepositoryImpl implements UserRepository {
         }
     };
 
-    @Override
-    public User save(User user) {
-        String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+ @Override
+public User save(User user) {
+    String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+    try {
         jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
-        return user;
+        System.out.println("User saved: " + user.getUsername());
+    } catch (Exception e) {
+        System.out.println("Error saving user: " + e.getMessage());
     }
+    return user;
+}
 
     @Override
     public User findById(String id) {

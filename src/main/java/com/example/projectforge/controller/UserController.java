@@ -84,13 +84,13 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
         return "User/register";
     }
 
-  @PostMapping("/register")
+@PostMapping("/register")
 public String register(@ModelAttribute("user") UserRegistrationDTO registrationDto) {
     User newUser = new User();
     newUser.setUsername(registrationDto.getUsername());
     newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
     newUser.setEmail(registrationDto.getEmail());
-    userRepository.register(newUser);
+    userRepository.save(newUser);
     return "redirect:/login";
 }
 
