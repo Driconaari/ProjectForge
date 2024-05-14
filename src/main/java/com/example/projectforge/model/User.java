@@ -15,7 +15,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int user_id;
+    private long user_id;
     private String username;
     private String password;
     private String role_id;
@@ -38,11 +38,11 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public int getUser_id() {
+    public long getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUser_id(long user_id) {
         this.user_id = user_id;
     }
 
@@ -95,7 +95,7 @@ public class User implements UserDetails {
         this.role_id = role_id;
     }
 
-    public void setUserId(int newUserId) {
+    public void setUserId(long newUserId) {
     this.user_id = newUserId;
 }
 
@@ -109,4 +109,11 @@ public void setAuthorities(List<GrantedAuthority> authorities) {
     this.authorities = authorities;
 }
 
-    }
+public long getUserId() {
+    return this.user_id;
+}
+
+   public String getEmail() {
+    return this.email;
+}
+}

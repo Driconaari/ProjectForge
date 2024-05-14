@@ -1,94 +1,98 @@
 package com.example.projectforge.userRepository;
 
 import com.example.projectforge.model.User;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.NoResultException;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
+    //In this code, JdbcTemplate is used to execute SQL queries.
+    // The RowMapper is used to map the result of a query to a User object.
+    // You'll need to implement the rest of the methods in a similar way.
     @Autowired
-    private EntityManager entityManager;
+    private JdbcTemplate jdbcTemplate;
 
-   @Override
-public User save(User user) {
-    // Get the highest user_id in the database
-    Long maxUserId = entityManager.createQuery("SELECT MAX(u.user_id) FROM User u", Long.class).getSingleResult();
+    private RowMapper<User> rowMapper = new RowMapper<User>() {
+        @Override
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
+            User user = new User();
+            user.setUserId(rs.getLong("user_id"));
+            user.setUsername(rs.getString("username"));
+            user.setPassword(rs.getString("password"));
+            user.setEmail(rs.getString("email"));
+            return user;
+        }
+    };
 
-    // If there are no users in the database, start at 1, otherwise increment the highest user_id
-    int newUserId = maxUserId == null ? 1 : maxUserId.intValue() + 1;
-
-    // Set the new user's ID
-    user.setUserId(newUserId);
-
-    // Persist the new user
-    entityManager.persist(user);
-
-    return user;
-}
+    @Override
+    public User save(User user) {
+        String sql = "INSERT INTO user (username, password, email) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, user.getUsername(), user.getPassword(), user.getEmail());
+        return user;
+    }
 
     @Override
     public User findById(String id) {
-        return entityManager.find(User.class, id);
+        String sql = "SELECT * FROM user WHERE user_id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
     }
 
     @Override
     public List<User> findAll() {
-        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
+        String sql = "SELECT * FROM user";
+        return jdbcTemplate.query(sql, rowMapper);
     }
 
     @Override
     public void delete(User user) {
-        entityManager.remove(user);
+        String sql = "DELETE FROM user WHERE user_id = ?";
+        jdbcTemplate.update(sql, user.getUserId());
     }
 
     @Override
     public User findByUsername(String username) {
-        try {
-            return entityManager.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class)
-                    .setParameter("username", username)
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
+        String sql = "SELECT * FROM user WHERE username = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{username}, rowMapper);
     }
 
     @Override
-    @Transactional
     public void register(User newUser) {
-        entityManager.persist(newUser);
+        save(newUser);
     }
 
     @Override
     public User login(String username, String password) {
+        // Implement login logic here
         return null;
     }
 
-
     @Override
     public boolean isUsernameTaken(String username) {
+        // Implement username check logic here
         return false;
     }
 
     @Override
     public int getUserID(int projectId) {
+        // Implement user ID retrieval logic here
         return 0;
     }
 
     @Override
     public void editUser(User user, long userId) {
-
+        // Implement user editing logic here
     }
 
     @Override
     public User getUserFromId(long userId) {
+        // Implement user retrieval by ID logic here
         return null;
     }
-
 }
-
