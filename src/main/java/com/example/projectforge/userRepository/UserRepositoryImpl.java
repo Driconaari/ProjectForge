@@ -49,12 +49,12 @@ public User save(User user) {
     }
     return user;
 }
-
 @Override
 public User findById(String id) {
     String sql = "SELECT * FROM user WHERE user_id = ?";
     try {
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+        int userId = Integer.parseInt(id);
+        return jdbcTemplate.queryForObject(sql, new Object[]{userId}, rowMapper);
     } catch (EmptyResultDataAccessException e) {
         return null;
     }
@@ -84,10 +84,14 @@ public User findById(String id) {
     }
 
     @Override
-    public User login(String username, String password) {
-        // Implement login logic here
+public User login(String username, String password) {
+    String sql = "SELECT * FROM user WHERE username = ? AND password = ?";
+    try {
+        return jdbcTemplate.queryForObject(sql, new Object[]{username, password}, rowMapper);
+    } catch (EmptyResultDataAccessException e) {
         return null;
     }
+}
 
     @Override
     public boolean isUsernameTaken(String username) {
