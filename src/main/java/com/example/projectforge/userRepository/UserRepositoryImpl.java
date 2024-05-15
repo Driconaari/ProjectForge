@@ -50,11 +50,15 @@ public User save(User user) {
     return user;
 }
 
-    @Override
-    public User findById(String id) {
-        String sql = "SELECT * FROM user WHERE user_id = ?";
+@Override
+public User findById(String id) {
+    String sql = "SELECT * FROM user WHERE user_id = ?";
+    try {
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, rowMapper);
+    } catch (EmptyResultDataAccessException e) {
+        return null;
     }
+}
 
     @Override
     public List<User> findAll() {
