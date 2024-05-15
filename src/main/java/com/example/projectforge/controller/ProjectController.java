@@ -36,14 +36,15 @@ public class ProjectController {
     }
 
     // Utilize Spring Security to get the authenticated user
-    private Long getAuthenticatedUserId() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            // Assuming the principal object holds the user ID
-            return ((User) authentication.getPrincipal()).getId();
-        }
-        return null; // or throw new AuthenticationException("User not authenticated");
+private Long getAuthenticatedUserId() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication != null && authentication.isAuthenticated()) {
+        // Assuming the username field holds the user ID
+        return Long.parseLong(authentication.getName());
     }
+    return null; // or throw new AuthenticationException("User not authenticated");
+}
+
     public boolean isSignedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
