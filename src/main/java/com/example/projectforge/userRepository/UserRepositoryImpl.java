@@ -116,13 +116,13 @@ public User login(String username, String password) {
         return null;
     }
 
-    @Override
+  @Override
 public String findRoleNameByRoleId(String roleId) {
     String sql = "SELECT role_name FROM role WHERE role_id = ?";
     try {
         return jdbcTemplate.queryForObject(sql, new Object[]{roleId}, String.class);
     } catch (EmptyResultDataAccessException e) {
-        return null;
+        return "ROLE_USER"; // default role name
     }
 }
 }
