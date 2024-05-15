@@ -1,5 +1,5 @@
 CREATE DATABASE IF NOT EXISTS pct_db2;
-    USE repo;
+USE eksamen;
 
 DROP TABLE IF EXISTS subtask;
 DROP TABLE IF EXISTS task;
@@ -13,26 +13,15 @@ CREATE TABLE role (
                       PRIMARY KEY (role_id)
 );
 
-create table user
-(
-    user_id  int auto_increment
-        primary key,
-    username varchar(255) not null,
-    password varchar(255) not null,
-    email    varchar(255) not null,
-    role_id  int          not null,
-    constraint email
-        unique (email),
-    constraint username
-        unique (username),
-    constraint user_ibfk_1
-        foreign key (role_id) references role (role_id)
+CREATE TABLE user (
+                      user_id INT NOT NULL AUTO_INCREMENT,
+                      username VARCHAR(255) NOT NULL,
+                      password VARCHAR(255) NOT NULL,
+                      role_id INT NOT NULL,
+                      PRIMARY KEY (user_id),
+                      FOREIGN KEY (role_id) REFERENCES role (role_id),
+                      UNIQUE (username)
 );
-
-create index role_id
-    on user (role_id);
-
-
 
 CREATE TABLE project (
                          project_id INT NOT NULL AUTO_INCREMENT,
@@ -68,10 +57,3 @@ CREATE TABLE subtask (
                          PRIMARY KEY (subtask_id),
                          FOREIGN KEY (task_id) REFERENCES task (task_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
-
-create table user_authorities
-(
-    user_user_id bigint       not null,
-    authorities  varchar(255) null
-);
-
