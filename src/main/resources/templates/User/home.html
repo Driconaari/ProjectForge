@@ -13,17 +13,14 @@
         <a th:href="@{/logout}" button class="btnlogin-popup">Sign out</a>
     </nav>
 </header>
-<h1>Login successful</h1>
+<h1>Sign in successful</h1>
 <h3>
-    <a th:href="@{/projects/create}">
-        <button type="button" class="btn">Create Project</button>
-    </a>
     <a th:href="@{/projects/{organization_id}(organization_id=${user_id})}">
         <button type="button" class="btn">See current projects</button>
     </a>
-    <a th:href="@{/testPage}">
-    <button type="button" class="btn">Test Project</button>
-</a>
+    <!--  <a th:href="@{/projects/create/{user_id}(user_id=${user_id})}">
+          <button type="button" class ="btn">See Employees</button>
+      </a>-->
 </h3>
 
 </body>

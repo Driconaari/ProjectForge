@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<header>
+    <div class="logo"></div>
+</header>
+
+<h1 style="font-weight: bolder">Welcome to ProTool</h1>
+
+<div>
+    <a th:href="@{/signin}">
+        <button type="button" class="btn">Sign in</button>
+    </a>
+
+    <a th:href="@{/signup}">
+        <button type="button" class="btn">Create account</button>
+    </a>
+</div>
+
+</body>
+</html>

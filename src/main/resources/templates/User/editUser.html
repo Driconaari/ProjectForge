@@ -9,7 +9,7 @@
 <body>
 
 <form method="post" th:action="@{/editUser/{user_id}(user_id=${user.user_id})}">
-    <h1 class="login1">Edit user</h1>
+    <h1 class="loginh1">Edit user</h1>
 
     <label for="username">Username:</label>
     <input id="username" type="text" th:name="username" th:value="${user.username}" required>
