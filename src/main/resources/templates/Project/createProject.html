@@ -12,8 +12,8 @@
 
     <br>
 
-    <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post"
-          th:object="${project}">
+<form th:action="@{/projects/create}" method="post" th:object="${project}">
+
 
         <div class="createProjectForm">
             <label class="col-createProject label">Project name:</label>
