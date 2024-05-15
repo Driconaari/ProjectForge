@@ -40,7 +40,7 @@ public class UserController {
         return "/index";
     }
 
-    /*
+
     @GetMapping("/")
     public String showIndex(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -52,7 +52,7 @@ public class UserController {
         }
     }
 
-     */
+/*
 
     @GetMapping("/login")
 public String isUserConnected(HttpSession session, Model model) {
@@ -65,6 +65,8 @@ public String isUserConnected(HttpSession session, Model model) {
     }
 }
 
+
+ */
 
 @PostMapping("/login")
 public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
