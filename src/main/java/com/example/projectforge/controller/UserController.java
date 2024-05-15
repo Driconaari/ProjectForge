@@ -66,31 +66,32 @@ public String isUserConnected(HttpSession session, Model model) {
 }
 
 
-    @PostMapping("/login")
-    public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if (passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            session.setAttribute("user", userDetails);
+@PostMapping("/login")
+public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
+    UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
+    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    if (passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            // Retrieve the username from the UserDetails object
-            String username = userDetails.getUsername();
+        // Retrieve the username from the UserDetails object
+        String username = userDetails.getUsername();
 
-            // Use the username to fetch the User object from your UserRepository
-            User userFromDb = userRepository.findByUsername(username);
+        // Use the username to fetch the User object from your UserRepository
+        User userFromDb = userRepository.findByUsername(username);
 
-            // Store the user ID in the session
-            session.setAttribute("user_id", userFromDb.getUser_id());
-            session.setAttribute("user", userFromDb);
+        // Store the user ID in the session
+        session.setAttribute("user_id", userFromDb.getUser_id());
 
-            return "redirect:/index/" + userFromDb.getUser_id();
-        } else {
-            model.addAttribute("error", "true");
-            return "User/login";
-        }
+        // Store the User object in the session under the attribute name "user"
+        session.setAttribute("user", userFromDb);
+
+        return "redirect:/index/" + userFromDb.getUser_id();
+    } else {
+        model.addAttribute("error", "true");
+        return "User/login";
     }
+}
 
 
     @GetMapping("/register")
