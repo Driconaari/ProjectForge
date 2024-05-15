@@ -24,9 +24,8 @@ create table user
     constraint email
         unique (email),
     constraint username
-        unique (username),
-    constraint user_ibfk_1
-        foreign key (role_id) references role (role_id)
+        unique (username)
+
 );
 
 create index role_id
