@@ -1,6 +1,7 @@
 package com.example.projectforge.service;
 
 import com.example.projectforge.model.Project;
+import com.example.projectforge.model.User;
 import com.example.projectforge.repository.ProjectRepository;
 import com.example.projectforge.userRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,14 +48,18 @@ public UserDetails loadUserByUsername(String username) throws UsernameNotFoundEx
     return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), authorities);
 }
 
-    public long getUserID(int projectId) {
-        Project project = projectRepository.findById(projectId);
-        if (project != null) {
-            com.example.projectforge.model.User user = userRepository.findById(String.valueOf(project.getUser_id()));
-            if (user != null) {
-                return user.getUserId();
-            }
+  public long getUserID(int projectId) {
+    Project project = projectRepository.findById(projectId);
+    if (project != null) {
+        com.example.projectforge.model.User user = userRepository.findById(project.getUser_id());
+        if (user != null) {
+            return user.getUserId();
         }
-        throw new UsernameNotFoundException("Project not found"); // Or return a default user ID
     }
+    throw new UsernameNotFoundException("Project not found"); // Or return a default user ID
+}
+
+   public User getUserById(long signedInUserId) {
+    return userRepository.findById(signedInUserId);
+}
 }

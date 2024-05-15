@@ -13,6 +13,11 @@ public class Project {
     private long user_id;
 
     private double projectCalculatedTime;
+    private User user;
+
+    public User getUser() {
+        return user;
+    }
 
     public Project(int project_id , String project_name, String project_description, LocalDate start_date, LocalDate end_date, long user_id) {
         this.project_id = project_id;
@@ -86,5 +91,9 @@ public class Project {
 
     public void setProjectCalculatedTime(double projectCalculatedTime) {
         this.projectCalculatedTime = projectCalculatedTime;
+    }
+
+    public void setUser(User currentUser) {
+        this.user = currentUser;
     }
 }

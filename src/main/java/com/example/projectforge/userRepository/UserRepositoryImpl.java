@@ -50,7 +50,7 @@ public User save(User user) {
     return user;
 }
 @Override
-public User findById(String id) {
+public User findById(long id) {
     String sql = "SELECT * FROM user WHERE user_id = ?";
     try {
         int userId = Integer.parseInt(id);

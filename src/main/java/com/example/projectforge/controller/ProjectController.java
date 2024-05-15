@@ -86,31 +86,23 @@ public String showCreateProjectForm(Model model) {
 
     //Create project
 @PostMapping(path = "/projects/create")
-public ResponseEntity<Project> createProject(@ModelAttribute("project") Project project, HttpSession session) {
-    try {
-        // Get the user_id of the currently logged-in user
-        long signedInUserId = getUserIdFromSession(session);
+public String createProject(@ModelAttribute("project") Project project, HttpSession session) {
+    // Get the user_id of the currently logged-in user
+    long signedInUserId = getUserIdFromSession(session);
 
-        // If the user is signed in, proceed with the project creation
-        if (signedInUserId != -1) {
+    // If the user is signed in, proceed with the project creation
+    if (signedInUserId != -1) {
+        com.example.projectforge.model.User currentUser = customUserDetailsService.getUserById(signedInUserId);
+        if (currentUser != null) {
+            project.setUser(currentUser);
             Project createdProject = projectService.createProject(project, signedInUserId);
             if (createdProject != null) {
-                return ResponseEntity
-                        .created(URI.create("/projects/create/" + createdProject.getProject_id()))
-                        .body(createdProject);
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                return "redirect:/projects";
             }
-        } else {
-            // If the user is not signed in, return an error
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-    } catch (Exception e) {
-        // Log the exception
-        System.out.println("Error while creating project: " + e.getMessage());
-        // Return a 400 Bad Request status
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
+    // If the user is not signed in or project creation failed, redirect to the login page
+    return "redirect:/login";
 }
 
     //Edit project page
