@@ -122,4 +122,8 @@ public class User implements UserDetails {
     public Object getRoleId() {
         return this.role_id;
     }
+
+  public Long getId() {
+    return this.user_id;
+}
 }

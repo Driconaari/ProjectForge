@@ -2,22 +2,28 @@ package com.example.projectforge.controller;
 
 import com.example.projectforge.model.Project;
 import com.example.projectforge.model.Task;
+import com.example.projectforge.model.User;
 import com.example.projectforge.service.CustomUserDetailsService;
 import com.example.projectforge.service.ProjectService;
 import com.example.projectforge.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
-//@RequestMapping(path = "")
-@org.springframework.stereotype.Controller
+@Controller
+@RequestMapping("/projects")
 public class ProjectController {
+
 
     private final ProjectService projectService;
     private final CustomUserDetailsService customUserDetailsService;
@@ -29,6 +35,15 @@ public class ProjectController {
         this.taskService = taskService;
     }
 
+    // Utilize Spring Security to get the authenticated user
+    private Long getAuthenticatedUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            // Assuming the principal object holds the user ID
+            return ((User) authentication.getPrincipal()).getId();
+        }
+        return null; // or throw new AuthenticationException("User not authenticated");
+    }
     public boolean isSignedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
@@ -39,33 +54,20 @@ public String showTestPage() {
 }
 
     //Get projects from user_id
-    @GetMapping(path = "projects")
-    public String showProjects(Model model, HttpSession session) {
-        long user_id = getUserIdFromSession(session);
-        if (user_id != -1) {
-            List<Project> projects = projectService.getProjectsByID(user_id);
-
-            for (Project project : projects) {
-                int project_id = project.getProject_id();
-                List<Task> tasks = taskService.getTaskByProID(project_id);
-
-                double projectCalculatedTime = 0;
-
-                for (Task task : tasks) {
-                    double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-                    task.setCalculatedTime(taskCalculatedTime);
-                    projectCalculatedTime += taskCalculatedTime;
-                }
-
+    @GetMapping
+    public String showProjects(Model model) {
+        Long userId = getAuthenticatedUserId();
+        if (userId != null) {
+            List<Project> projects = projectService.getProjectsByID(userId);
+            projects.forEach(project -> {
+                List<Task> tasks = taskService.getTaskByProID(project.getProject_id());
+                project.calculateProjectTime(tasks);
                 project.setTasks(tasks);
-                project.setProjectCalculatedTime(projectCalculatedTime);
-            }
-
+            });
             model.addAttribute("projects", projects);
             return "Project/projects";
         }
-        return "redirect:/sessionTimeout";
-
+        return "redirect:/login"; // Redirect user to login if not authenticated
     }
 
    private long getUserIdFromSession(HttpSession session) {
@@ -77,41 +79,25 @@ public String showTestPage() {
 }
 
   //Create project page
-@GetMapping("/projects/create")
-public String showCreateProjectForm(Model model) {
-    model.addAttribute("project", new Project());
-    return "Project/createProject";
-}
+  @GetMapping("/create")
+  public String showCreateProjectForm(Model model) {
+      model.addAttribute("project", new Project());
+      return "Project/createProject";
+  }
 
 
     //Create project
-@PostMapping(path = "/projects/create")
-public ResponseEntity<Project> createProject(@ModelAttribute("project") Project project, HttpSession session) {
-    try {
-        // Get the user_id of the currently logged-in user
-        long signedInUserId = getUserIdFromSession(session);
-
-        // If the user is signed in, proceed with the project creation
-        if (signedInUserId != -1) {
-            Project createdProject = projectService.createProject(project, signedInUserId);
-            if (createdProject != null) {
-                return ResponseEntity
-                        .created(URI.create("/projects/create/" + createdProject.getProject_id()))
-                        .body(createdProject);
-            } else {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            }
-        } else {
-            // If the user is not signed in, return an error
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    @PostMapping("/create")
+    public String createProject(@ModelAttribute("project") Project project, RedirectAttributes redirectAttributes) {
+        Long userId = getAuthenticatedUserId();
+        if (userId != null) {
+            projectService.createProject(project, userId);
+            redirectAttributes.addFlashAttribute("message", "Project created successfully");
+            return "redirect:/projects";
         }
-    } catch (Exception e) {
-        // Log the exception
-        System.out.println("Error while creating project: " + e.getMessage());
-        // Return a 400 Bad Request status
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        redirectAttributes.addFlashAttribute("error", "You must be signed in to create a project");
+        return "redirect:/login";
     }
-}
 
     //Edit project page
     @GetMapping(path = "/projects/{user_id}/edit/{project_id}")

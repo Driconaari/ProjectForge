@@ -104,4 +104,8 @@ public class Task {
     public void setProject_id(int project_id) {
         this.project_id = project_id;
     }
+
+   public double getEstimatedTime() {
+    return this.calculatedTime;
+}
 }

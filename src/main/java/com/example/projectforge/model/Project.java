@@ -87,4 +87,12 @@ public class Project {
     public void setProjectCalculatedTime(double projectCalculatedTime) {
         this.projectCalculatedTime = projectCalculatedTime;
     }
+
+  public void calculateProjectTime(List<Task> tasks) {
+    double totalEstimatedTime = 0.0;
+    for (Task task : tasks) {
+        totalEstimatedTime += task.getEstimatedTime();
+    }
+    this.projectCalculatedTime = totalEstimatedTime;
+}
 }
