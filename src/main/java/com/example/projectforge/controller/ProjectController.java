@@ -4,12 +4,16 @@ import com.example.projectforge.dto.ProjectDto;
 import com.example.projectforge.dto.SubProjectDto;
 import com.example.projectforge.dto.TaskDto;
 import com.example.projectforge.dto.SubTaskDto;
+import com.example.projectforge.model.User;
 import com.example.projectforge.service.ProjectService;
 import com.example.projectforge.service.SubProjectService;
 import com.example.projectforge.service.TaskService;
 import com.example.projectforge.service.SubTaskService;
 import com.example.projectforge.projectRepository.ProjectRepository;
+import com.example.projectforge.projectRepository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,9 +38,16 @@ public class ProjectController {
     @Autowired
     private SubTaskService subTaskService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("projects", projectRepository.findAll());
+        // Get the currently logged-in user
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("projects", projectService.getUserProjects(user));
         return "index";
     }
 
@@ -86,7 +97,6 @@ public class ProjectController {
         return "redirect:/";
     }
 
-
     @GetMapping("/createSubTask")
     public String showCreateSubTaskPage(Model model) {
         model.addAttribute("subTask", new SubTaskDto());
@@ -97,5 +107,15 @@ public class ProjectController {
     public String createSubTask(@ModelAttribute("subTask") SubTaskDto subTaskDto) {
         subTaskService.createSubTask(subTaskDto);
         return "redirect:/";
+    }
+
+    @GetMapping("/viewProjects")
+    public String viewProjects(Model model) {
+        // Get the currently logged-in user
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUsername(userDetails.getUsername());
+
+        model.addAttribute("projects", projectService.getUserProjects(user));
+        return "viewProjects";
     }
 }

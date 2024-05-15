@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Projects</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+    <h1>User Projects</h1>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/projectMenu">Create New Project</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="user-projects">
+        <h2>Your Projects</h2>
+        <ul>
+            <li th:each="project : ${projects}">
+                <span th:text="${project.projectID}"></span>
+                <span th:text="${project.projectName}"></span>
+                <span th:text="${project.description}"></span>
+                <span th:text="${project.deadline}"></span>
+            </li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <p>© 2024 ProjectForge by Your Company</p>
+</footer>
+
+<script src="scripts.js"></script>
+</body>
+</html>

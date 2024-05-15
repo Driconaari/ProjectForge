@@ -30,17 +30,15 @@ CREATE TABLE Subprojects
 );
 
 -- Create table for tasks
-CREATE TABLE Tasks
-(
-    TaskID              INT PRIMARY KEY,
-    SubprojectID        INT,
-    TaskName            VARCHAR(255),
-    Description         TEXT,
-    Duration            INT,          -- Duration in days or hours
-    ResourceRequirement VARCHAR(255), -- Resource needed for task
-    Deadline            DATE,
-    FOREIGN KEY (SubprojectID) REFERENCES Subprojects (SubprojectID)
+CREATE TABLE Tasks (
+                       TaskID INT AUTO_INCREMENT PRIMARY KEY,
+                       TaskName VARCHAR(255) NOT NULL,
+                       Description TEXT NOT NULL,
+                       Deadline DATE NOT NULL
 );
+SHOW CREATE TABLE Tasks;
+ALTER TABLE Tasks MODIFY TaskID INT AUTO_INCREMENT;
+
 
 -- Create table for subtasks
 CREATE TABLE Subtasks

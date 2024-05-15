@@ -16,9 +16,6 @@ public class TaskService {
         newTask.setTaskName(taskDto.getTaskName());
         newTask.setDescription(taskDto.getDescription());
         newTask.setDeadline(taskDto.getDeadline());
-        System.out.println("Creating task: " + newTask); // Add logging here
         taskRepository.save(newTask);
     }
 }
-
-

@@ -1,4 +1,4 @@
-        <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -21,16 +21,9 @@
 <main>
     <section id="projects">
         <h2>Project Breakdown</h2>
-            <button onclick='location.href="/projectMenu"'>Create New</button>
+        <button onclick='location.href="/projectMenu"'>Create New</button>
+        <button onclick='location.href="/viewProjects"'>View Projects</button>
         <div id="projectList"></div>
-        <ul>
-            <li> th:each="project : ${projects}">
-                <span> th:text="${project.id}"</span>
-                <span> th:text="${project.name}"</span>
-                <span> th:text="${project.description}"</span>
-                <span> th:text="${project.deadline}"</span>
-            </li>
-        </ul>
     </section>
 
     <section id="gantt-chart">

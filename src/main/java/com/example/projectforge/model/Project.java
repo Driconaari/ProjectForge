@@ -1,6 +1,5 @@
 package com.example.projectforge.model;
 
-
 import jakarta.persistence.*;
 
 @Entity
@@ -19,6 +18,10 @@ public class Project {
 
     @Column(name = "Deadline")
     private String deadline;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     // Getters and Setters
     public int getProjectID() {
@@ -51,5 +54,13 @@ public class Project {
 
     public void setDeadline(String deadline) {
         this.deadline = deadline;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
