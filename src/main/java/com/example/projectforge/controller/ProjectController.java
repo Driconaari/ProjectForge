@@ -81,31 +81,18 @@ public String showCreateProjectForm(Model model) {
 }
 
 
-
-@GetMapping("/projects/create/{user_id}")
-public String showCreateProjectForm(@PathVariable long user_id, HttpSession session, Model model) {
-    long signedInUserId = getUserIdFromSession(session);
-    if (user_id == signedInUserId) {
-        model.addAttribute("project", new Project());
-        return "Project/createProject";
-    } else {
-        return "redirect:/error";
-    }
-}
-
     //Create project
-@PostMapping(path = "projects/create/{user_id}")
-public String createProject(@ModelAttribute("project") Project project, @PathVariable long user_id, HttpSession session) {
+@PostMapping(path = "/projects/create")
+public String createProject(@ModelAttribute("project") Project project, HttpSession session) {
     // Get the user_id of the currently logged-in user
     long signedInUserId = getUserIdFromSession(session);
 
-    // Check if the user_id from the path variable matches the signed-in user's id
-    if (user_id == signedInUserId) {
-        // If they match, proceed with the project creation
-        projectService.createProject(project, user_id);
-        return "redirect:/projects/" + user_id;
+    // If the user is signed in, proceed with the project creation
+    if (signedInUserId != -1) {
+        projectService.createProject(project, signedInUserId);
+        return "redirect:/projects";
     } else {
-        // If they don't match, return an error or redirect to an error page
+        // If the user is not signed in, return an error or redirect to an error page
         return "redirect:/error";
     }
 }
