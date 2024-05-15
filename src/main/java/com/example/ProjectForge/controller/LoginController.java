@@ -39,7 +39,7 @@ public class LoginController {
     }
 
 
-    //Page users see when they sign in
+    //Page users see when they login
     @GetMapping(path = "/home/{user_id}")
     public String homeOrg(Model model, @PathVariable int user_id) {
         model.addAttribute("user_id", user_id);
@@ -64,9 +64,9 @@ public class LoginController {
 
     //Sign in with user
     @PostMapping(path = "/login")
-    public String signIn(HttpSession session, @ModelAttribute("user") User user, Model model) {
+    public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
         try {
-            User userLogin = userService.signIn(user.getUsername(), user.getPassword());
+            User userLogin = userService.login(user.getUsername(), user.getPassword());
             if (userLogin != null) {
                 session.setAttribute("user", userLogin);
                 session.setMaxInactiveInterval(1500);
@@ -83,7 +83,7 @@ public class LoginController {
 
 
     //Sign up page
-    @GetMapping(path = "/signup")
+    @GetMapping(path = "/register")
     public String showSignUp(Model model) {
         List<Role> roles = roleService.getAllRoles();
         User user = new User();
@@ -94,8 +94,8 @@ public class LoginController {
     }
 
     //Sign up
-    @PostMapping(path = "/signup")
-    public String signup(@ModelAttribute("organization") User user, @RequestParam("role") int role_id, Model model) {
+    @PostMapping(path = "/register")
+    public String register(@ModelAttribute("organization") User user, @RequestParam("role") int role_id, Model model) {
         boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
 
         if (isUsernameTaken) {
@@ -104,7 +104,7 @@ public class LoginController {
         }
 
         user.setRole_id(role_id);
-        userService.signUp(user);
+        userService.register(user);
         return "redirect:/register";
     }
 

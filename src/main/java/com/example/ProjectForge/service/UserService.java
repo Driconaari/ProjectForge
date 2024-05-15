@@ -14,12 +14,12 @@ public class UserService {
     }
 
     //Sign in
-    public User signIn(String username, String password){
+    public User login(String username, String password){
         return userRepository.login(username, password);
     }
 
     //Sign up
-    public void signUp(User user) {
+    public void register(User user) {
         userRepository.register(user);
     }
 
