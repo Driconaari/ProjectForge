@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Project</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+
+    <h1>Create Project</h1>
+
+    <br>
+
+    <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post"
+          th:object="${project}">
+
+        <div class="createProjectForm">
+            <label class="col-createProject label">Project name:</label>
+            <label>
+                <input type="text" th:field="${project.project_name}" placeholder="Project name" required>
+            </label>
+        </div>
+
+        <div class="createProjectForm">
+            <label class="col-createProject label">Project Description:</label>
+            <label>
+                <input type="text" th:field="${project.project_description}" placeholder="Describe the project">
+            </label>
+        </div>
+
+        <div>
+            <label class="createProjectForm">Start Date</label>
+            <label>
+                <input type="date" th:field="*{start_date}" min="2000-01-01" max="3000-12-31">
+            </label>
+        </div>
+
+        <div>
+            <label class="createProjectForm">End Date</label>
+            <label>
+                <input type="date" th:field="*{end_date}" min="2000-01-01" max="3000-12-31">
+            </label>
+        </div>
+
+        <br>
+
+        <div>
+            <input type="submit" value="Submit" class="btn btn-success"/>
+            <input type="reset" value="Reset" class="btn btn-danger"/>
+        </div>
+
+        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
+            <button type="button" class="btn">Return to projects</button>
+        </a>
+
+    </form>
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>delete task</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div align="center">
+
+    <h2>Are you sure to delete the task?</h2>
+
+    <br>
+
+    <form th:action="@{/task/delete/{task_id}(task_id=${task_id})}" method="post">
+        <input type="hidden" name="task_id" value="${task_id}">
+        <button type="submit" class="btn" style="background-color: #d54848">Delete task</button>
+
+        <a th:href="@{/tasks/{project_id}(project_id=${task.project_id})}">
+            <button type="button" class="btn go-back" style="background-color: white">Go Back</button>
+        </a>
+
+    </form>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WELCOME</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <a class="logo"></a>
+    <nav class="navigation">
+        <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Edit Profile</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Sign out</a>
+    </nav>
+</header>
+<h1>Login successful</h1>
+<h3>
+    <a th:href="@{/projects/create/{user_id}(user_id=${user_id})}">
+        <button type="button" class="btn">Create Project</button>
+    </a>
+    <a th:href="@{/projects/{organization_id}(organization_id=${user_id})}">
+        <button type="button" class="btn">See current projects</button>
+    </a>
+    <a th:href="@{/homepage}">
+    <button type="button" class="btn">Homepage</button>
+</a>
+</h3>
+
+</body>
+</html>

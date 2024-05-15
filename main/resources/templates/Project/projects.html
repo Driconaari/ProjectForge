@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <div class="logo"></div>
+    <nav class="navigation">
+            <a th:href="@{/home/{user_id}(user_id=${user_id})}">Home</a>
+            <a th:href="@{/logout}" button class="btnlogin-popup">Sign out</a>
+    </nav>
+</header>
+
+<h1>Manage Projects</h1>
+
+<div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">
+    <a th:href="@{/projects/create/{user_id}(user_id=${user_id})}">
+        <button type="button" class="btn">Create Project</button>
+    </a>
+</div>
+
+<br>
+<br>
+
+<main class="table">
+    <section class="table_body">
+        <table>
+            <thead>
+            <tr>
+                <th scope="col">Project Name</th>
+                <th scope="col">Project Description</th>
+                <th scope="col">Start Date</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Projects Estimated Time</th>
+                <th scope="col">View Tasks</th>
+                <th scope="col">Show Project</th>
+                <th scope="col">Edit Project</th>
+                <th scope="col">Delete Project</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="project : ${projects}">
+                <td th:text="${project.project_name}"></td>
+                <td th:text="${project.project_description}"></td>
+                <td th:text="${project.start_date}"></td>
+                <td th:text="${project.end_date}"></td>
+                <td th:text="${project.projectCalculatedTime}"/>
+
+                <td>
+                    <a th:href="@{/tasks/{project_id}(project_id=${project.project_id})}">
+                        <button type="button" class="btn">View Tasks</button>
+                    </a>
+                </td>
+
+                <td>
+                    <a th:href="@{/project/{project_id}(project_id=${project.project_id})}">
+                        <button type="button" class="btn">Show Project</button>
+                    </a>
+                </td>
+
+                <td>
+                    <a th:href="@{/projects/{user_id}/edit/{project_id}(user_id=${user_id}, project_id=${project.project_id})}">
+                        <button type="button" class="btn">Edit Project</button>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/deleteProject/{project_id}(project_id=${project.project_id})}">
+                        <button type="button" class="btn">Delete Project</button>
+                    </a>
+                </td>
+
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+</body>
+</html>
