@@ -63,7 +63,7 @@ public class UserController {
             return "redirect:/index/" + ((User) userDetails).getUser_id();
         } else {
             model.addAttribute("error", "true");
-            return "User/login";
+            return "/";
         }
     }
 
