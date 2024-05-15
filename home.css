@@ -1,0 +1,19 @@
+body {
+    background-image: url('./images/img.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px; /* adjust as needed */
+    height: 100px; /* adjust as needed */
+}
