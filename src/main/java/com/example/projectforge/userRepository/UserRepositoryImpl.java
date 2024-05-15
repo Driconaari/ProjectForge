@@ -53,7 +53,7 @@ public User save(User user) {
 public User findById(long id) {
     String sql = "SELECT * FROM user WHERE user_id = ?";
     try {
-        int userId = Integer.parseInt(id);
+        int userId = Integer.parseInt(String.valueOf(id));
         return jdbcTemplate.queryForObject(sql, new Object[]{userId}, rowMapper);
     } catch (EmptyResultDataAccessException e) {
         return null;
