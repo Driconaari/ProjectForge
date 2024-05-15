@@ -12,12 +12,12 @@ import java.util.List;
 
 @RequestMapping(path = "")
 @org.springframework.stereotype.Controller
-public class UserController {
+public class LoginController {
 
     private UserService userService;
     private RoleService roleService;
 
-    public UserController(UserService userService, RoleService roleService) {
+    public LoginController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }

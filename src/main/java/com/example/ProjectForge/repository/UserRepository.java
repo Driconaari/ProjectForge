@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 
 @Repository
-public class UserRepositoryDB implements IUserRepository {
+public class UserRepository implements IUserRepository {
 
     //Sign in with user'
     @Override

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class SubtaskRepositoryDB implements ISubtaskRepository {
+public class SubtaskRepository implements ISubtaskRepository {
 
     //Get subtasks from project_id
     @Override

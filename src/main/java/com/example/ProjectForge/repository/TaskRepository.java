@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class TaskRepositoryDB implements ITaskRepository {
+public class TaskRepository implements ITaskRepository {
 
 
     //Get Task by project_id

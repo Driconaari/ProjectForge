@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class ProjectRepositoryDB implements IProjectRepository {
+public class ProjectRepository implements IProjectRepository {
 
     //Get projects from user_id
     @Override
