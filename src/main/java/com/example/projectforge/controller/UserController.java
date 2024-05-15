@@ -40,6 +40,20 @@ public class UserController {
         return "/index";
     }
 
+    /*
+    @GetMapping("/")
+    public String showIndex(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("user_id", user.getUser_id());
+            return "index";
+        } else {
+            return "redirect:/login";
+        }
+    }
+
+     */
+
     @GetMapping("/login")
 public String isUserConnected(HttpSession session, Model model) {
     User user = (User) session.getAttribute("user");

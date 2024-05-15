@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping(path = "")
+//@RequestMapping(path = "")
 @org.springframework.stereotype.Controller
 public class ProjectController {
 
@@ -30,9 +30,9 @@ public class ProjectController {
         return session.getAttribute("user") != null;
     }
 
-    @GetMapping("/testCreateProject")
-public String testCreateProjectPage() {
-    return "Project/createProject"; // This should be the name of your create project view
+  @GetMapping("/testPage")
+public String showTestPage() {
+    return "testPage";
 }
 
     //Get projects from user_id
@@ -75,19 +75,13 @@ public String testCreateProjectPage() {
 
   //Create project page
 @GetMapping("/projects/create")
-public String showCreateProjectForm(HttpSession session, Model model) {
-    // Get the user_id of the currently logged-in user
-    long signedInUserId = getUserIdFromSession(session);
-
-    if (signedInUserId != -1) {
-        // If the user is signed in, proceed with the project creation
-        model.addAttribute("project", new Project());  // Adds an empty project to the model
-        return "Project/createProject";  // Returns the view name for Thymeleaf to render
-    } else {
-        // If the user is not signed in, redirect to an error page
-        return "redirect:/error";
-    }
+public String showCreateProjectForm(Model model) {
+    model.addAttribute("project", new Project());
+    return "Project/createProject";
 }
+
+
+
 @GetMapping("/projects/create/{user_id}")
 public String showCreateProjectForm(@PathVariable long user_id, HttpSession session, Model model) {
     long signedInUserId = getUserIdFromSession(session);
@@ -98,7 +92,6 @@ public String showCreateProjectForm(@PathVariable long user_id, HttpSession sess
         return "redirect:/error";
     }
 }
-
 
     //Create project
 @PostMapping(path = "projects/create/{user_id}")
