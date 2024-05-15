@@ -1,6 +1,6 @@
 -- Insert into role
-INSERT INTO role (role) VALUES ('Role 1');
-INSERT INTO role (role) VALUES ('Role 2');
+INSERT INTO role (role) VALUES ('USER 1');
+INSERT INTO role (role) VALUES ('ADMIN 2');
 
 -- Insert into user
 INSERT INTO user (username, password, role_id) VALUES ('bob', 'bob', 1);

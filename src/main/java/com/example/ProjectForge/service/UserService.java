@@ -15,12 +15,12 @@ public class UserService {
 
     //Sign in
     public User signIn(String username, String password){
-        return userRepository.signIn(username, password);
+        return userRepository.login(username, password);
     }
 
     //Sign up
     public void signUp(User user) {
-        userRepository.signUp(user);
+        userRepository.register(user);
     }
 
     //Is username taken

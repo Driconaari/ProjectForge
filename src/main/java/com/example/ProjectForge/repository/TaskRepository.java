@@ -17,7 +17,7 @@ public class TaskRepository implements ITaskRepository {
 
     //Get Task by project_id
     @Override
-    public List<Task> getTaskByProID(int project_id) {
+    public List<Task> getTaskByProjectID(int project_id) {
         List<Task> tasks = new ArrayList<>();
 
         try {
@@ -168,7 +168,7 @@ public class TaskRepository implements ITaskRepository {
 
     //Get project_id by task_id
     @Override
-    public int getProIDbyTaskID(int task_id) {
+    public int getProjectIDbyTaskID(int task_id) {
         int project_id = 0;
         try {
             Connection con = ConnectionManager.getConnection();

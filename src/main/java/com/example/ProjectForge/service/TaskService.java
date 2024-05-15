@@ -22,7 +22,7 @@ public class TaskService {
 
     //Get Task by project_id
     public List<Task> getTaskByProID(int project_id) {
-        return taskRepository.getTaskByProID(project_id);
+        return taskRepository.getTaskByProjectID(project_id);
     }
 
     //Edit task
@@ -47,7 +47,7 @@ public class TaskService {
 
     //Get project_id by task_id
     public int getProIDbyTaskID(int task_id) {
-        return taskRepository.getProIDbyTaskID(task_id);
+        return taskRepository.getProjectIDbyTaskID(task_id);
     }
 
     //Calculated time for task and subtask

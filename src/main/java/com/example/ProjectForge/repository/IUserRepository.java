@@ -5,10 +5,10 @@ import com.example.ProjectForge.model.User;
 public interface IUserRepository {
 
     //Sign in with user
-    public User signIn(String organization_name, String password);
+    public User login(String organization_name, String password);
 
     //Sign up
-    public void signUp(User user);
+    public void register(User user);
 
     //Is username taken
     public boolean isUsernameTaken(String username);

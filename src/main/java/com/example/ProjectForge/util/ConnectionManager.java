@@ -6,21 +6,22 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ConnectionManager {
     private static Connection conn = null;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
     //Load application properties
-    private static String getProperty(String property_name) {
+    private static Properties loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = ConnectionManager.class.getClassLoader().getResourceAsStream("application.properties")) {
             properties.load(input);
-
         } catch (IOException e) {
-            System.out.println("Failed to load application properties");
-            e.printStackTrace();
+            LOGGER.error("Failed to load application properties", e);
         }
-        return properties.getProperty(property_name);
+        return properties;
     }
 
     //Insert application properties to get connection to database
@@ -29,15 +30,15 @@ public class ConnectionManager {
             return conn;
         }
 
-        String dbUrl = getProperty("spring.datasource.url");
-        String uid = getProperty("spring.datasource.username");
-        String pwd = getProperty("spring.datasource.password");
+        Properties properties = loadProperties();
+        String dbUrl = properties.getProperty("spring.datasource.url");
+        String uid = properties.getProperty("spring.datasource.username");
+        String pwd = properties.getProperty("spring.datasource.password");
 
         try {
             conn = DriverManager.getConnection(dbUrl, uid, pwd);
         } catch (SQLException e) {
-            System.out.println("Failed to connect to the database");
-            e.printStackTrace();
+            LOGGER.error("Failed to connect to the database", e);
         }
         return conn;
     }

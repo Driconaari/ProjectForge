@@ -7,13 +7,16 @@
 </head>
 <body>
 
-
     <h1>Create Project</h1>
 
     <br>
 
     <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post"
           th:object="${project}">
+
+        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
+            <button type="button" class="btn">Return to projects</button>
+        </a>
 
         <div class="createProjectForm">
             <label class="col-createProject label">Project name:</label>
@@ -42,12 +45,7 @@
             <input type="reset" value="Reset" class="btn btn-danger"/>
         </div>
 
-        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
-            <button type="button" class="btn">Return to projects</button>
-        </a>
-
     </form>
-
 
 </body>
 </html>

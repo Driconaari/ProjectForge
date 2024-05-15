@@ -1,13 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-    color: rgba(29,29,29,0.8);
+    font-family: 'Roboto', sans-serif;
+    color: rgba(29, 29, 29, 0.8);
 }
-h1{
+
+h1 {
     position: fixed;
     top: 10%;
     font-weight: bolder;
@@ -24,6 +25,7 @@ header {
     align-items: center;
     z-index: 99;
 }
+
 header {
     position: fixed;
     top: 0;
@@ -40,12 +42,15 @@ table, th, td {
     padding: 1rem;
     border-collapse: collapse;
 }
+
 td {
     text-align: left;
 }
-td .subtask{
+
+td .subtask {
     margin-right: 40px;
 }
+
 main.table {
     width: 82vw;
     bacground-color: #fff5;
@@ -54,12 +59,14 @@ main.table {
     border-radius: .8rem;
     overflow: hidden;
 }
-.table_header{
+
+.table_header {
     width: 100%;
     height: 10%;
     background-color: #fff4;
     padding: .5rem 1rem;
 }
+
 .table_body {
     width: 95%;
     max-height: calc(90% - .8rem);
@@ -73,50 +80,62 @@ main.table {
     width: .5rem;
     height: .5rem;
 }
+
 .table_body::-webkit-scrollbar-thumb {
     border-radius: .5rem;
     background-color: #0003;
     visibility: hidden;
 }
+
 .table_body:hover::-webkit-scrollbar-thumb {
     visibility: visible;
 }
-table{
+
+table {
     width: 100%;
 }
-thead th{
+
+thead th {
     position: sticky;
     top: 0;
     left: 0;
     background-color: rgb(224, 218, 241);
 }
+
 .subtask.custom-td {
     padding-left: 50px;
 }
-tbody tr:nth-child(even){
+
+tbody tr:nth-child(even) {
     background-color: #fff8;
 }
-tbody tr:hover{
+
+tbody tr:hover {
     background-color: #fff6;
 }
-.status{
+
+.status {
     padding: .4rem 0;
     border-radius: 2rem;
     text-align: center;
 }
+
 .status.done {
     background-color: #86E49D;
     color: #006b21;
 }
-.status.inprogress{
+
+.status.inprogress {
     background-color: #F9E79F;
     color: #b7950b;
 }
-.status.to-do{
+
+.status.to-do {
     background-color: #F5B7B1;
     color: #a93226;
 }
-form{
+
+form {
     width: 100%;
     height: 100%;
     display: flex;
@@ -126,19 +145,21 @@ form{
     font-weight: bolder;
     align-content: center;
 }
-.form-label{
+
+.form-label {
     font-size: 1rem;
     font-weight: bolder;
     margin-bottom: .5rem;
     align-content: center;
 }
+
 body {
 
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("images/white-texture.jpg") no-repeat;
+    background: url("images/forge-background.jpg") no-repeat;
     background-size: cover;
     background-position: center;
 
@@ -146,11 +167,10 @@ body {
 }
 
 
-
 .navigation a {
     position: relative;
     font-size: 1.1em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     text-decoration: none;
     font-weight: 500;
     margin-left: 40px;
@@ -185,7 +205,7 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 1.1em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     font-weight: 500;
     margin-left: 40px;
     transition: .5s;
@@ -215,12 +235,12 @@ body {
 }
 
 @keyframes click_kf {
-0% {
-    opacity: 0;
-}
-100% {
-    opacity:1;
-}
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 .wrapper.active {
@@ -231,16 +251,18 @@ body {
     width: 100%;
     padding: 40px;
 }
+
 .wrapper .form-box.login {
     transition: transform .18s ease;
     transfrom: translateX(0)
 }
+
 .wrapper.active .form-box.login {
     transition: none;
     transform: translateX(-400px);
 }
 
-.wrapper .form-box.register{
+.wrapper .form-box.register {
     position: absolute;
     transition: none;
     transform: translateX(400px);
@@ -250,7 +272,8 @@ body {
     transition: transform .18s ease;
     transform: translateX(0);
 }
-.wrapper .icon-close{
+
+.wrapper .icon-close {
     position: absolute;
     top: 0;
     right: 0;
@@ -258,7 +281,7 @@ body {
     height: 45px;
     background: rgba(208, 25, 25, 0.55);
     font-size: 2em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -266,9 +289,10 @@ body {
     cursor: pointer;
     z-index: 1;
 }
+
 .form-box h2 {
     font-size: 2em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     text-align: center;
 }
 
@@ -286,7 +310,7 @@ body {
     left: 5px;
     transform: translateY(-50%);
     font-size: 1em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     font-weight: 500;
     pointer-events: none;
     transition: 0.5s;
@@ -305,7 +329,7 @@ body {
     border: none;
     outline: none;
     font-size: 1em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     font-weight: 600;
 }
 
@@ -313,13 +337,13 @@ body {
     position: absolute;
     right: 8px;
     font-size: 1.2em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     line-height: 57px;
 }
 
 .logo {
-    width: 180px;
-    height: 180px;
+    width: 80px;
+    height: 80px;
     background-image: url("images/Logo.png");
     background-size: cover;
     border-radius: 5px;
@@ -330,25 +354,25 @@ body {
     width: 100%;
     height: 45px;
     background: transparent;
-    border: 2px solid rgba(29,29,29,0.8);
+    border: 2px solid rgba(29, 29, 29, 0.8);
     outline: 2px;
     border-radius: 6px;
     cursor: pointer;
     font-size: 1em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     margin: 1.5rem;
 }
 
 .login-register {
     font-size: .9em;
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     text-align: center;
     font-weight: 500;
     margin: 25px 0 10px;
 }
 
 .login-register p a {
-    color: rgba(29,29,29,0.8);
+    color: rgba(29, 29, 29, 0.8);
     text-decoration: none;
     font-weight: 600;
 }
@@ -356,6 +380,7 @@ body {
 .login-register p a:hover {
     text-decoration: underline;
 }
+
 .subtask {
     padding-left: 20px;
     margin-right: 60px;

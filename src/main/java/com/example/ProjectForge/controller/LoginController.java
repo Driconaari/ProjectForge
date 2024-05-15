@@ -5,13 +5,14 @@ import com.example.ProjectForge.model.User;
 import com.example.ProjectForge.service.RoleService;
 import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RequestMapping(path = "")
-@org.springframework.stereotype.Controller
+@Controller
 public class LoginController {
 
     private UserService userService;
@@ -26,7 +27,7 @@ public class LoginController {
         return session.getAttribute("user") != null;
     }
 
-    //Index page shows sign in or sign up
+    //Index page shows login in or register
     @GetMapping(path = "/")
     public String index() {
         return "User/index";
@@ -47,7 +48,7 @@ public class LoginController {
 
 
     //Checks if user is in current session
-    @GetMapping(path = "/signin")
+    @GetMapping(path = "/login")
     public String isUserConnected(HttpSession session, Model model) {
         //Organization object from session
         User user = (User) session.getAttribute("user");
@@ -55,14 +56,14 @@ public class LoginController {
         //If not connected redirect to login page. if connected continue to home page
         if (user == null) {
             model.addAttribute("user", new User());
-            return "User/signin";
+            return "User/login";
         } else {
             return "redirect:/home/" + user.getUser_id();
         }
     }
 
     //Sign in with user
-    @PostMapping(path = "/signin")
+    @PostMapping(path = "/login")
     public String signIn(HttpSession session, @ModelAttribute("user") User user, Model model) {
         try {
             User userLogin = userService.signIn(user.getUsername(), user.getPassword());
@@ -73,7 +74,7 @@ public class LoginController {
                 return "redirect:/home/" + userLogin.getUser_id();
             } else {
                 model.addAttribute("loginFailed", true);
-                return "User/signin";
+                return "User/login";
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -89,7 +90,7 @@ public class LoginController {
 
         model.addAttribute("user", user);
         model.addAttribute("roles", roles);
-        return "User/signup";
+        return "User/register";
     }
 
     //Sign up
@@ -99,12 +100,12 @@ public class LoginController {
 
         if (isUsernameTaken) {
             model.addAttribute("usernameTaken", true);
-            return "User/signup";
+            return "User/register";
         }
 
         user.setRole_id(role_id);
         userService.signUp(user);
-        return "redirect:/signin";
+        return "redirect:/register";
     }
 
 
@@ -112,7 +113,7 @@ public class LoginController {
     @GetMapping(path = "/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/signin";
+        return "redirect:/register";
     }
 
 

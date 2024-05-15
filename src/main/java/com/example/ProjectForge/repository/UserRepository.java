@@ -11,7 +11,7 @@ public class UserRepository implements IUserRepository {
 
     //Sign in with user'
     @Override
-    public User signIn(String username, String password) {
+    public User login(String username, String password) {
         User user = null;
 
         try {
@@ -34,7 +34,7 @@ public class UserRepository implements IUserRepository {
 
     //Sign up user
     @Override
-    public void signUp(User user) {
+    public void register(User user) {
         try {
             Connection con = ConnectionManager.getConnection();
             String SQL = "INSERT INTO user (username ,password, role_id) VALUES (?, ?, ?)";
