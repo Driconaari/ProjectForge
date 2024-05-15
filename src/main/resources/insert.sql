@@ -3,7 +3,7 @@ INSERT INTO role (role) VALUES ('Role 1');
 INSERT INTO role (role) VALUES ('Role 2');
 
 -- Insert into user
-INSERT INTO user (username, password, role_id) VALUES ('User1', 'Password1', 1);
+INSERT INTO user (username, password, role_id) VALUES ('bob', 'bob', 1);
 INSERT INTO user (username, password, role_id) VALUES ('User2', 'Password2', 2);
 
 -- Insert into project
