@@ -2,6 +2,7 @@ package com.example.projectforge.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "users")
 public class User {
