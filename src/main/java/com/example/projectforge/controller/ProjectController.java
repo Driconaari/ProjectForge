@@ -73,23 +73,31 @@ public String testCreateProjectPage() {
     return -1; // return -1 or throw an exception if the user is not signed in
 }
 
-    //Create project page
-@GetMapping("/projects/create/{user_id}")
-public String showCreateProjectForm(@PathVariable long user_id, HttpSession session, Model model) {
+  //Create project page
+@GetMapping("/projects/create")
+public String showCreateProjectForm(HttpSession session, Model model) {
     // Get the user_id of the currently logged-in user
     long signedInUserId = getUserIdFromSession(session);
 
-    // Check if the user_id from the path variable matches the signed-in user's id
-    if (user_id == signedInUserId) {
-        // If they match, proceed with the project creation
+    if (signedInUserId != -1) {
+        // If the user is signed in, proceed with the project creation
         model.addAttribute("project", new Project());  // Adds an empty project to the model
         return "Project/createProject";  // Returns the view name for Thymeleaf to render
     } else {
-        // If they don't match, return an error or redirect to an error page
+        // If the user is not signed in, redirect to an error page
         return "redirect:/error";
     }
 }
-
+@GetMapping("/projects/create/{user_id}")
+public String showCreateProjectForm(@PathVariable long user_id, HttpSession session, Model model) {
+    long signedInUserId = getUserIdFromSession(session);
+    if (user_id == signedInUserId) {
+        model.addAttribute("project", new Project());
+        return "Project/createProject";
+    } else {
+        return "redirect:/error";
+    }
+}
 
 
     //Create project

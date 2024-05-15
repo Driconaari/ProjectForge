@@ -41,41 +41,42 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String isUserConnected(HttpSession session, Model model) {
-        User user = (User) session.getAttribute("user");
-        if (user == null) {
-            model.addAttribute("user", new User());
-            return "User/login";
-        } else {
-            return String.format("redirect:/index/%d", user.getUser_id());
-        }
-    }
-
-
-@PostMapping("/login")
-public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
-    UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
-    PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    if (passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        session.setAttribute("user", userDetails);
-
-        // Retrieve the username from the UserDetails object
-        String username = userDetails.getUsername();
-
-        // Use the username to fetch the User object from your UserRepository
-        User userFromDb = userRepository.findByUsername(username);
-
-        // Store the user ID in the session
-        session.setAttribute("user_id", userFromDb.getUser_id());
-
-        return "redirect:/index/" + userFromDb.getUser_id();
-    } else {
-        model.addAttribute("error", "true");
+public String isUserConnected(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        model.addAttribute("user", new User());
         return "User/login";
+    } else {
+        return String.format("redirect:/index/%d", user.getUser_id());
     }
 }
+
+
+    @PostMapping("/login")
+    public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
+        UserDetails userDetails = customUserDetailsService.loadUserByUsername(user.getUsername());
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (passwordEncoder.matches(user.getPassword(), userDetails.getPassword())) {
+            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            session.setAttribute("user", userDetails);
+
+            // Retrieve the username from the UserDetails object
+            String username = userDetails.getUsername();
+
+            // Use the username to fetch the User object from your UserRepository
+            User userFromDb = userRepository.findByUsername(username);
+
+            // Store the user ID in the session
+            session.setAttribute("user_id", userFromDb.getUser_id());
+            session.setAttribute("user", userFromDb);
+
+            return "redirect:/index/" + userFromDb.getUser_id();
+        } else {
+            model.addAttribute("error", "true");
+            return "User/login";
+        }
+    }
 
 
     @GetMapping("/register")
@@ -84,15 +85,15 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
         return "User/register";
     }
 
-@PostMapping("/register")
-public String register(@ModelAttribute("user") UserRegistrationDTO registrationDto) {
-    User newUser = new User();
-    newUser.setUsername(registrationDto.getUsername());
-    newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
-    newUser.setEmail(registrationDto.getEmail());
-    userRepository.save(newUser);
-    return "redirect:/login";
-}
+    @PostMapping("/register")
+    public String register(@ModelAttribute("user") UserRegistrationDTO registrationDto) {
+        User newUser = new User();
+        newUser.setUsername(registrationDto.getUsername());
+        newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
+        newUser.setEmail(registrationDto.getEmail());
+        userRepository.save(newUser);
+        return "redirect:/login";
+    }
 
 
     @GetMapping("/logout")
