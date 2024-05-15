@@ -3,6 +3,7 @@ package com.example.projectforge.controller;
 import com.example.projectforge.model.Project;
 import com.example.projectforge.model.Task;
 import com.example.projectforge.model.User;
+import com.example.projectforge.security.CustomUserDetails;
 import com.example.projectforge.service.CustomUserDetailsService;
 import com.example.projectforge.service.ProjectService;
 import com.example.projectforge.service.TaskService;
@@ -39,8 +40,8 @@ public class ProjectController {
 private Long getAuthenticatedUserId() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
     if (authentication != null && authentication.isAuthenticated()) {
-        // Assuming the username field holds the user ID
-        return Long.parseLong(authentication.getName());
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        return userDetails.getUserId();
     }
     return null; // or throw new AuthenticationException("User not authenticated");
 }
