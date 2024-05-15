@@ -6,9 +6,12 @@ import com.example.projectforge.service.CustomUserDetailsService;
 import com.example.projectforge.service.ProjectService;
 import com.example.projectforge.service.TaskService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -83,20 +86,32 @@ public String showCreateProjectForm(Model model) {
 
     //Create project
 @PostMapping(path = "/projects/create")
-public String createProject(@ModelAttribute("project") Project project, HttpSession session) {
-    // Get the user_id of the currently logged-in user
-    long signedInUserId = getUserIdFromSession(session);
+public ResponseEntity<Project> createProject(@ModelAttribute("project") Project project, HttpSession session) {
+    try {
+        // Get the user_id of the currently logged-in user
+        long signedInUserId = getUserIdFromSession(session);
 
-    // If the user is signed in, proceed with the project creation
-    if (signedInUserId != -1) {
-        projectService.createProject(project, signedInUserId);
-        return "redirect:/projects";
-    } else {
-        // If the user is not signed in, return an error or redirect to an error page
-        return "redirect:/error";
+        // If the user is signed in, proceed with the project creation
+        if (signedInUserId != -1) {
+            Project createdProject = projectService.createProject(project, signedInUserId);
+            if (createdProject != null) {
+                return ResponseEntity
+                        .created(URI.create("/projects/create/" + createdProject.getProject_id()))
+                        .body(createdProject);
+            } else {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        } else {
+            // If the user is not signed in, return an error
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+    } catch (Exception e) {
+        // Log the exception
+        System.out.println("Error while creating project: " + e.getMessage());
+        // Return a 400 Bad Request status
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
-
 
     //Edit project page
     @GetMapping(path = "/projects/{user_id}/edit/{project_id}")

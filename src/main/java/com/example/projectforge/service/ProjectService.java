@@ -27,8 +27,9 @@ public class ProjectService {
     }
 
     //Create project
-    public void createProject(Project project, long user_id) {
+    public Project createProject(Project project, long user_id) {
         projectRepository.createProject(project, user_id);
+        return project;
     }
 
     //Edit project

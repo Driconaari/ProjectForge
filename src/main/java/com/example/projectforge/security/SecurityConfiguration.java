@@ -28,7 +28,7 @@ public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Excepti
     http
             .csrf(csrf -> csrf.disable())
             .authorizeRequests((requests) -> requests
-                    .requestMatchers("/login", "/register", "/addProject", "/createProject").permitAll()
+                    .requestMatchers("/login", "/register", "/addProject", "/createProject", "/projects/create").permitAll()
                     .anyRequest().authenticated()
 
             )
