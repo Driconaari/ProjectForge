@@ -165,4 +165,23 @@ public class SubProjectDAO implements SubProjectRepository {
         return null;
     }
 
+    public List<SubProject> findByParentProjectId(int projectId) {
+    List<SubProject> subProjects = new ArrayList<>();
+    String sql = "SELECT * FROM SubProjects WHERE parentProject = ?";
+
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, projectId);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            SubProject subProject = createSubProjectFromResultSet(resultSet);
+            subProjects.add(subProject);
+        }
+    } catch (SQLException e) {
+        // Handle the exception
+    }
+
+    return subProjects;
+}
+
 }

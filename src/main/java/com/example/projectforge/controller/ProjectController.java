@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -54,11 +56,14 @@ private TaskRepository taskRepository;
 @GetMapping("/projects")
 public String showProjects(Model model) {
     Iterable<Project> projects = projectRepository.findAll();
-    Iterable<SubProject> subProjects = subProjectRepository.findAll();
-    logger.info("Projects: {}", projects);
-    logger.info("SubProjects: {}", subProjects);
-    model.addAttribute("projects", projects);
-    model.addAttribute("subProjects", subProjects);
+    Map<Project, List<SubProject>> projectSubProjectMap = new HashMap<>();
+
+    for (Project project : projects) {
+        List<SubProject> subProjects = subProjectRepository.findByParentProjectId(project.getProjectID());
+        projectSubProjectMap.put(project, subProjects);
+    }
+
+    model.addAttribute("projectSubProjectMap", projectSubProjectMap);
     return "projects";
 }
 

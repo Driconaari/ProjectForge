@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Project</title>
-    <!-- Include Bootstrap CSS for responsive styling -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-    <!-- Styles omitted for brevity -->
 </head>
 <body>
 <div class="container">
     <h1>Welcome to My Project</h1>
     <p>This is a simple project page created with HTML.</p>
 
-    <!-- Table to display all projects -->
     <table class="table">
         <thead>
         <tr>
@@ -25,14 +22,12 @@
         </tr>
         </thead>
         <tbody>
-        <!-- Use Thymeleaf to iterate over the list of projects and generate a table row for each project -->
         <tr th:each="project : ${projects}">
             <td th:text="${project.projectID}"></td>
             <td th:text="${project.projectName}"></td>
             <td th:text="${project.description}"></td>
             <td th:text="${project.deadline}"></td>
             <td>
-                <!-- Nested table to display subprojects -->
                 <table class="table">
                     <thead>
                     <tr>
@@ -41,10 +36,21 @@
                         <th>Description</th>
                         <th>Deadline</th>
                     </tr>
+                    <body>
+                    <h1>Projects</h1>
+                    <div th:each="entry : ${projectSubProjectMap}">
+                        <h2 th:text="${entry.key.projectName}"></h2>
+                        <ul>
+                            <li th:each="subProject : ${entry.value}">
+                                <h3 th:text="${subProject.subProjectName}"></h3>
+                                <!-- Add more fields as needed -->
+                            </li>
+                        </ul>
+                    </div>
+                    </body>
                     </thead>
                     <tbody>
-                    <!-- Iterate over each subproject of the current project -->
-                    <tr th:each="subproject : ${project.subprojects}">
+                    <tr th:each="subproject : ${subProjects}" th:if="${subproject.parentProject.projectID} == ${project.projectID}">
                         <td th:text="${subproject.subprojectID}"></td>
                         <td th:text="${subproject.subprojectName}"></td>
                         <td th:text="${subproject.description}"></td>
@@ -56,13 +62,10 @@
         </tr>
         </tbody>
     </table>
-    <!-- Buttons to add new project and subproject -->
     <button class="btn btn-primary" onclick="location.href='/addProject'">Add New Project</button>
     <button class="btn btn-primary" onclick="location.href='/addSubProject'">Add New SubProject</button>
-    <!-- Button to go back to the homepage -->
     <button class="btn btn-secondary" onclick="location.href='/'">Go Back to Homepage</button>
 </div>
-<!-- Include Bootstrap JS and jQuery for interactive features -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
