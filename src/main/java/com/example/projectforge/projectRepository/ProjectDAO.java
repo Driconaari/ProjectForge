@@ -133,7 +133,7 @@ public class ProjectDAO implements ProjectRepository {
                 project.setDeadline(resultSet.getDate("deadline"));
                 int parentId = resultSet.getInt("parent_projectid");
                 if (!resultSet.wasNull()) {
-                    project.setParentProject(getProjectById(parentId));
+                    project.setParentProjectID(parentId);
                 }
                 projects.add(project);
             }

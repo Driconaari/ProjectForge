@@ -14,12 +14,10 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectID;
 
-    private Integer parentProjectID;
-
 
     @OneToMany(mappedBy = "parentProject", cascade = CascadeType.ALL)
     private List<SubProject> subprojects;
-    private Object parentProject;
+    private Integer parentProjectID;
 
     public void setProjectID(int projectID) {
         this.projectID = projectID;
@@ -74,16 +72,7 @@ public class Project {
         return this.subprojects;
     }
 
-
-    public Project getParentProject() {
-    return (Project) this.parentProject;
+   public void setParentProjectID(Integer parentProjectID) {
+    this.parentProjectID = parentProjectID;
 }
-
-    public Integer getParentProjectID() {
-        return this.parentProjectID;
-    }
-
-    public void setParentProjectID(Integer parentProjectID) {
-        this.parentProjectID = parentProjectID;
-    }
 }
