@@ -34,14 +34,6 @@ public class Project {
         this.deadline = deadline;
     }
 
-    public void setProjectType(String projectType) {
-        this.projectType = projectType;
-    }
-
-    public void setParentProject(Project parentProject) {
-        this.parentProject = parentProject;
-    }
-
     public String getProjectName() {
         return projectName;
     }
@@ -56,14 +48,6 @@ public class Project {
 
     public Date getDeadline() {
         return deadline;
-    }
-
-    public String getProjectType() {
-        return projectType;
-    }
-
-    public Project getParentProject() {
-        return parentProject;
     }
 
     public List<SubProject> getSubprojects() {
@@ -82,12 +66,6 @@ public class Project {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date deadline;
 
-    @Column(name = "project_type")
-    private String projectType;
-
-    @ManyToOne
-    @JoinColumn(name = "parent_projectid")
-    private Project parentProject;
 
     public List<SubProject> getSubProjects() {
         return this.subprojects;
