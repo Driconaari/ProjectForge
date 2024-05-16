@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Subtasks</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <div class="logo"></div>
+    <nav class="navigation">
+        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">Opgaver</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
+    </nav>
+</header>
+
+    <h1>Subtasks</h1>
+
+<div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">
+    <a th:href="@{/subtasks/create/{task_id}(task_id=${task_id})}">
+        <button type="button" class="btn">Opret Subtask</button>
+    </a>
+</div>
+
+<main class="table">
+    <section class="table_body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Subtask navn</th>
+                <th scope="col">Subtask Timer</th>
+                <th scope="col">Start dato</th>
+                <th scope="col">Slut dato</th>
+                <th scope="col">Status</th>
+                <th scope="col">Slet Subtask</th>
+                <th scope="col">Rediger Subtask</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="subtask : ${subtasks}">
+                <td th:text="${subtask.subtask_name}"></td>
+                <td th:text="${subtask.hours}"></td>
+                <td th:text="${subtask.start_date}"></td>
+                <td th:text="${subtask.end_date}"></td>
+                <td th:if="${subtask.status}==1"><a style="color: #0050ff;">TODO</a></td>
+                <td th:if="${subtask.status}==2"><a style="color: #ffdc0c;">In Progress</a></td>
+                <td th:if="${subtask.status}==3"><a style="color: #14cb2e;">Done</a></td>
+
+                <td>
+                    <a th:href="@{/subtasks/delete/{subtask_id}(subtask_id=${subtask.subtask_id})}">
+                        <button type="button" class="btn">Slet Subtask</button>
+                    </a>
+                </td>
+                <td>
+                    <a th:href="@{/subtask/{task_id}/edit/{subtask_id}(task_id=${task_id}, subtask_id=${subtask.subtask_id})}">
+                        <button type="button" class="btn">Rediger Subtask</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</main>
+
+</body>
+</html>
