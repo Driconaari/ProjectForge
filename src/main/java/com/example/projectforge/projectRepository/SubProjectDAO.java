@@ -1,12 +1,15 @@
 package com.example.projectforge.projectRepository;
 
 import com.example.projectforge.model.SubProject;
+import jakarta.persistence.metamodel.SingularAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.io.Serializable;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,6 +74,11 @@ public class SubProjectDAO implements SubProjectRepository {
         return insertSubProject(subProject);
     }
 
+    @Override
+    public Optional<SubProject> findById(SingularAttribute<AbstractPersistable, Serializable> id) {
+        return Optional.empty();
+    }
+
     public SubProject save(SubProject subProject) {
         logger.info("Saving subproject: {}", subProject);
         SubProject savedSubProject = null;
@@ -86,7 +94,7 @@ public class SubProjectDAO implements SubProjectRepository {
 
     @Override
     public SubProject getSubProjectById(int subProjectId) throws SQLException {
-        String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
+        String sql = "SELECT * FROM SubProjects WHERE sub_projectid = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {
             statement.setInt(1, subProjectId);
@@ -100,22 +108,22 @@ public class SubProjectDAO implements SubProjectRepository {
         return null;
     }
 
-    @Override
-    public Optional<SubProject> findById(int id) {
-        String sql = "SELECT * FROM SubProjects WHERE subProjectID = ?";
-        try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(sql)) {
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
-            if (resultSet.next()) {
-                SubProject subProject = createSubProjectFromResultSet(resultSet);
-                return Optional.of(subProject);
-            }
-        } catch (SQLException e) {
-            // Handle the exception
+@Override
+public Optional<SubProject> findById(int id) {
+    String sql = "SELECT * FROM SubProjects WHERE sub_projectid = ?";
+    try (Connection connection = dataSource.getConnection();
+         PreparedStatement statement = connection.prepareStatement(sql)) {
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            SubProject subProject = createSubProjectFromResultSet(resultSet);
+            return Optional.of(subProject);
         }
-        return Optional.empty();
+    } catch (SQLException e) {
+        // Handle the exception
     }
+    return Optional.empty();
+}
 
     @Override
     public List<SubProject> findAll() {
@@ -138,7 +146,7 @@ public class SubProjectDAO implements SubProjectRepository {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE FROM SubProjects WHERE subProjectID = ?";
+        String sql = "DELETE FROM SubProjects WHERE sub_projectid = ?";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(sql)) {

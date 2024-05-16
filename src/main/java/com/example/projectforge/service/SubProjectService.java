@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.List;
 
+import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
+
 @Service
 public class SubProjectService {
 
@@ -18,6 +20,10 @@ public class SubProjectService {
     public SubProjectService(SubProjectRepository subProjectRepository) {
         this.subProjectRepository = subProjectRepository;
     }
+
+public SubProject getSubProject() {
+    return subProjectRepository.findById(id).orElse(null);
+}
 
     public SubProject createAndSaveSubProject() throws SQLException {
         SubProject subProject = new SubProject();

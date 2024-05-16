@@ -6,11 +6,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.util.Date;
 
 @Entity
-@Table(name = "SubProjects")
+@Table(name = "subprojects")
 public class SubProject {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sub_projectid")
     private int subProjectID;
 
     @ManyToOne

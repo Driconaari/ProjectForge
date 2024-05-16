@@ -1,8 +1,11 @@
 package com.example.projectforge.projectRepository;
 
 import com.example.projectforge.model.SubProject;
+import jakarta.persistence.metamodel.SingularAttribute;
+import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.stereotype.Repository;
 
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +20,8 @@ public interface SubProjectRepository {
     SubProject save(SubProject subproject) throws SQLException;
 
     SubProject saveSubProject(SubProject subproject) throws SQLException;
+
+    Optional<SubProject> findById(SingularAttribute<AbstractPersistable, Serializable> id);
 
     Optional<SubProject> findById(int id);
 

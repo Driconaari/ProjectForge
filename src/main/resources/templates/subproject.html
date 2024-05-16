@@ -3,34 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Project</title>
+    <title>SubProjects</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1>Welcome to My Project</h1>
-    <p>This is a simple project page created with HTML.</p>
+    <h1>SubProjects</h1>
 
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Project ID</th>
-            <th>Project Name</th>
-            <th>Description</th>
-            <th>Deadline</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="project : ${projects}">
-            <td th:text="${project.projectID}"></td>
-            <td th:text="${project.projectName}"></td>
-            <td th:text="${project.description}"></td>
-            <td th:text="${project.deadline}"></td>
-        </tr>
-        </tbody>
-    </table>
-
-    <h2>SubProjects</h2>
     <table class="table">
         <thead>
         <tr>
@@ -47,11 +26,11 @@
             <td th:text="${subproject.subProjectName}"></td>
             <td th:text="${subproject.description}"></td>
             <td th:text="${subproject.deadline}"></td>
+            <td th:text="${subproject.parentProject.projectID}"></td>
         </tr>
         </tbody>
     </table>
 
-    <button class="btn btn-primary" onclick="location.href='/addProject'">Add New Project</button>
     <button class="btn btn-primary" onclick="location.href='/addSubProject'">Add New SubProject</button>
     <button class="btn btn-secondary" onclick="location.href='/'">Go Back to Homepage</button>
 </div>

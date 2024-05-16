@@ -5,6 +5,7 @@ import com.example.projectforge.model.Project;
 import com.example.projectforge.model.SubProject;
 import com.example.projectforge.model.Task;
 import com.example.projectforge.projectRepository.*;
+import com.example.projectforge.service.SubProjectService;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,9 +36,10 @@ public class ProjectController {
     private SubProjectRepository subProjectRepository;
 
     @Autowired
-private TaskRepository taskRepository;
+    private TaskRepository taskRepository;
 
-
+    @Autowired
+    private SubProjectService subProjectService;
 
     //showing the data with sting from the model class on the index, both projects and subprojecs
     // showing the projectslist in the projects.html
@@ -53,15 +55,15 @@ private TaskRepository taskRepository;
     }
 
     @GetMapping("/projects")
-public String getProjects(Model model) {
-    List<Project> projects = (List<Project>) projectRepository.findAll();
-    model.addAttribute("projects", projects);
+    public String getProjects(Model model) {
+        List<Project> projects = (List<Project>) projectRepository.findAll();
+        model.addAttribute("projects", projects);
 
-    List<SubProject> subProjects = subProjectRepository.findAll();
-    model.addAttribute("subProjects", subProjects);
+        List<SubProject> subProjects = subProjectRepository.findAll();
+        model.addAttribute("subProjects", subProjects);
 
-    return "projects";
-}
+        return "projects";
+    }
 
     //create project page
     @GetMapping("/createProject")
@@ -94,6 +96,13 @@ public String getProjects(Model model) {
         return "addSubProject";
     }
 
+    @GetMapping("/subproject")
+    public String showSubProject(Model model) {
+SubProject subProject = subProjectService.getSubProject();
+model.addAttribute("subProject", subProject);
+        return "subproject"; // return the name of your HTML template
+    }
+
     //added sqlexception for subproject too
     @PostMapping("/addSubProject")
     public String addSubProject(@ModelAttribute SubProject subproject) throws SQLException {
@@ -111,28 +120,29 @@ public String getProjects(Model model) {
 
     //tasks
 
-  @GetMapping("/addTask")
-public String showAddTaskForm(Model model) {
-    model.addAttribute("task", new Task());
-    model.addAttribute("projects", projectRepository.findAll());
-    model.addAttribute("subProjects", subProjectRepository.findAll());
-    return "addTask";
-}
-@PostMapping("/addTask")
-public String addTask(@ModelAttribute Task task) {
-    int parentProjectID = task.getParentProject().getProjectID();
-    Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
-    if (parentProject == null) {
-        throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+    @GetMapping("/addTask")
+    public String showAddTaskForm(Model model) {
+        model.addAttribute("task", new Task());
+        model.addAttribute("projects", projectRepository.findAll());
+        model.addAttribute("subProjects", subProjectRepository.findAll());
+        return "addTask";
     }
-    task.setParentProject(parentProject);
-    try {
-        taskRepository.save(task);
-        logger.info("Task saved: {}", task);
-    } catch (SQLException e) {
-        logger.error("Error saving task: {}", e.getMessage());
+
+    @PostMapping("/addTask")
+    public String addTask(@ModelAttribute Task task) {
+        int parentProjectID = task.getParentProject().getProjectID();
+        Project parentProject = projectRepository.findById(parentProjectID).orElse(null);
+        if (parentProject == null) {
+            throw new IllegalArgumentException("Invalid project ID:" + parentProjectID);
+        }
+        task.setParentProject(parentProject);
+        try {
+            taskRepository.save(task);
+            logger.info("Task saved: {}", task);
+        } catch (SQLException e) {
+            logger.error("Error saving task: {}", e.getMessage());
+        }
+        return "redirect:/projects";
     }
-    return "redirect:/projects";
-}
 
 }
