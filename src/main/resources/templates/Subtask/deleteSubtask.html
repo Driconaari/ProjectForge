@@ -9,16 +9,16 @@
 
 <div align="center">
 
-    <h2>Are you sure to delete the Subtask?</h2>
+    <h2>Er du sikker på du vil slette denne Subtask?</h2>
 
     <br>
 
     <form th:action="@{/subtasks/delete/{subtask_id}(subtask_id=${subtask_id})}" method="post">
         <input type="hidden" name="subtask_id" value="${subtask_id}">
-        <button type="submit" class="btn" style="background-color: #d54848">Delete subtask</button>
+        <button type="submit" class="btn" style="background-color: #d54848">Slet subtask</button>
 
         <a th:href="@{/subtasks/{task_id}(task_id=${subtask.task_id})}">
-            <button type="button" class="btn">Return to subtask</button>
+            <button type="button" class="btn">Returner til subtask</button>
         </a>
 
     </form>

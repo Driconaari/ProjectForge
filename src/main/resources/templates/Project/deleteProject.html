@@ -9,16 +9,16 @@
 
 <div align="center">
 
-    <h2>Are you sure to delete the project?</h2>
+    <h2>Sikker på du vil slette projektet?</h2>
 
     <br>
 
     <form th:action="@{/deleteProject/{project_id}(project_id=${project_id})}" method="post">
         <input type="hidden" name="project_id" value="${project_id}">
-        <button type="submit" class="btn" style="background-color: #d54848">Delete project</button>
+        <button type="submit" class="btn" style="background-color: #d54848">Slet Projekt</button>
 
         <a th:href="@{/projects/{user_id}(user_id=${project.user_id})}">
-            <button type="button" class="btn" style="background-color: white">Return to Projects</button>
+            <button type="button" class="btn" style="background-color: white">Tilbage til projekter</button>
         </a>
     </form>
 

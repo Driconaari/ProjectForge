@@ -27,15 +27,15 @@
                     <span class="icon"><ion-icon name="lock-closed-outline"></ion-icon></span>
                     <input id="password" type="password"
                            th:field="*{password}" required>
-                    <label>Password</label>
+                    <label>Kodeord</label>
                 </div>
                 <button type="submit" class="btn">Login</button>
                 <div class="login-register">
-                    <p>Don't have an account? <a href="/register" class="register-link">Register</a> </p>
+                    <p>Har du ikke en bruger? <a href="/register" class="register-link">Register</a> </p>
                 </div>
 
                 <div id="error-message" th:if="${loginFailed}" class="error-message">
-                    Wrong login, please try again.
+                    Forkert login, prøv igen.
                 </div>
 
             </form>

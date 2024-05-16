@@ -12,22 +12,22 @@
     <form th:action="@{/task/create/{project_id}(project_id=${project_id})}" method="POST" th:object="${task}">
 
         <div class="createTaskForm">
-            <label class="createTaskForm">Task name:</label>
+            <label class="createTaskForm">Opgave navn:</label>
             <input type="text" th:field="*{task_name}" placeholder="Task name" required>
         </div>
 
         <div class="createTaskForm">
-            <label class="createTaskForm">Hours:</label>
+            <label class="createTaskForm">Timer:</label>
             <input type="number" th:field="*{hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
         </div>
 
         <div>
-            <label class="createTaskForm">Start Date</label>
+            <label class="createTaskForm">Start Dato</label>
             <input type="date" th:field="*{start_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
         </div>
 
         <div>
-            <label class="createTaskForm">End Date</label>
+            <label class="createTaskForm">Slut Dato</label>
             <input type="date" th:field="*{end_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
         </div>
 
@@ -36,8 +36,8 @@
             <label>
                 <select name="status" id="status">
                     <option value="1">TODO</option>
-                    <option value="2">In Progress</option>
-                    <option value="3">Done</option>
+                    <option value="2">I gang</option>
+                    <option value="3">Færdig</option>
                 </select>
             </label>
         </div>
@@ -52,7 +52,7 @@
         <br>
 
         <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">
-            <button type="button" class="btn go-back">Go Back</button>
+            <button type="button" class="btn go-back">Gå tilbage</button>
         </a>
 
     </form>

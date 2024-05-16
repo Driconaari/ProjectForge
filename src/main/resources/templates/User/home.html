@@ -2,21 +2,21 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Welcome</title>
+    <title>Velkommen</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header>
     <a class="logo"></a>
     <nav class="navigation">
-        <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Edit Profile</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Sign out</a>
+        <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Rediger Profil</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
     </nav>
 </header>
-<h1>Sign in successful</h1>
+<h1>Log in successfuldt</h1>
 <h3>
     <a th:href="@{/projects/{organization_id}(organization_id=${user_id})}">
-        <button type="button" class="btn">See current projects</button>
+        <button type="button" class="btn">Se Nuværende projekter</button>
     </a>
 </h3>
 
