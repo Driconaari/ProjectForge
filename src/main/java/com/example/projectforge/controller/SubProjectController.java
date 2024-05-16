@@ -49,7 +49,7 @@ public class SubProjectController {
         model.addAttribute("projects", projectRepository.findAll());
         return "addSubProject";
     }
-
+//aaaa
     //added sqlexception for subproject too
   @PostMapping("/addSubProject")
 @Transactional
