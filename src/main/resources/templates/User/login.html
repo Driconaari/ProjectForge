@@ -2,26 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
     <title>Login</title>
+    <style>
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        /* Add this to remove margins and add a little spacing between forms */
+        form {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+        /* Add this to center the button */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
 </head>
 <body>
-<div th:if="${param.error}">
-    Invalid username and password.
+<div class="form-container">
+    <div th:if="${param.error}">
+        Invalid username and password.
+    </div>
+    <div th:if="${param.logout}">
+        You have been logged out.
+    </div>
+    <form th:action="@{/login}" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" />
+        <br />
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" />
+        <br />
+        <!-- Wrap the button in a container -->
+        <div class="button-container">
+            <input type="submit" value="Log in" />
+        </div>
+    </form>
+    <!-- Add this form for the Register button -->
+    <form th:action="@{/register}" method="get">
+        <input type="submit" value="Register" />
+    </form>
 </div>
-<div th:if="${param.logout}">
-    You have been logged out.
-</div>
-<form th:action="@{/login}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" />
-    <br />
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" />
-    <br />
-    <input type="submit" value="Log in" />
-</form>
-<!-- Add this form for the Register button -->
-<form th:action="@{/register}" method="get">
-    <input type="submit" value="Register" />
-</form>
 </body>
 </html>
