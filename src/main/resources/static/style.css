@@ -331,8 +331,8 @@ body {
 }
 
 .logo {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 150px;
     background-image: url("images/Logo.png");
     background-size: cover;
     border-radius: 5px;
