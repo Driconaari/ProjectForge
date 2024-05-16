@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Opret Projekt</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <h1>Opret Projekt</h1>
+
+    <br>
+
+    <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post"
+          th:object="${project}">
+
+        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
+            <button type="button" class="btn">Gå tilbage til projekter</button>
+        </a>
+
+        <div class="createProjectForm">
+            <label class="col-createProject label">Projekt navn:</label>
+            <input type="text" th:field="${project.project_name}" placeholder="Project name" required>
+        </div>
+
+        <div class="createProjectForm">
+            <label class="col-createProject label">Projekt beskrivelse:</label>
+            <input type="text" th:field="${project.project_description}" placeholder="Describe the project">
+        </div>
+
+        <div>
+            <label class="createProjectForm">Start Dato</label>
+            <input type="date" th:field="*{start_date}" min="2000-01-01" max="3000-12-31">
+        </div>
+
+        <div>
+            <label class="createProjectForm">Slut Dato</label>
+            <input type="date" th:field="*{end_date}" min="2000-01-01" max="3000-12-31">
+        </div>
+
+        <br>
+
+        <div>
+            <input type="submit" value="Submit" class="btn btn-success"/>
+            <input type="reset" value="Reset" class="btn btn-danger"/>
+        </div>
+
+    </form>
+
+</body>
+</html>
