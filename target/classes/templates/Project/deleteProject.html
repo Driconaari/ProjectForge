@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Delete project</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<div align="center">
+
+    <h2>Sikker på du vil slette projektet?</h2>
+
+    <br>
+
+    <form th:action="@{/deleteProject/{project_id}(project_id=${project_id})}" method="post">
+        <input type="hidden" name="project_id" value="${project_id}">
+        <button type="submit" class="btn" style="background-color: #d54848">Slet Projekt</button>
+
+        <a th:href="@{/projects/{user_id}(user_id=${project.user_id})}">
+            <button type="button" class="btn" style="background-color: white">Tilbage til projekter</button>
+        </a>
+    </form>
+
+</div>
+
+</form>
+</body>
+</html>
