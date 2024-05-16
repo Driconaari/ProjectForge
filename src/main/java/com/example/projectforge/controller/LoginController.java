@@ -2,8 +2,8 @@ package com.example.projectforge.controller;
 
 import com.example.projectforge.dto.UserRegistrationDTO;
 import com.example.projectforge.model.User;
-import com.example.projectforge.userRepository.UserRepo;
 import com.example.projectforge.service.CustomUserDetailsService;
+import com.example.projectforge.userRepository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +28,7 @@ public class LoginController {
     private CustomUserDetailsService userDetailsService;
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepository;
 
     @GetMapping("/login")
     public String login() {
@@ -71,7 +71,7 @@ public class LoginController {
         newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
         newUser.setEmail(registrationDto.getEmail()); // Set the email field
         newUser.setRoles(registrationDto.getRoles());
-        userRepo.register(newUser);
+        userRepository.register(newUser);
         return "redirect:/login";
     }
 }
