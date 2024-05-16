@@ -1,11 +1,11 @@
-package com.example.projectforge.controller;
+package com.example.ProjectForge.controller;
 
-import com.example.projectforge.dto.TaskSubtaskDTO;
-import com.example.projectforge.model.Project;
-import com.example.projectforge.model.Task;
-import com.example.projectforge.service.CustomUserDetailsService;
-import com.example.projectforge.service.ProjectService;
-import com.example.projectforge.service.TaskService;
+import com.example.ProjectForge.dto.TaskSubtaskDTO;
+import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.service.ProjectService;
+import com.example.ProjectForge.service.TaskService;
+import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +22,11 @@ public class TaskController {
 
     TaskService taskService;
     ProjectService projectService;
-    CustomUserDetailsService customUserDetailsService;
+    UserService userService;
 
-    public TaskController(TaskService taskService, CustomUserDetailsService customUserDetailsService, ProjectService projectService){
+    public TaskController(TaskService taskService, UserService userService, ProjectService projectService){
         this.taskService=taskService;
-        this.customUserDetailsService = customUserDetailsService;
+        this.userService = userService;
         this.projectService = projectService;
     }
 
@@ -39,7 +39,7 @@ public class TaskController {
     public String showTasks(Model model, @PathVariable int project_id, HttpSession session) {
         if(isSignedIn(session)) {
             List<Task> tasks = taskService.getTaskByProID(project_id);
-            long user_id = customUserDetailsService.getUserID(project_id);
+            int user_id = userService.getUserID(project_id);
 
             //Calculated time for task + subtask
             double projectCalculatedTime = projectService.getProjectTimeByProjectID(project_id);
@@ -165,7 +165,7 @@ public class TaskController {
             List<TaskSubtaskDTO> taskSubtasks = taskService.getTaskSubtasksByProID(project_id);
             double projectCalculatedTime = projectService.getProjectTimeByProjectID(project_id);
 
-            long user_id = customUserDetailsService.getUserID(project_id);
+            int user_id = userService.getUserID(project_id);
 
             double taskCalculatedTime1 = projectService.getProjectTimeByProjectID(project_id);
             for (TaskSubtaskDTO task : taskSubtasks) {

@@ -1,10 +1,10 @@
-package com.example.projectforge.controller;
+package com.example.ProjectForge.controller;
 
-import com.example.projectforge.model.Subtask;
-import com.example.projectforge.model.Task;
-import com.example.projectforge.service.ProjectService;
-import com.example.projectforge.service.SubtaskService;
-import com.example.projectforge.service.TaskService;
+import com.example.ProjectForge.model.Subtask;
+import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.service.ProjectService;
+import com.example.ProjectForge.service.SubtaskService;
+import com.example.ProjectForge.service.TaskService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

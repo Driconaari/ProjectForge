@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<header>
+    <div class="logo"></div>
+    <nav class="navigation">
+        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
+    </nav>
+</header>
+
+<main class="table">
+    <section class="table_body">
+        <table>
+            <thead>
+                <tr>
+                    <th scope="col">Navn</th>
+                    <th scope="col">Timer</th>
+                    <th scope="col">EST. tid</th>
+                    <th scope="col">Start dato</th>
+                    <th scope="col">Slut dato</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+            <th:block th:each="task, taskIndex : ${taskSubtask}">
+                <tr>
+                    <td class="task">
+                        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">
+                            <span th:text="${taskIndex.index + 1 + '. ' + task.name}"></span>
+                        </a>
+                    </td>
+
+                    <td class="task" th:text="${task.hours}"></td>
+                    <td class="task" th:text="${task.calculatedTime}"></td>
+                    <td class="task" th:text="${task.start_date}"></td>
+                    <td class="task" th:text="${task.end_date}"></td>
+                    <td class="task">
+                        <span th:if="${task.status}==1" style="color: #0050ff;">TODO</span>
+                        <span th:if="${task.status}==2" style="color: #ffdc0c;">I Gang</span>
+                        <span th:if="${task.status}==3" style="color: #14cb2e;">Færdig</span>
+                    </td>
+                </tr>
+                <th:block th:each="subtask, subtaskIndex : ${task.subtasks}">
+                    <tr>
+                        <td class="subtask custom-td">
+                            <a th:href="@{/subtasks/{task_id}(task_id=${task.id})}">
+                                <span th:text="${taskIndex.index + 1 + '.' + (subtaskIndex.index + 1) + ' ' + subtask.subtask_name}"></span>
+                            </a>
+                        </td>
+                        <td class="subtask" th:text="${subtask.hours}"></td>
+                        <td class="subtask"></td>
+                        <td class="subtask" th:text="${subtask.start_date}"></td>
+                        <td class="subtask" th:text="${subtask.end_date}"></td>
+                        <td class="subtask">
+                            <span th:if="${subtask.status}==1" style="color: #0050ff;">TODO</span>
+                            <span th:if="${subtask.status}==2" style="color: #ffdc0c;">I Gang </span>
+                            <span th:if="${subtask.status}==3" style="color: #14cb2e;">Færdig</span>
+                        </td>
+                        <td class="subtask"></td>
+                        <td class="subtask"></td>
+                    </tr>
+                </th:block>
+            </th:block>
+            </tbody>
+        </table>
+
+
+
+        <br>
+
+        <div>
+            <h2 style="display: inline;">Projektets estimerede tid: </h2>
+            <a th:text="${projectCalculatedTime}" style="display: inline; font-size: 22px; font-weight: bold;"></a>
+        </div>
+
+    </section>
+</main>
+
+<p></p>
+
+</body>
+</html>

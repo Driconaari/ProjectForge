@@ -1,10 +1,10 @@
-package com.example.projectforge.controller;
+package com.example.ProjectForge.controller;
 
-import com.example.projectforge.model.Project;
-import com.example.projectforge.model.Task;
-import com.example.projectforge.service.CustomUserDetailsService;
-import com.example.projectforge.service.ProjectService;
-import com.example.projectforge.service.TaskService;
+import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.service.ProjectService;
+import com.example.ProjectForge.service.TaskService;
+import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-//@RequestMapping(path = "")
+@RequestMapping(path = "")
 @org.springframework.stereotype.Controller
 public class ProjectController {
 
-    private final ProjectService projectService;
-    private final CustomUserDetailsService customUserDetailsService;
-    private final TaskService taskService;
+    private ProjectService projectService;
+    private UserService userService;
+    private TaskService taskService;
 
-    public ProjectController(ProjectService projectService, CustomUserDetailsService customUserDetailsService, TaskService taskService) {
+    public ProjectController(ProjectService projectService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
-        this.customUserDetailsService = customUserDetailsService;
+        this.userService = userService;
         this.taskService = taskService;
     }
 
@@ -30,72 +30,58 @@ public class ProjectController {
         return session.getAttribute("user") != null;
     }
 
-  @GetMapping("/testPage")
-public String showTestPage() {
-    return "testPage";
-}
-
     //Get projects from user_id
-    @GetMapping(path = "projects")
-    public String showProjects(Model model, HttpSession session) {
-        long user_id = getUserIdFromSession(session);
-        if (user_id != -1) {
-            List<Project> projects = projectService.getProjectsByID(user_id);
+    @GetMapping(path = "projects/{user_id}")
+    public String showProjects(Model model, @PathVariable int user_id, HttpSession session) {
 
-            for (Project project : projects) {
-                int project_id = project.getProject_id();
-                List<Task> tasks = taskService.getTaskByProID(project_id);
+       if(isSignedIn(session)) {
 
-                double projectCalculatedTime = 0;
+           List<Project> projects = projectService.getProjectsByID(user_id);
 
-                for (Task task : tasks) {
-                    double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-                    task.setCalculatedTime(taskCalculatedTime);
-                    projectCalculatedTime += taskCalculatedTime;
-                }
+           for (Project project : projects) {
+               int project_id = project.getProject_id();
+               List<Task> tasks = taskService.getTaskByProID(project_id);
 
-                project.setTasks(tasks);
-                project.setProjectCalculatedTime(projectCalculatedTime);
-            }
+               double projectCalculatedTime = 0;
 
-            model.addAttribute("projects", projects);
-            return "Project/projects";
+               for (Task task : tasks) {
+                   double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                   task.setCalculatedTime(taskCalculatedTime);
+                   projectCalculatedTime += taskCalculatedTime;
+               }
+
+               project.setTasks(tasks);
+               project.setProjectCalculatedTime(projectCalculatedTime);
+           }
+
+           model.addAttribute("projects", projects);
+           return "Project/projects";
+       }
+       return "redirect:/sessionTimeout";
+    }
+
+
+
+    //Create project page
+    @GetMapping(path = "projects/create/{user_id}")
+    public String showCreateProject(Model model, @PathVariable int user_id, HttpSession session) {
+
+        if(isSignedIn(session)) {
+            Project project = new Project();
+            model.addAttribute("project", project);
+            model.addAttribute("user_id", user_id);
+            return "Project/createProject";
         }
         return "redirect:/sessionTimeout";
-
     }
-
-   private long getUserIdFromSession(HttpSession session) {
-    com.example.projectforge.model.User user = (com.example.projectforge.model.User) session.getAttribute("user");
-    if (user != null) {
-        return user.getUser_id();
-    }
-    return -1; // return -1 or throw an exception if the user is not signed in
-}
-
-  //Create project page
-@GetMapping("/projects/create")
-public String showCreateProjectForm(Model model) {
-    model.addAttribute("project", new Project());
-    return "Project/createProject";
-}
-
 
     //Create project
-@PostMapping(path = "/projects/create")
-public String createProject(@ModelAttribute("project") Project project, HttpSession session) {
-    // Get the user_id of the currently logged-in user
-    long signedInUserId = getUserIdFromSession(session);
-
-    // If the user is signed in, proceed with the project creation
-    if (signedInUserId != -1) {
-        projectService.createProject(project, signedInUserId);
-        return "redirect:/projects";
-    } else {
-        // If the user is not signed in, return an error or redirect to an error page
-        return "redirect:/error";
+    @PostMapping(path = "projects/create/{user_id}")            //localhost//8080:/projects/create/1
+    public String createProject(@ModelAttribute("project") Project project, @PathVariable int user_id) {
+        projectService.createProject(project, user_id);
+        return "redirect:/projects/" + user_id;
     }
-}
+
 
 
     //Edit project page
@@ -109,7 +95,7 @@ public String createProject(@ModelAttribute("project") Project project, HttpSess
             model.addAttribute("user_id", user_id);
             return "Project/editProject";
         }
-        return "redirect:/sessionTimeout";
+       return "redirect:/sessionTimeout";
     }
 
     //Edit project
@@ -137,11 +123,12 @@ public String createProject(@ModelAttribute("project") Project project, HttpSess
     }
 
 
+
     //Delete project page
     @GetMapping(path = "/deleteProject/{project_id}")
     public String deleteProject(@PathVariable("project_id") int project_id, Model model, HttpSession session) {
 
-        if (isSignedIn(session)) {
+        if (isSignedIn(session))  {
             model.addAttribute("project_id", project_id);
             Project project = projectService.getProjectByProjectID(project_id);
             model.addAttribute("project", project);
@@ -153,11 +140,8 @@ public String createProject(@ModelAttribute("project") Project project, HttpSess
     //Delete Project
     @PostMapping(path = "/deleteProject/{project_id}")
     public String removeProject(@PathVariable("project_id") int project_id, Model model) {
-        long user_id = customUserDetailsService.getUserID(project_id);
+        int user_id = userService.getUserID(project_id);
         projectService.deleteProject(project_id);
         return "redirect:/projects/" + user_id;
     }
-
-
-
 }

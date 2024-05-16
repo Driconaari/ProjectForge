@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+    <h1>Sign up User</h1>
+
+    <br>
+
+    <form th:action="@{/register}" method="post" th:object="${user}">
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Username:</label>
+            <input type="text" th:field="*{username}" placeholder="User name" required>
+        </div>
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Adgangskode:</label>
+            <input type="password" th:field="*{password}" placeholder="Password" required>
+        </div>
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Rolle:</label>
+            <select name="role" class="form-control">
+                <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <input type="submit" value="Sign up" class="btn"/>
+            <input type="reset" value="Reset" class="btn"/>
+        </div>
+
+        <br>
+
+        <a th:href="@{/register}">Har du allerede en bruger?</a>
+
+        <a th:href="@{/}">
+            <button type="button" class="btn btn-secondary btn-lg">Gå tilbage</button>
+        </a>
+    </form>
+
+
+
+</body>
+</html>
