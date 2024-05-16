@@ -1,22 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Register</title>
+    <title>Sign up</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
-<h2>Register</h2>
-<form th:action="@{/register}" method="post">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required />
-    <br />
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required />
-    <br />
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required />
-    <br />
-    <input type="submit" value="Register" />
-</form>
+
+    <h1>Sign up User</h1>
+
+    <br>
+
+    <form th:action="@{/register}" method="post" th:object="${user}">
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Username:</label>
+            <input type="text" th:field="*{username}" placeholder="User name" required>
+        </div>
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Adgangskode:</label>
+            <input type="password" th:field="*{password}" placeholder="Password" required>
+        </div>
+
+        <div class="signupForm">
+            <label class="col-sm-2 col-form-label">Rolle:</label>
+            <select name="role" class="form-control">
+                <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
+            </select>
+        </div>
+
+        <br>
+
+        <div>
+            <input type="submit" value="Registrer" class="btn"/>
+            <input type="reset" value="Reset" class="btn"/>
+        </div>
+
+        <br>
+
+        <a th:href="@{/register}">Har du allerede en bruger?</a>
+
+        <a th:href="@{/}">
+            <button type="button" class="btn btn-secondary btn-lg">Gå tilbage</button>
+        </a>
+    </form>
+
+
+
 </body>
 </html>

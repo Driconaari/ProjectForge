@@ -7,28 +7,28 @@
 </head>
 <body>
 
-<h1>Create Subtask</h1>
+<h1>Opret Subtask</h1>
 
 <form th:action="@{/subtasks/create/{task_id}(task_id=${task_id})}" method="post"
       th:object="${subtask}">
 
   <div>
-    <label class="createSubtaskForm">Subtask name:</label>
+    <label class="createSubtaskForm">Subtask navn:</label>
     <input type="text" th:field="*{subtask_name}" placeholder="Subtask name" required>
   </div>
 
   <div>
-    <label class="createSubtaskForm">Estimated hours:</label>
+    <label class="createSubtaskForm">Estimerede timer:</label>
     <input type="text" th:field="*{hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
   </div>
 
   <div>
-    <label class="createSubtaskForm">Start Date</label>
+    <label class="createSubtaskForm">Start Dato</label>
     <input type="date" th:field="*{start_date}" th:min="${task_start_date}" th:max="${task_end_date}" required>
   </div>
 
   <div>
-    <label class="createSubtaskForm">End Date</label>
+    <label class="createSubtaskForm">Slut Dato</label>
     <input type="date" th:field="*{end_date}" th:min="${task_start_date}" th:max="${task_end_date}" required>
   </div>
 
@@ -37,8 +37,8 @@
     <label>
       <select name="status" id="status">
         <option value="1">TODO</option>
-        <option value="2">In Progress</option>
-        <option value="3">Done</option>
+        <option value="2">I gang</option>
+        <option value="3">Færdig</option>
       </select>
     </label>
   </div>

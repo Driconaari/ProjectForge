@@ -9,8 +9,8 @@
 <header>
     <div class="logo"></div>
     <nav class="navigation">
-        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">Tasks</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Sign out</a>
+        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">Opgaver</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
     </nav>
 </header>
 
@@ -18,7 +18,7 @@
 
 <div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">
     <a th:href="@{/subtasks/create/{task_id}(task_id=${task_id})}">
-        <button type="button" class="btn">Create Subtask</button>
+        <button type="button" class="btn">Opret Subtask</button>
     </a>
 </div>
 
@@ -27,13 +27,13 @@
         <table class="table">
             <thead>
             <tr>
-                <th scope="col">Subtask name</th>
-                <th scope="col">Subtask hours</th>
-                <th scope="col">Start date</th>
-                <th scope="col">End date</th>
+                <th scope="col">Subtask navn</th>
+                <th scope="col">Subtask Timer</th>
+                <th scope="col">Start dato</th>
+                <th scope="col">Slut dato</th>
                 <th scope="col">Status</th>
-                <th scope="col">Delete Subtask</th>
-                <th scope="col">Edit Subtask</th>
+                <th scope="col">Slet Subtask</th>
+                <th scope="col">Rediger Subtask</th>
             </tr>
             </thead>
             <tbody>
@@ -48,12 +48,12 @@
 
                 <td>
                     <a th:href="@{/subtasks/delete/{subtask_id}(subtask_id=${subtask.subtask_id})}">
-                        <button type="button" class="btn">Delete Subtask</button>
+                        <button type="button" class="btn">Slet Subtask</button>
                     </a>
                 </td>
                 <td>
                     <a th:href="@{/subtask/{task_id}/edit/{subtask_id}(task_id=${task_id}, subtask_id=${subtask.subtask_id})}">
-                        <button type="button" class="btn">Edit Subtask</button>
+                        <button type="button" class="btn">Rediger Subtask</button>
                     </a>
                 </td>
             </tr>
