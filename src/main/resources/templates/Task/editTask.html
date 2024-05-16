@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Task</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+
+<h1>Edit Task</h1>
+
+<div>
+    <form method="post" th:action="@{/task/{project_id}/edit/{task_id}(project_id=${project_id}, task_id=${task_id})}">
+
+        <label for="task_name" class="form-label">Opgave navn:</label>
+        <input id="task_name" type="text" th:name="task_name" th:value="${task.task_name}">
+
+        <label for="hours" class="form-label">Timer:</label>
+        <input id="hours" type="text" th:name="hours" th:value="${task.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
+
+        <label for="task_start_date" class="form-label">Start dato</label>
+        <input id="task_start_date" type="date" th:field="${task.start_date}" th:min="${project_start_date}" th:max="${project_end_date}">
+
+        <label for="task_end_date" class="form-label">Slut dato</label>
+        <input id="task_end_date" type="date" th:field="${task.end_date}" th:min="${project_start_date}" th:max="${project_end_date}">
+
+        <input type="hidden" th:field="*{task_id}" required>
+
+        <input type="hidden" th:name="project" th:value="*{project_id}" required>
+
+        <label for="status">Status</label>
+        <label>
+            <select th:field="${task.status}" id="status">
+                <option value="1">TODO</option>
+                <option value="2">I Gang</option>
+                <option value="3">Færdig</option>
+            </select>
+        </label>
+
+
+        <button type="submit" class="btn">Gem</button>
+    </form>
+
+    <a th:href="@{/tasks/{project_id}(project_id=${task.project_id})}">
+        <button type="button" class="btn">Returner til opgaver</button>
+    </a>
+
+</div>
+</body>
+</html>

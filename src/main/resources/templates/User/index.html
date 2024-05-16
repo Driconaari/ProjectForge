@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+    <link rel="stylesheet" href="/style.css">
+
+</head>
+<body>
+<header>
+    <div class="logo"></div>
+</header>
+
+<h1 style="font-weight: bolder">Velkommen til PROJECTFORGE</h1>
+
+<div style="position:  relative; bottom: 80px">
+    <a th:href="@{/login}">
+        <button type="button" class="btn">Log in</button>
+    </a>
+
+    <a th:href="@{/register}">
+        <button type="button" class="btn">Opret Bruger</button>
+    </a>
+</div>
+
+</body>
+</html>

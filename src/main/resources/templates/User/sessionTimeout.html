@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Din Session er løbet ud</h1>
+
+<div>
+  <a th:href="@{/login}">
+    <button type="button" class="btn">Returner til login</button>
+  </a>
+
+  <a th:href="@{/register}">
+    <button type="button" class="btn">Opret Bruger</button>
+  </a>
+</div>
+
+</body>
+</html>
