@@ -23,7 +23,6 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/project")
 public class ProjectController {
 
     //logger to log the data
