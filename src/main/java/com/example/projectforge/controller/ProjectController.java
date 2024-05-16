@@ -53,17 +53,14 @@ private TaskRepository taskRepository;
         return "index";
     }
 
-@GetMapping("/projects")
-public String showProjects(Model model) {
-    Iterable<Project> projects = projectRepository.findAll();
-    Map<Project, List<SubProject>> projectSubProjectMap = new HashMap<>();
+    @GetMapping("/projects")
+public String getProjects(Model model) {
+    List<Project> projects = (List<Project>) projectRepository.findAll();
+    model.addAttribute("projects", projects);
 
-    for (Project project : projects) {
-        List<SubProject> subProjects = subProjectRepository.findByParentProjectId(project.getProjectID());
-        projectSubProjectMap.put(project, subProjects);
-    }
+    List<SubProject> subProjects = subProjectRepository.findAll();
+    model.addAttribute("subProjects", subProjects);
 
-    model.addAttribute("projectSubProjectMap", projectSubProjectMap);
     return "projects";
 }
 

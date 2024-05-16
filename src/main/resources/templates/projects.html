@@ -18,7 +18,6 @@
             <th>Project Name</th>
             <th>Description</th>
             <th>Deadline</th>
-            <th>SubProjects</th>
         </tr>
         </thead>
         <tbody>
@@ -27,41 +26,32 @@
             <td th:text="${project.projectName}"></td>
             <td th:text="${project.description}"></td>
             <td th:text="${project.deadline}"></td>
-            <td>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>SubProject ID</th>
-                        <th>SubProject Name</th>
-                        <th>Description</th>
-                        <th>Deadline</th>
-                    </tr>
-                    <body>
-                    <h1>Projects</h1>
-                    <div th:each="entry : ${projectSubProjectMap}">
-                        <h2 th:text="${entry.key.projectName}"></h2>
-                        <ul>
-                            <li th:each="subProject : ${entry.value}">
-                                <h3 th:text="${subProject.subProjectName}"></h3>
-                                <!-- Add more fields as needed -->
-                            </li>
-                        </ul>
-                    </div>
-                    </body>
-                    </thead>
-                    <tbody>
-                    <tr th:each="subproject : ${subProjects}" th:if="${subproject.parentProject.projectID} == ${project.projectID}">
-                        <td th:text="${subproject.subprojectID}"></td>
-                        <td th:text="${subproject.subprojectName}"></td>
-                        <td th:text="${subproject.description}"></td>
-                        <td th:text="${subproject.deadline}"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </td>
         </tr>
         </tbody>
     </table>
+
+    <h2>SubProjects</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>SubProject ID</th>
+            <th>SubProject Name</th>
+            <th>Description</th>
+            <th>Deadline</th>
+            <th>Parent Project ID</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subproject : ${subProjects}">
+            <td th:text="${subproject.subprojectID}"></td>
+            <td th:text="${subproject.subprojectName}"></td>
+            <td th:text="${subproject.description}"></td>
+            <td th:text="${subproject.deadline}"></td>
+            <td th:text="${subproject.parentProject.projectID}"></td>
+        </tr>
+        </tbody>
+    </table>
+
     <button class="btn btn-primary" onclick="location.href='/addProject'">Add New Project</button>
     <button class="btn btn-primary" onclick="location.href='/addSubProject'">Add New SubProject</button>
     <button class="btn btn-secondary" onclick="location.href='/'">Go Back to Homepage</button>
