@@ -1,6 +1,6 @@
 package com.example.projectforge.dto;
 
-public class UserRegistrationDto {
+public class UserRegistrationDTO {
     private String username;
     private String password;
     private String email;

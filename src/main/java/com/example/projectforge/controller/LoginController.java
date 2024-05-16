@@ -1,6 +1,6 @@
 package com.example.projectforge.controller;
 
-import com.example.projectforge.dto.UserRegistrationDto;
+import com.example.projectforge.dto.UserRegistrationDTO;
 import com.example.projectforge.model.User;
 import com.example.projectforge.userRepository.UserRepo;
 import com.example.projectforge.service.CustomUserDetailsService;
@@ -60,12 +60,12 @@ public class LoginController {
 
     @GetMapping("/register")
     public String register(Model model) {
-        model.addAttribute("user", new UserRegistrationDto());
+        model.addAttribute("user", new UserRegistrationDTO());
         return "register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute("user") UserRegistrationDto registrationDto) {
+    public String register(@ModelAttribute("user") UserRegistrationDTO registrationDto) {
         User newUser = new User();
         newUser.setUsername(registrationDto.getUsername());
         newUser.setPassword(new BCryptPasswordEncoder().encode(registrationDto.getPassword()));
