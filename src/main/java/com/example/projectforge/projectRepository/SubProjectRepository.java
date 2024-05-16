@@ -2,7 +2,9 @@ package com.example.projectforge.projectRepository;
 
 import com.example.projectforge.model.SubProject;
 import jakarta.persistence.metamodel.SingularAttribute;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.io.Serializable;
@@ -12,6 +14,7 @@ import java.util.Optional;
 
 @Repository
 public interface SubProjectRepository {
+
 
     SubProject findBySubProjectName(String subProjectName) throws SQLException;
 
