@@ -404,3 +404,12 @@ body {
     top: 0;
     left: 0;
 }
+
+copyrightSection {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+}
