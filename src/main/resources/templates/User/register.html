@@ -19,34 +19,30 @@
         </div>
 
         <div class="signupForm">
-            <label class="col-sm-2 col-form-label">Adgangskode:</label>
+            <label class="col-sm-2 col-form-label">Password:</label>
             <input type="password" th:field="*{password}" placeholder="Password" required>
         </div>
 
         <div class="signupForm">
-            <label class="col-sm-2 col-form-label">Rolle:</label>
-            <select name="role" class="form-control">
-                <option th:each="role : ${roles}" th:value="${role.role_id}" th:text="${role.role_name}"></option>
-            </select>
+            <label class="col-sm-2 col-form-label">Email:</label>
+            <input type="email" th:field="*{email}" placeholder="Email" required>
         </div>
 
         <br>
 
         <div>
-            <input type="submit" value="Registrer" class="btn"/>
+            <input type="submit" value="Register" class="btn"/>
             <input type="reset" value="Reset" class="btn"/>
         </div>
 
         <br>
 
-        <a th:href="@{/register}">Har du allerede en bruger?</a>
+        <a th:href="@{/register}">Already have an account?</a>
 
         <a th:href="@{/}">
-            <button type="button" class="btn btn-secondary btn-lg">Gå tilbage</button>
+            <button type="button" class="btn btn-secondary btn-lg">Go back</button>
         </a>
     </form>
-
-
 
 </body>
 </html>

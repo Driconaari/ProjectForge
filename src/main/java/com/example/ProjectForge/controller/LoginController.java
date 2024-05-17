@@ -64,23 +64,28 @@ public class LoginController {
     }
 
     //Sign in with user
-    @PostMapping(path = "/login")
-    public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
-        try {
-            User userLogin = userService.login(user.getUsername(), user.getPassword());
-            if (userLogin != null) {
-                session.setAttribute("user", userLogin);
-                session.setMaxInactiveInterval(1500);
+   @PostMapping(path = "/login")
+public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
+    try {
+        User userLogin = userService.login(user.getUsername(), user.getPassword());
+        if (userLogin != null) {
+            session.setAttribute("user", userLogin);
+            session.setMaxInactiveInterval(1500);
 
-                return "redirect:/home/" + userLogin.getUser_id();
-            } else {
-                model.addAttribute("loginFailed", true);
-                return "User/login";
+            // If the user has a role, set it in the session
+            if (userLogin.getRole_id() != 0) {
+                session.setAttribute("role", userLogin.getRole_id());
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+
+            return "redirect:/home/" + userLogin.getUser_id();
+        } else {
+            model.addAttribute("loginFailed", true);
+            return "User/login";
         }
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
 
 
     //Sign up page
@@ -106,7 +111,7 @@ public class LoginController {
 
         user.setRole_id(role_id);
         userService.register(user);
-        return "redirect:/register";
+        return "redirect:/login";
     }
 
 
