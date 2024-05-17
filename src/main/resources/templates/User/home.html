@@ -7,7 +7,9 @@
 </head>
 <body>
 <header>
-    <a class="logo"></a>
+    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+        <div class="logo"></div>
+    </a>
     <nav class="navigation">
         <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Rediger Profil</a>
         <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
