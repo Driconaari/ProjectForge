@@ -6,9 +6,7 @@ INSERT INTO role (role) VALUES ('ADMIN 2');
 
 
 -- Insert into user
-INSERT INTO user (username, password, email, role_id) VALUES ('Alice', 'password1', 'alice@example.com', 1);
 INSERT INTO user (username, password, email, role_id) VALUES ('mand', '$2a$10$ukVU7pwssLL/zYZxVjt0CuFw98TRRBs6tR0qLRLsQZ/1VxkxChOaK', 'mand@mand.com', 2);
-INSERT INTO user (username, password, email, role_id) VALUES ('Charlie', 'password3', 'charlie@example.com', 2);
 -- Insert into project
 INSERT INTO project (project_name, project_description, start_date, end_date, user_id) VALUES ('Project 1', 'Description 1', '2022-01-01', '2022-12-31', 1);
 INSERT INTO project (project_name, project_description, start_date, end_date, user_id) VALUES ('Project 2', 'Description 2', '2023-01-01', '2023-12-31', 2);
