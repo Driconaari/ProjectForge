@@ -2,6 +2,7 @@ package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.User;
 import com.example.ProjectForge.util.ConnectionManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -9,50 +10,62 @@ import java.sql.*;
 @Repository
 public class UserRepository implements IUserRepository {
 
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+
     //log in with user
-    @Override
-    public User login(String username, String password) {
-        User user = null;
+@Override
+public User login(String username, String password) {
+    User user = null;
 
-        try {
-            Connection con = ConnectionManager.getConnection();
-            String SQL = "SELECT * FROM user WHERE username = ? AND password = ?;";
-            PreparedStatement pstmt = con.prepareStatement(SQL);
-            pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            ResultSet rs = pstmt.executeQuery();
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM user WHERE username = ?;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setString(1, username);
+        ResultSet rs = pstmt.executeQuery();
 
-            if (rs.next()) {
-                int user_id = rs.getInt("user_id");
+        if (rs.next()) {
+            int user_id = rs.getInt("user_id");
+            String storedPassword = rs.getString("password");
+
+            // Check the entered password against the stored encoded password
+            if (passwordEncoder.matches(password, storedPassword)) {
                 user = new User(user_id, username, password);
             }
-            return user;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        return user;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+}
 
     //register user
-    @Override
-    public void register(User user) {
-        try {
-            Connection con = ConnectionManager.getConnection();
-            String SQL = "INSERT INTO user (username ,password, role_id) VALUES (?, ?, ?)";
-            PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
-            pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setInt(3, user.getRole_id());
-            pstmt.executeUpdate();
-            ResultSet rs = pstmt.getGeneratedKeys();
+ @Override
+public void register(User user) {
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "INSERT INTO user (username ,password, role_id) VALUES (?, ?, ?)";
+        PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-            if (rs.next()) {
-                int user_id = rs.getInt(1);
-                user.setUser_id(user_id);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+        // Encode the password before storing it
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+
+        pstmt.setString(1, user.getUsername());
+        pstmt.setString(2, encodedPassword); // Store the encoded password
+        pstmt.setInt(3, user.getRole_id());
+        pstmt.executeUpdate();
+        ResultSet rs = pstmt.getGeneratedKeys();
+
+        if (rs.next()) {
+            int user_id = rs.getInt(1);
+            user.setUser_id(user_id);
         }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+}
 
     //is username taken?
     @Override
@@ -72,23 +85,27 @@ public class UserRepository implements IUserRepository {
     }
 
     //edit user information
-    @Override
-    public void editUser(User user, int user_id) {
-        try {
-            Connection conn = ConnectionManager.getConnection();
-            String SQL = "UPDATE user SET username = ?, password = ? WHERE user_id = ?";
-            try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-                pstmt.setString(1, user.getUsername());
-                pstmt.setString(2, user.getPassword());
-                pstmt.setInt(3, user_id);
-                pstmt.executeUpdate();
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-        } catch (RuntimeException e) {
+   @Override
+public void editUser(User user, int user_id) {
+    try {
+        Connection conn = ConnectionManager.getConnection();
+        String SQL = "UPDATE user SET username = ?, password = ? WHERE user_id = ?";
+        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+            pstmt.setString(1, user.getUsername());
+
+            // Encode the new password before storing it
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+            pstmt.setString(2, encodedPassword);
+
+            pstmt.setInt(3, user_id);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    } catch (RuntimeException e) {
+        throw new RuntimeException(e);
     }
+}
 
 
     //get user from user id
