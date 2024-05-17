@@ -6,6 +6,7 @@ import com.example.ProjectForge.service.ProjectService;
 import com.example.ProjectForge.service.TaskService;
 import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RequestMapping(path = "")
-@org.springframework.stereotype.Controller
+@Controller
 public class ProjectController {
 
     private ProjectService projectService;
