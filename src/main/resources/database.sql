@@ -15,8 +15,7 @@ CREATE TABLE role
     PRIMARY KEY (role_id)
 );
 
-ALTER TABLE user
-    ADD email VARCHAR(255);
+
 
 -- Create user table
 CREATE TABLE user
@@ -31,6 +30,8 @@ CREATE TABLE user
     UNIQUE (username)
 );
 
+ALTER TABLE user
+    ADD email VARCHAR(255);
 -- Create project table
 CREATE TABLE project
 (
