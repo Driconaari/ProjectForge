@@ -2,12 +2,19 @@ package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.User;
 import com.example.ProjectForge.util.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 
 @Repository
 public class UserRepository implements IUserRepository {
+
+    private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    @Autowired //Autowire RoleRepository to check if role_id exists when registering a user
+    private RoleRepository roleRepository;
 
     //log in with user
     @Override
@@ -16,15 +23,19 @@ public class UserRepository implements IUserRepository {
 
         try {
             Connection con = ConnectionManager.getConnection();
-            String SQL = "SELECT * FROM user WHERE username = ? AND password = ?;";
+            String SQL = "SELECT * FROM user WHERE username = ?;";
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 int user_id = rs.getInt("user_id");
-                user = new User(user_id, username, password);
+                String storedPassword = rs.getString("password");
+
+                // Check the entered password against the stored encoded password
+                if (passwordEncoder.matches(password, storedPassword)) {
+                    user = new User(user_id, username, password);
+                }
             }
             return user;
         } catch (SQLException e) {
@@ -32,18 +43,25 @@ public class UserRepository implements IUserRepository {
         }
     }
 
-    //register user
+    //register user to database with encoded password and role_id 1
     @Override
     public void register(User user) {
         try {
             Connection con = ConnectionManager.getConnection();
-            String SQL = "INSERT INTO user (username ,password, role_id) VALUES (?, ?, ?)";
+            String SQL = "INSERT INTO user (username ,password, email, role_id) VALUES (?, ?, ?, ?)";
             PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+
+            // Encode the password before storing it
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
+
             pstmt.setString(1, user.getUsername());
-            pstmt.setString(2, user.getPassword());
-            pstmt.setInt(3, user.getRole_id());
+            pstmt.setString(2, encodedPassword); // Store the encoded password
+            pstmt.setString(3, user.getEmail()); // Store the email
+            pstmt.setInt(4, 1); // Set role_id to 1 for user
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
+
 
             if (rs.next()) {
                 int user_id = rs.getInt(1);
@@ -76,11 +94,17 @@ public class UserRepository implements IUserRepository {
     public void editUser(User user, int user_id) {
         try {
             Connection conn = ConnectionManager.getConnection();
-            String SQL = "UPDATE user SET username = ?, password = ? WHERE user_id = ?";
+            String SQL = "UPDATE user SET username = ?, password = ?, email = ? WHERE user_id = ?";
             try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
                 pstmt.setString(1, user.getUsername());
-                pstmt.setString(2, user.getPassword());
-                pstmt.setInt(3, user_id);
+
+                // Encode the new password before storing it
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                pstmt.setString(2, encodedPassword);
+
+                pstmt.setString(3, user.getEmail()); // Store the email
+
+                pstmt.setInt(4, user_id);
                 pstmt.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -105,7 +129,8 @@ public class UserRepository implements IUserRepository {
             if (rs.next()) {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                user = new User(user_id, username, password);
+                String email = rs.getString("email"); // Retrieve the email
+                user = new User(user_id, username, password, email);
             }
             return user;
         } catch (SQLException ex) {
@@ -115,7 +140,7 @@ public class UserRepository implements IUserRepository {
 
     //Get user id from project id
     @Override
-    public int getUserID (int project_id){
+    public int getUserID(int project_id) {
         int user_id = 0;
         try {
             Connection con = ConnectionManager.getConnection();

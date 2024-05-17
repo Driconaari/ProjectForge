@@ -2,12 +2,14 @@ package com.example.ProjectForge.util;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class ConnectionManager {
     private static Connection conn = null;
@@ -24,7 +26,23 @@ public class ConnectionManager {
         return properties;
     }
 
-    //Insert application properties to get connection to database
+    //Check if role_id exists in the database connection
+    public boolean doesRoleIdExist(int roleId) {
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT role_id FROM role WHERE role_id = ?";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, roleId);
+        ResultSet rs = pstmt.executeQuery();
+
+        // Returns true if the role_id exists and false if it does not
+        return rs.next();
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+    //Insert application properties into the database connection
     public static Connection getConnection() {
         if (conn != null) {
             return conn;
@@ -42,4 +60,8 @@ public class ConnectionManager {
         }
         return conn;
     }
+
+
+
+
 }

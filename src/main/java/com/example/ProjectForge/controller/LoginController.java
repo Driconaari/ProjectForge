@@ -64,23 +64,28 @@ public class LoginController {
     }
 
     //Sign in with user
-    @PostMapping(path = "/login")
-    public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
-        try {
-            User userLogin = userService.login(user.getUsername(), user.getPassword());
-            if (userLogin != null) {
-                session.setAttribute("user", userLogin);
-                session.setMaxInactiveInterval(1500);
+   @PostMapping(path = "/login")
+public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
+    try {
+        User userLogin = userService.login(user.getUsername(), user.getPassword());
+        if (userLogin != null) {
+            session.setAttribute("user", userLogin);
+            session.setMaxInactiveInterval(1500);
 
-                return "redirect:/home/" + userLogin.getUser_id();
-            } else {
-                model.addAttribute("loginFailed", true);
-                return "User/login";
+            // If the user has a role, set it in the session
+            if (userLogin.getRole_id() != 0) {
+                session.setAttribute("role", userLogin.getRole_id());
             }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+
+            return "redirect:/home/" + userLogin.getUser_id();
+        } else {
+            model.addAttribute("loginFailed", true);
+            return "User/login";
         }
+    } catch (Exception e) {
+        throw new RuntimeException(e);
     }
+}
 
 
     //Sign up page
@@ -90,24 +95,27 @@ public class LoginController {
         User user = new User();
 
         model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
+        model.addAttribute("defualtRole", 1);//Default role is 1 for user role in database table role (1 = user, 2 = admin)
         return "User/register";
     }
 
     //Sign up
-    @PostMapping(path = "/register")
-    public String register(@ModelAttribute("organization") User user, @RequestParam("role") int role_id, Model model) {
-        boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
+   @PostMapping(path = "/register")
+public String register(@ModelAttribute("user") User user, @RequestParam("role_id") int role_id, @RequestParam("email") String email, Model model) {
+    boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
 
-        if (isUsernameTaken) {
-            model.addAttribute("usernameTaken", true);
-            return "User/register";
-        }
+    user.setRole_id(role_id);
 
-        user.setRole_id(role_id);
-        userService.register(user);
-        return "redirect:/register";
+    if (isUsernameTaken) {
+        model.addAttribute("usernameTaken", true);
+        return "User/register";
     }
+
+    user.setRole_id(role_id);
+    user.setEmail(email); // Set the email field on the user
+    userService.register(user);
+    return "redirect:/login";
+}
 
 
     //Sign out
