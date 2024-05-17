@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<h1>Sign up User</h1>
+<h1>Registrer Bruger</h1>
 
 <br>
 
@@ -28,15 +28,13 @@
         <input type="email" th:field="*{email}" placeholder="Email" required>
     </div>
 
-    <input type="hidden" th:field="*{user_id}">
-
     <br>
 
     <div>
         <input type="submit" value="Register" class="btn"/>
         <input type="reset" value="Reset" class="btn"/>
     </div>
-
+    <input type="hidden" th:field="*{role}" th:value="${defaultRole}">
     <br>
 
     <a th:href="@{/register}">Already have an account?</a>

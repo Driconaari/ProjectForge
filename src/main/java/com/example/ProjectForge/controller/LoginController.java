@@ -95,7 +95,7 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
         User user = new User();
 
         model.addAttribute("user", user);
-        model.addAttribute("roles", roles);
+        model.addAttribute("defualtRole", 1);//Default role is 1 for user role in database table role (1 = user, 2 = admin)
         return "User/register";
     }
 
