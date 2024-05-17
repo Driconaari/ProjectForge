@@ -28,7 +28,7 @@ public class LoginController {
         return session.getAttribute("user") != null;
     }
 
-    //Index page shows login in or register
+    //Index page shows login in or register page
     @GetMapping(path = "/")
     public String index() {
         return "User/index";
@@ -40,7 +40,7 @@ public class LoginController {
     }
 
 
-    //Page users see when they login
+    //Page users see when they login with user_id
     @GetMapping(path = "/home/{user_id}")
     public String homeOrg(Model model, @PathVariable int user_id) {
         model.addAttribute("user_id", user_id);
@@ -48,7 +48,7 @@ public class LoginController {
     }
 
 
-    //Checks if user is in current session
+    //Checks if user is in current session and redirects to login page if not connected
     @GetMapping(path = "/login")
     public String isUserConnected(HttpSession session, Model model) {
         //Organization object from session
@@ -63,7 +63,8 @@ public class LoginController {
         }
     }
 
-    //Sign in with user
+
+    //Sign in with user and redirect to home page with user_id
    @PostMapping(path = "/login")
 public String login(HttpSession session, @ModelAttribute("user") User user, Model model) {
     try {
@@ -88,7 +89,7 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
 }
 
 
-    //Sign up page
+    //Sign up page with user object and role_id from database to sign up user
     @GetMapping(path = "/register")
     public String showSignUp(Model model) {
         List<Role> roles = roleService.getAllRoles();
@@ -99,7 +100,7 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
         return "User/register";
     }
 
-    //Sign up
+    //Sign up with user and redirect to login page
    @PostMapping(path = "/register")
 public String register(@ModelAttribute("user") User user, @RequestParam("role_id") int role_id, @RequestParam("email") String email, Model model) {
     boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
@@ -118,7 +119,7 @@ public String register(@ModelAttribute("user") User user, @RequestParam("role_id
 }
 
 
-    //Sign out
+    //Sign out and redirect to login page
     @GetMapping(path = "/logout")
     public String logout(HttpSession session) {
         session.invalidate();
@@ -126,7 +127,7 @@ public String register(@ModelAttribute("user") User user, @RequestParam("role_id
     }
 
 
-    //Edit user page
+    //Edit user page with user_id and user object from database to edit user information in database
     @GetMapping(path = "/editUser/{user_id}")
     public String showEditUser(@PathVariable("user_id") int user_id, Model model, HttpSession session) {
 
@@ -139,7 +140,7 @@ public String register(@ModelAttribute("user") User user, @RequestParam("role_id
         return "redirect:/sessionTimeout";
     }
 
-    //Edit user
+    //Edit user information in database and redirect to home page with user_id
     @PostMapping(path = "/editUser/{user_id}")
     public String editUser(@PathVariable("user_id") int user_id, @RequestParam("username") String user_name, String password, HttpSession session) {
         if (isSignedIn(session)) {
