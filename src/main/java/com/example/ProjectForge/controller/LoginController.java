@@ -101,8 +101,10 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
 
     //Sign up
    @PostMapping(path = "/register")
-public String register(@ModelAttribute("user") User user, @RequestParam("role") int role_id, @RequestParam("email") String email, Model model) {
+public String register(@ModelAttribute("user") User user, @RequestParam("role_id") int role_id, @RequestParam("email") String email, Model model) {
     boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
+
+    user.setRole_id(role_id);
 
     if (isUsernameTaken) {
         model.addAttribute("usernameTaken", true);
