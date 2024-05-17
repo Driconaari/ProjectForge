@@ -14,7 +14,7 @@
 <form th:action="@{/register}" method="post" th:object="${user}">
 
     <div class="signupForm">
-        <label class="col-sm-2 col-form-label">Username:</label>
+        <label class="col-sm-2 col-form-label">Brugernavn:</label>
         <input type="text" th:field="*{username}" placeholder="User name" required>
     </div>
 
@@ -32,15 +32,15 @@
 
     <div>
         <input type="submit" value="Register" class="btn"/>
-        <input type="reset" value="Reset" class="btn"/>
+        <input type="reset" value="Slet" class="btn"/>
     </div>
     <input type="hidden" th:field="*{role_id}" th:value="${defaultRole}">
     <br>
 
-    <a th:href="@{/register}">Already have an account?</a>
+    <a th:href="@{/register}">Har du allerde en bruger?</a>
 
     <a th:href="@{/}">
-        <button type="button" class="btn btn-secondary btn-lg">Go back</button>
+        <button type="button" class="btn btn-secondary btn-lg">Gå tilbage</button>
     </a>
 </form>
 
