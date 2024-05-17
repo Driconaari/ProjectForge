@@ -41,7 +41,7 @@ public class TaskController {
             List<Task> tasks = taskService.getTaskByProID(project_id);
             int user_id = userService.getUserID(project_id);
 
-            //Calculated time for task + subtask
+            // Calculate project time and task time
             double projectCalculatedTime = projectService.getProjectTimeByProjectID(project_id);
             for (Task task : tasks) {
                 double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
