@@ -5,7 +5,7 @@ public class Role {
     private int role_id;
     private String role_name;
 
-    public Role(int role_id, String role_name) {
+    public Role() {
         this.role_id = role_id;
         this.role_name = role_name;
     }
@@ -24,5 +24,21 @@ public class Role {
 
     public void setRole_name(String role_name) {
         this.role_name = role_name;
+    }
+
+    public void setId(int i) {
+        this.role_id = i;
+    }
+
+    public void setName(String admin) {
+        this.role_name = admin;
+    }
+
+    public Object getId() {
+        return this.role_id;
+    }
+
+    public Object getName() {
+        return this.role_name;
     }
 }
