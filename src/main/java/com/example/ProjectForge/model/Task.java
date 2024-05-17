@@ -13,7 +13,7 @@ public class Task {
     private int status;
     private int project_id;
 
-    //Used when receiving a task
+    //Used when receiving a task from the database
     public Task(int task_id, String task_name, double hours, LocalDate start_date, LocalDate end_date, int status, int project_id) {
         this.task_id = task_id;
         this.task_name = task_name;
@@ -24,7 +24,7 @@ public class Task {
         this.project_id = project_id;
     }
 
-    //Used to add calculatedTime
+    //Used to add calculatedTime to task
     public Task(int task_id, String task_name, double hours, double calculatedTime, LocalDate start_date, LocalDate end_date, int status, int project_id) {
         this.task_id = task_id;
         this.task_name = task_name;
