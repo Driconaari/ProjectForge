@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS pct_db2;
+CREATE DATABASE IF NOT EXISTS eksamen;
 USE eksamen;
 
 DROP TABLE IF EXISTS subtask;
@@ -7,14 +7,16 @@ DROP TABLE IF EXISTS project;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS role;
 
+-- Create role table
 CREATE TABLE role (
-                      role_id INT NOT NULL AUTO_INCREMENT NOT NULL,
+                      role_id INT AUTO_INCREMENT NOT NULL,
                       role VARCHAR(45) NOT NULL,
                       PRIMARY KEY (role_id)
 );
 
+-- Create user table
 CREATE TABLE user (
-                      user_id INT NOT NULL AUTO_INCREMENT,
+                      user_id INT AUTO_INCREMENT,
                       username VARCHAR(255) NOT NULL,
                       password VARCHAR(255) NOT NULL,
                       role_id INT NOT NULL,
@@ -23,8 +25,9 @@ CREATE TABLE user (
                       UNIQUE (username)
 );
 
+-- Create project table
 CREATE TABLE project (
-                         project_id INT NOT NULL AUTO_INCREMENT,
+                         project_id INT AUTO_INCREMENT,
                          project_name VARCHAR(255) NOT NULL,
                          project_description VARCHAR(1000),
                          start_date DATE CHECK (start_date >= '2000-01-01' AND start_date <= '3000-12-31'),

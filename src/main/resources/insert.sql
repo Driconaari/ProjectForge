@@ -5,6 +5,7 @@ INSERT INTO role (role) VALUES ('ADMIN 2');
 -- Insert into user
 INSERT INTO user (username, password, role_id) VALUES ('bob', 'bob', 1);
 INSERT INTO user (username, password, role_id) VALUES ('User2', 'Password2', 2);
+INSERT INTO user (username, password, role_id) VALUES ('1', '1', 2);
 
 -- Insert into project
 INSERT INTO project (project_name, project_description, start_date, end_date, user_id) VALUES ('Project 1', 'Description 1', '2022-01-01', '2022-12-31', 1);
