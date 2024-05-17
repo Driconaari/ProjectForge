@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-public class RoleRepository {
+public class RoleRepository implements IRoleRepository {
 
     //Get all roles
     public List<Role> getAllRoles() {
@@ -26,7 +26,7 @@ public class RoleRepository {
             while (rs.next()) {
                 int role_id = rs.getInt("role_id");
                 String role_name = rs.getString("role_name");
-                Role role = new Role(role_id, role_name);
+                Role role = new Role();
                 roles.add(role);
             }
         } catch (SQLException e) {
