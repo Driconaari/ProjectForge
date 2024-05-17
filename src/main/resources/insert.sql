@@ -1,3 +1,5 @@
+USE eksamen;
+
 -- Insert into role
 INSERT INTO role (role) VALUES ('USER 1');
 INSERT INTO role (role) VALUES ('ADMIN 2');
