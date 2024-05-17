@@ -7,42 +7,44 @@
 </head>
 <body>
 
-    <h1>Sign up User</h1>
+<h1>Sign up User</h1>
+
+<br>
+
+<form th:action="@{/register}" method="post" th:object="${user}">
+
+    <div class="signupForm">
+        <label class="col-sm-2 col-form-label">Username:</label>
+        <input type="text" th:field="*{username}" placeholder="User name" required>
+    </div>
+
+    <div class="signupForm">
+        <label class="col-sm-2 col-form-label">Password:</label>
+        <input type="password" th:field="*{password}" placeholder="Password" required>
+    </div>
+
+    <div class="signupForm">
+        <label class="col-sm-2 col-form-label">Email:</label>
+        <input type="email" th:field="*{email}" placeholder="Email" required>
+    </div>
+
+    <input type="hidden" th:field="*{user_id}">
 
     <br>
 
-    <form th:action="@{/register}" method="post" th:object="${user}">
+    <div>
+        <input type="submit" value="Register" class="btn"/>
+        <input type="reset" value="Reset" class="btn"/>
+    </div>
 
-        <div class="signupForm">
-            <label class="col-sm-2 col-form-label">Username:</label>
-            <input type="text" th:field="*{username}" placeholder="User name" required>
-        </div>
+    <br>
 
-        <div class="signupForm">
-            <label class="col-sm-2 col-form-label">Password:</label>
-            <input type="password" th:field="*{password}" placeholder="Password" required>
-        </div>
+    <a th:href="@{/register}">Already have an account?</a>
 
-        <div class="signupForm">
-            <label class="col-sm-2 col-form-label">Email:</label>
-            <input type="email" th:field="*{email}" placeholder="Email" required>
-        </div>
-
-        <br>
-
-        <div>
-            <input type="submit" value="Register" class="btn"/>
-            <input type="reset" value="Reset" class="btn"/>
-        </div>
-
-        <br>
-
-        <a th:href="@{/register}">Already have an account?</a>
-
-        <a th:href="@{/}">
-            <button type="button" class="btn btn-secondary btn-lg">Go back</button>
-        </a>
-    </form>
+    <a th:href="@{/}">
+        <button type="button" class="btn btn-secondary btn-lg">Go back</button>
+    </a>
+</form>
 
 </body>
 </html>

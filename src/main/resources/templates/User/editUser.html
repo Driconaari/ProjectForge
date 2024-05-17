@@ -17,6 +17,9 @@
     <label for="password">Adgangskode:</label>
     <input id="password" type="text" th:name="password" th:value="${user.password}" required>
 
+    <label for="email">Email:</label>
+    <input id="email" type="email" th:name="email" th:value="${user.email}" required>
+
     <input type="hidden" th:field="*{user_id}">
 
     <button type="submit" class="btn" style="width: 70px">Gem</button>

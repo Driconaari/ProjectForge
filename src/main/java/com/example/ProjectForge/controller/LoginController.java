@@ -100,19 +100,20 @@ public String login(HttpSession session, @ModelAttribute("user") User user, Mode
     }
 
     //Sign up
-    @PostMapping(path = "/register")
-    public String register(@ModelAttribute("organization") User user, @RequestParam("role") int role_id, Model model) {
-        boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
+   @PostMapping(path = "/register")
+public String register(@ModelAttribute("user") User user, @RequestParam("role") int role_id, @RequestParam("email") String email, Model model) {
+    boolean isUsernameTaken = userService.isUsernameTaken(user.getUsername());
 
-        if (isUsernameTaken) {
-            model.addAttribute("usernameTaken", true);
-            return "User/register";
-        }
-
-        user.setRole_id(role_id);
-        userService.register(user);
-        return "redirect:/login";
+    if (isUsernameTaken) {
+        model.addAttribute("usernameTaken", true);
+        return "User/register";
     }
+
+    user.setRole_id(role_id);
+    user.setEmail(email); // Set the email field on the user
+    userService.register(user);
+    return "redirect:/login";
+}
 
 
     //Sign out

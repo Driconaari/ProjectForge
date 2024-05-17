@@ -17,58 +17,60 @@ public class UserRepository implements IUserRepository {
     private RoleRepository roleRepository;
 
     //log in with user
-@Override
-public User login(String username, String password) {
-    User user = null;
+    @Override
+    public User login(String username, String password) {
+        User user = null;
 
-    try {
-        Connection con = ConnectionManager.getConnection();
-        String SQL = "SELECT * FROM user WHERE username = ?;";
-        PreparedStatement pstmt = con.prepareStatement(SQL);
-        pstmt.setString(1, username);
-        ResultSet rs = pstmt.executeQuery();
+        try {
+            Connection con = ConnectionManager.getConnection();
+            String SQL = "SELECT * FROM user WHERE username = ?;";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
 
-        if (rs.next()) {
-            int user_id = rs.getInt("user_id");
-            String storedPassword = rs.getString("password");
+            if (rs.next()) {
+                int user_id = rs.getInt("user_id");
+                String storedPassword = rs.getString("password");
 
-            // Check the entered password against the stored encoded password
-            if (passwordEncoder.matches(password, storedPassword)) {
-                user = new User(user_id, username, password);
+                // Check the entered password against the stored encoded password
+                if (passwordEncoder.matches(password, storedPassword)) {
+                    user = new User(user_id, username, password);
+                }
             }
+            return user;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return user;
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
     }
-}
 
     //register user to database with encoded password and role_id 1
- @Override
-public void register(User user) {
-    try {
-        Connection con = ConnectionManager.getConnection();
-        String SQL = "INSERT INTO user (username ,password, role_id) VALUES (?, ?, ?)";
-        PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
+    @Override
+    public void register(User user) {
+        try {
+            Connection con = ConnectionManager.getConnection();
+            String SQL = "INSERT INTO user (username ,password, email, role_id) VALUES (?, ?, ?, ?)";
+            PreparedStatement pstmt = con.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS);
 
-        // Encode the password before storing it
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
+            // Encode the password before storing it
+            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+            String encodedPassword = passwordEncoder.encode(user.getPassword());
 
-        pstmt.setString(1, user.getUsername());
-        pstmt.setString(2, encodedPassword); // Store the encoded password
-        pstmt.setInt(3, 1); // Set role_id to 1 for user
-        pstmt.executeUpdate();
-        ResultSet rs = pstmt.getGeneratedKeys();
+            pstmt.setString(1, user.getUsername());
+            pstmt.setString(2, encodedPassword); // Store the encoded password
+            pstmt.setString(3, user.getEmail()); // Store the email
+            pstmt.setInt(4, 1); // Set role_id to 1 for user
+            pstmt.executeUpdate();
+            ResultSet rs = pstmt.getGeneratedKeys();
 
-        if (rs.next()) {
-            int user_id = rs.getInt(1);
-            user.setUser_id(user_id);
+
+            if (rs.next()) {
+                int user_id = rs.getInt(1);
+                user.setUser_id(user_id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
     }
-}
 
     //is username taken?
     @Override
@@ -88,27 +90,29 @@ public void register(User user) {
     }
 
     //edit user information
-   @Override
-public void editUser(User user, int user_id) {
-    try {
-        Connection conn = ConnectionManager.getConnection();
-        String SQL = "UPDATE user SET username = ?, password = ? WHERE user_id = ?";
-        try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-            pstmt.setString(1, user.getUsername());
+    @Override
+    public void editUser(User user, int user_id) {
+        try {
+            Connection conn = ConnectionManager.getConnection();
+            String SQL = "UPDATE user SET username = ?, password = ?, email = ? WHERE user_id = ?";
+            try (PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+                pstmt.setString(1, user.getUsername());
 
-            // Encode the new password before storing it
-            String encodedPassword = passwordEncoder.encode(user.getPassword());
-            pstmt.setString(2, encodedPassword);
+                // Encode the new password before storing it
+                String encodedPassword = passwordEncoder.encode(user.getPassword());
+                pstmt.setString(2, encodedPassword);
 
-            pstmt.setInt(3, user_id);
-            pstmt.executeUpdate();
-        } catch (SQLException e) {
+                pstmt.setString(3, user.getEmail()); // Store the email
+
+                pstmt.setInt(4, user_id);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } catch (RuntimeException e) {
             throw new RuntimeException(e);
         }
-    } catch (RuntimeException e) {
-        throw new RuntimeException(e);
     }
-}
 
 
     //get user from user id
@@ -125,7 +129,8 @@ public void editUser(User user, int user_id) {
             if (rs.next()) {
                 String username = rs.getString("username");
                 String password = rs.getString("password");
-                user = new User(user_id, username, password);
+                String email = rs.getString("email"); // Retrieve the email
+                user = new User(user_id, username, password, email);
             }
             return user;
         } catch (SQLException ex) {
@@ -135,7 +140,7 @@ public void editUser(User user, int user_id) {
 
     //Get user id from project id
     @Override
-    public int getUserID (int project_id){
+    public int getUserID(int project_id) {
         int user_id = 0;
         try {
             Connection con = ConnectionManager.getConnection();
