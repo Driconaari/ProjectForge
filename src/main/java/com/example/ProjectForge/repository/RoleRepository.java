@@ -35,4 +35,19 @@ public class RoleRepository implements IRoleRepository {
         return roles;
     }
 
+    //Check if role_id exists in the database connection
+    public boolean doesRoleIdExist(int roleId) {
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT role_id FROM role WHERE role_id = ?";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, roleId);
+        ResultSet rs = pstmt.executeQuery();
+
+        // Returns true if the role_id exists and false if it does not
+        return rs.next();
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
 }

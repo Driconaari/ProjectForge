@@ -2,6 +2,7 @@ package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.User;
 import com.example.ProjectForge.util.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,8 @@ public class UserRepository implements IUserRepository {
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
+    @Autowired //Autowire RoleRepository to check if role_id exists when registering a user
+    private RoleRepository roleRepository;
 
     //log in with user
 @Override
@@ -40,7 +43,7 @@ public User login(String username, String password) {
     }
 }
 
-    //register user
+    //register user to database with encoded password and role_id 1
  @Override
 public void register(User user) {
     try {
@@ -54,7 +57,7 @@ public void register(User user) {
 
         pstmt.setString(1, user.getUsername());
         pstmt.setString(2, encodedPassword); // Store the encoded password
-        pstmt.setInt(3, user.getRole_id());
+        pstmt.setInt(3, 1); // Set role_id to 1 for user
         pstmt.executeUpdate();
         ResultSet rs = pstmt.getGeneratedKeys();
 
