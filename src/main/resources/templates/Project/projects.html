@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="https://www.thymeleaf.org">
+<html xmlns:th="https://www.thymeleaf.org" lang="">
 <head>
     <meta charset="UTF-8">
     <title>Projects</title>
@@ -7,7 +7,9 @@
 </head>
 <body>
 <header>
-    <div class="logo"></div>
+    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+        <div class="logo"></div>
+    </a>
     <nav class="navigation">
             <a th:href="@{/home/{user_id}(user_id=${user_id})}">Hjem</a>
             <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>

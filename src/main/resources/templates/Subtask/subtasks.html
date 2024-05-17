@@ -6,14 +6,23 @@
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Project</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
 <header>
-    <div class="logo"></div>
-    <nav class="navigation">
-        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">Opgaver</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
-    </nav>
+    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+        <div class="logo"></div>
+        <nav class="navigation">
+            <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
+            <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
+        </nav>
+    </a>
 </header>
-
     <h1>Subtasks</h1>
 
 <div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">

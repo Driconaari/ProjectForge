@@ -2,16 +2,18 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Tasks</title>
+    <title>Project</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 <header>
-    <div class="logo"></div>
-    <nav class="navigation">
-        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
-    </nav>
+    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+        <div class="logo"></div>
+        <nav class="navigation">
+            <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
+            <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
+        </nav>
+    </a>
 </header>
 
 <h1>Tasks</h1>
