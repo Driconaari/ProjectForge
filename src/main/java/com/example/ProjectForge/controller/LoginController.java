@@ -24,7 +24,8 @@ public class LoginController {
         this.userService = userService;
         this.roleService = roleService;
     }
-
+//Check if user is signed in with session and return true or false if user is signed in or not,
+// signed in with session attribute user from session object
     public boolean isSignedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
