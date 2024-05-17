@@ -9,12 +9,12 @@
 <header>
     <a th:href="@{/home/{user_id}(user_id=${user_id})}">
         <div class="logo"></div>
-    <nav class="navigation">
-        <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
-    </nav>
+        <nav class="navigation">
+            <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
+            <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
+        </nav>
+    </a>
 </header>
-
 <main class="table">
     <section class="table_body">
         <table>
