@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface IRoleRepository {
 
-    //Get all roles
+    //Get all roles from role table
     public List<Role> getAllRoles();
 }

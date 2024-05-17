@@ -6,21 +6,21 @@ import java.util.List;
 
 public interface ISubtaskRepository {
 
-    //Get subtask from task_id
+    //Get subtasks by task_id
     public List<Subtask> getSubtasksByTaskID(int task_id);
 
-    //Create subtask
+    //Create subtask by task_id
     public Subtask createSubtask(Subtask subtask, int task_id);
 
-    //Edit subtask
+    //Edit subtask by subtask_id and task_id
     public void editSubtask(Subtask subtask, int subtask_id, int task_id);
 
-    //Get subtask from subtask_id and task_id
+    //Get subtask by subtask_id and task_id
     public Subtask getSubtaskByIDs(int subtask_id, int task_id);
 
-    //Delete subtask
+    //Delete subtask by subtask_id
     public void deleteSubtask(int subtask_id);
 
-    //Get subtask from subtask_id
+    //Get subtask by subtask_id
     public Subtask getSubtaskByID(int subtask_id);
 }

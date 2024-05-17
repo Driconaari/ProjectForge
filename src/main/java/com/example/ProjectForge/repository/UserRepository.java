@@ -9,7 +9,7 @@ import java.sql.*;
 @Repository
 public class UserRepository implements IUserRepository {
 
-    //Sign in with user'
+    //log in with user
     @Override
     public User login(String username, String password) {
         User user = null;
@@ -32,7 +32,7 @@ public class UserRepository implements IUserRepository {
         }
     }
 
-    //Sign up user
+    //register user
     @Override
     public void register(User user) {
         try {
@@ -54,7 +54,7 @@ public class UserRepository implements IUserRepository {
         }
     }
 
-    //Is username taken
+    //is username taken?
     @Override
     public boolean isUsernameTaken(String username) {
         try {
@@ -64,14 +64,14 @@ public class UserRepository implements IUserRepository {
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
 
-            // Returns true if the username is found, and false if it doesn't
+            // Returns true if the username is taken and false if it is not taken yet
             return rs.next();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
 
-    //edit user
+    //edit user information
     @Override
     public void editUser(User user, int user_id) {
         try {
@@ -91,7 +91,7 @@ public class UserRepository implements IUserRepository {
     }
 
 
-    //get user from id
+    //get user from user id
     @Override
     public User getUserFromId(int user_id) {
         try {

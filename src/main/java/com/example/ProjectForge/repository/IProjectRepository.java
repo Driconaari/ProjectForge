@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface IProjectRepository {
 
-    //Get projects from org
+    //Get projects by organization_id
     public List<Project> getProjectsByID(int organization_id);
 
-    //Create project
+    //Create project by user_id
     public void createProject(Project project, int user_id);
 
-    //Edit project
+    //Edit project by project_id and user_id
     public void editProject(Project project, int project_id, int user_id);
 
     //Get project by project_id and user_id
@@ -21,12 +21,12 @@ public interface IProjectRepository {
     //Get project by project_id
     public Project getProjectByProjectID(int project_id);
 
-    //Delete project
+    //Delete  project by project_id
     public void deleteProject(int projectId);
 
-    //Get project by task_id
+    //Get project_id by task_id
     public int getProjectID(int task_id);
 
-    //Get time for all tasks and subtasks
+    //Get calculated time for project
     Double getProjectTimeByProjectID(int project_id);
 }
