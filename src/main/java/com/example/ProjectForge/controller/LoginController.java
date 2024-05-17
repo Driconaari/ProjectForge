@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//hmm
+
+//Login controller with login, register, logout, edit user, home and session timeout pages
 @RequestMapping(path = "")
 @Controller
 public class LoginController {
@@ -28,12 +29,13 @@ public class LoginController {
         return session.getAttribute("user") != null;
     }
 
-    //Index page shows login in or register page
+    //Index page shows login in or register page for user
     @GetMapping(path = "/")
     public String index() {
         return "User/index";
     }
 
+    //Page users see when session times out and they need to login again
     @GetMapping(path = "/sessionTimeout")
     public String sessionTimeout() {
         return "User/sessionTimeout";
