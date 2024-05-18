@@ -31,24 +31,24 @@ public class GanttController {
 
     // Add this method to get all projects for the user with the given user ID
     // This method will be used to display all projects for the user in the Gantt chart
-@GetMapping("/{projectId}")
-public String getGanttModel(@PathVariable int projectId, Model model) {
-    List<Task> tasks = taskRepository.getTaskByProjectID(projectId);
-    System.out.println("Tasks: " + tasks); // Print the tasks
+    @GetMapping("/{projectId}")
+    public String getGanttModel(@PathVariable int projectId, Model model) {
+        List<Task> tasks = taskRepository.getTaskByProjectID(projectId);
+        System.out.println("Tasks: " + tasks); // Print the tasks
 
-    List<Task> tasksWithSubtasks = new ArrayList<>();
+        List<Task> tasksWithSubtasks = new ArrayList<>();
 
-    for (Task task : tasks) {
-        Task taskWithSubtasks = taskRepository.getTaskWithSubtasks(task.getTask_id());
-        System.out.println("Task with subtasks: " + taskWithSubtasks); // Print the task with its subtasks
-        tasksWithSubtasks.add(taskWithSubtasks);
+        for (Task task : tasks) {
+            Task taskWithSubtasks = taskRepository.getTaskWithSubtasks(task.getTask_id());
+            System.out.println("Task with subtasks: " + taskWithSubtasks); // Print the task with its subtasks
+            tasksWithSubtasks.add(taskWithSubtasks);
+        }
+
+        model.addAttribute("ganttModels", tasksWithSubtasks);
+        System.out.println("Gantt Models: " + tasksWithSubtasks); // Print the ganttModels
+
+        return "gantt";
     }
-
-    model.addAttribute("ganttModels", tasksWithSubtasks);
-    System.out.println("Gantt Models: " + tasksWithSubtasks); // Print the ganttModels
-
-    return "gantt";
-}
 
     @GetMapping("/user/{userId}")
     public String getAllGanttModelsForUser(@PathVariable int userId, Model model) {
@@ -58,23 +58,24 @@ public String getGanttModel(@PathVariable int projectId, Model model) {
     }
 
     @GetMapping("/user/{userId}/{projectId}")
-public String getGanttModel(@PathVariable int userId, @PathVariable int projectId, Model model) {
-    GanttModel ganttModel = ganttService.getGanttModel(userId, projectId);
-    List<GanttModel> ganttModels = new ArrayList<>();
-    ganttModels.add(ganttModel);
-    model.addAttribute("ganttModels", ganttModels);
-    return "gantt";
-}
-    // Add this method
-   @Autowired
-private ProjectRepository projectRepository;
+    public String getGanttModel(@PathVariable int userId, @PathVariable int projectId, Model model) {
+        GanttModel ganttModel = ganttService.getGanttModel(userId, projectId);
+        List<GanttModel> ganttModels = new ArrayList<>();
+        ganttModels.add(ganttModel);
+        model.addAttribute("ganttModels", ganttModels);
+        return "gantt";
+    }
 
-@@GetMapping("/projects")
-public String getAllProjectsWithTasks(Model model) {
-    List<Project> projects = projectRepository.getAllProjectsWithTasks();
-    model.addAttribute("projects", projects);
-    return "projects";
-}
+    // Add this method
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @GetMapping("/projects")
+    public String getAllProjectsWithTasks(Model model) {
+        List<Project> projects = projectRepository.getAllProjectsWithTasks();
+        model.addAttribute("projects", projects);
+        return "projects";
+    }
 
 
 }
