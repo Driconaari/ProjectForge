@@ -29,19 +29,24 @@ public class GanttController {
         this.ganttService = ganttService;
     }
 
-    @GetMapping("/{projectId}")
-    public String getGanttModel(@PathVariable int projectId, Model model) {
-        List<Task> tasks = taskRepository.getTaskByProjectID(projectId);
-        List<Task> tasksWithSubtasks = new ArrayList<>();
+    // Add this method to get all projects for the user with the given user ID
+    // This method will be used to display all projects for the user in the Gantt chart
+  @GetMapping("/{projectId}")
+public String getGanttModel(@PathVariable int projectId, Model model) {
+    List<Task> tasks = taskRepository.getTaskByProjectID(projectId);
+    System.out.println("Tasks: " + tasks); // Print the tasks
 
-        for (Task task : tasks) {
-            Task taskWithSubtasks = taskRepository.getTaskWithSubtasks(task.getTask_id());
-            tasksWithSubtasks.add(taskWithSubtasks);
-        }
+    List<Task> tasksWithSubtasks = new ArrayList<>();
 
-        model.addAttribute("ganttModels", tasksWithSubtasks);
-        return "gantt";
+    for (Task task : tasks) {
+        Task taskWithSubtasks = taskRepository.getTaskWithSubtasks(task.getTask_id());
+        System.out.println("Task with subtasks: " + taskWithSubtasks); // Print the task with its subtasks
+        tasksWithSubtasks.add(taskWithSubtasks);
     }
+
+    model.addAttribute("ganttModels", tasksWithSubtasks);
+    return "gantt";
+}
 
     @GetMapping("/user/{userId}")
     public String getAllGanttModelsForUser(@PathVariable int userId, Model model) {
@@ -51,11 +56,13 @@ public class GanttController {
     }
 
     @GetMapping("/user/{userId}/{projectId}")
-    public String getGanttModel(@PathVariable int userId, @PathVariable int projectId, Model model) {
-        GanttModel ganttModel = ganttService.getGanttModel(userId, projectId);
-        model.addAttribute("ganttModel", ganttModel);
-        return "gantt";
-    }
+public String getGanttModel(@PathVariable int userId, @PathVariable int projectId, Model model) {
+    GanttModel ganttModel = ganttService.getGanttModel(userId, projectId);
+    List<GanttModel> ganttModels = new ArrayList<>();
+    ganttModels.add(ganttModel);
+    model.addAttribute("ganttModels", ganttModels);
+    return "gantt";
+}
     // Add this method
    @Autowired
 private ProjectRepository projectRepository;
