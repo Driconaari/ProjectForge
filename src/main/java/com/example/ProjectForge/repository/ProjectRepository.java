@@ -1,7 +1,9 @@
 package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.util.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
@@ -11,6 +13,20 @@ import java.util.List;
 
 @Repository
 public class ProjectRepository implements IProjectRepository {
+
+  @Autowired
+private TaskRepository taskRepository;
+
+public List<Project> getAllProjectsWithTasks() {
+    List<Project> projects = getAllProjects();
+
+    for (Project project : projects) {
+        List<Task> tasks = taskRepository.getTaskByProjectID(project.getProject_id());
+        project.setTasks(tasks);
+    }
+
+    return projects;
+}
 
     //Get projects from user_id
     @Override
@@ -221,6 +237,36 @@ public class ProjectRepository implements IProjectRepository {
 
 
     //Get all projects
+ @Override
+public List<Project> getAllProjects() {
+    List<Project> projects = new ArrayList<>();
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM project;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int project_id = rs.getInt("project_id");
+            String project_name = rs.getString("project_name");
+            String project_description = rs.getString("project_description");
+            LocalDate start_date = rs.getDate("start_date").toLocalDate();
+            LocalDate end_date = rs.getDate("end_date").toLocalDate();
+            int user_id = rs.getInt("user_id");
+
+            projects.add(new Project(project_id, project_name, project_description, start_date, end_date, user_id));
+        }
+        return projects;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+
+
+
+    //old code
+    /*
     @Override
 public List<Project> getAllProjects() {
     List<Project> projects = new ArrayList<>();
@@ -245,4 +291,6 @@ public List<Project> getAllProjects() {
         throw new RuntimeException(e);
     }
 }
+
+     */
 }

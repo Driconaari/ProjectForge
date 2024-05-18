@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Project {
 
+    private List<Task> tasks;
+
     private int project_id;
     private String project_name;
     private String project_description;
@@ -82,6 +84,12 @@ public class Project {
     }
 
     public void setTasks(List<Task> tasks) {
+        this.tasks = tasks; // Add this line
+    }
+
+    // Add a getter for tasks
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     public void setProjectCalculatedTime(double projectCalculatedTime) {

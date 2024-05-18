@@ -15,7 +15,9 @@ import java.util.List;
 public class TaskRepository implements ITaskRepository {
 
 
-    //Get Task by project_id
+
+
+    //Get Task by
     @Override
     public List<Task> getTaskByProjectID(int project_id) {
         List<Task> tasks = new ArrayList<>();
@@ -23,6 +25,8 @@ public class TaskRepository implements ITaskRepository {
         try {
             Connection con = ConnectionManager.getConnection();
             String SQL = "SELECT * FROM task WHERE project_id = ?;";
+            System.out.println("SQL Query: " + SQL); // Print the SQL query
+
             PreparedStatement pstmt = con.prepareStatement(SQL);
             pstmt.setInt(1, project_id);
             ResultSet rs = pstmt.executeQuery();
@@ -37,6 +41,8 @@ public class TaskRepository implements ITaskRepository {
 
                 tasks.add(new Task(task_id, task_name, hours, start_date, end_date, status, project_id));
             }
+
+            System.out.println("Tasks: " + tasks); // Print the tasks
             return tasks;
         } catch (SQLException e) {
             throw new RuntimeException(e);

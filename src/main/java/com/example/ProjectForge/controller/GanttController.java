@@ -31,7 +31,7 @@ public class GanttController {
 
     // Add this method to get all projects for the user with the given user ID
     // This method will be used to display all projects for the user in the Gantt chart
-  @GetMapping("/{projectId}")
+@GetMapping("/{projectId}")
 public String getGanttModel(@PathVariable int projectId, Model model) {
     List<Task> tasks = taskRepository.getTaskByProjectID(projectId);
     System.out.println("Tasks: " + tasks); // Print the tasks
@@ -45,6 +45,8 @@ public String getGanttModel(@PathVariable int projectId, Model model) {
     }
 
     model.addAttribute("ganttModels", tasksWithSubtasks);
+    System.out.println("Gantt Models: " + tasksWithSubtasks); // Print the ganttModels
+
     return "gantt";
 }
 
@@ -67,9 +69,9 @@ public String getGanttModel(@PathVariable int userId, @PathVariable int projectI
    @Autowired
 private ProjectRepository projectRepository;
 
-@GetMapping("/projects")
-public String getAllProjects(Model model) {
-    List<Project> projects = projectRepository.getAllProjects();
+@@GetMapping("/projects")
+public String getAllProjectsWithTasks(Model model) {
+    List<Project> projects = projectRepository.getAllProjectsWithTasks();
     model.addAttribute("projects", projects);
     return "projects";
 }
