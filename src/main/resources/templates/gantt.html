@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Gantt Models</title>
+    <link rel="stylesheet" href="/style.css">
 </head>
 <body>
+<header>
+    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+        <div class="logo"></div>
+    </a>
+    <nav class="navigation">
+        <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Edit Profile</a>
+        <a th:href="@{/logout}" button class="btnlogin-popup">Log out</a>
+    </nav>
+</header>
 
+<h1>Gantt Models</h1>
+
+<div th:each="ganttModel : ${ganttModels}">
+    <h2 th:text="${ganttModel.project.projectName}">Project Name</h2>
+    <ul>
+        <li th:each="task : ${ganttModel.tasks}" th:text="${task.taskName}">Task Name</li>
+    </ul>
+</div>
+
+<copyrightSection>
+    <p>&copy; 2024 Project Forge by Alphasolutions</p>
+</copyrightSection>
 </body>
 </html>
