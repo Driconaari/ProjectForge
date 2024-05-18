@@ -112,4 +112,9 @@ public class Task {
     public List<Subtask> getSubtasks() {
         return subtasks;
     }
+
+    //Set subtasks for a task object (One to many relationship)
+   public void setSubtasks(List<Subtask> subtasks) {
+    this.subtasks = subtasks;
+}
 }
