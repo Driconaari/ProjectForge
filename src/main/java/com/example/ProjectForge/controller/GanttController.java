@@ -74,7 +74,7 @@ public class GanttController {
     public String getAllProjectsWithTasks(Model model) {
         List<Project> projects = projectRepository.getAllProjectsWithTasks();
         model.addAttribute("projects", projects);
-        return "projects";
+        return "Project/projects";
     }
 
 
