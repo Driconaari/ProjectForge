@@ -187,7 +187,7 @@ body {
     transform-origin: left;
 }
 
-.navigation .btnlogin-popup {
+.navigation .slidelogin-popup {
     width: 130px;
     height: 50px;
     background: whitesmoke;
@@ -202,7 +202,7 @@ body {
     transition: .5s;
 }
 
-.navigation .btnlogin-popup:hover {
+.navigation .slidelogin-popup:hover {
     background: #ffffff;
     color: #000000;
 }
