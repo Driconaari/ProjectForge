@@ -1,7 +1,9 @@
 package com.example.ProjectForge.controller;
 
 import com.example.ProjectForge.model.GanttModel;
+import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.repository.ProjectRepository;
 import com.example.ProjectForge.repository.TaskRepository;
 import com.example.ProjectForge.service.GanttService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,17 +43,29 @@ public class GanttController {
         return "gantt";
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public String getAllGanttModelsForUser(@PathVariable int userId, Model model) {
         List<GanttModel> ganttModels = ganttService.getAllGanttModelsForUser(userId);
         model.addAttribute("ganttModels", ganttModels);
         return "gantt";
     }
 
-    @GetMapping("/{userId}/{projectId}")
+    @GetMapping("/user/{userId}/{projectId}")
     public String getGanttModel(@PathVariable int userId, @PathVariable int projectId, Model model) {
         GanttModel ganttModel = ganttService.getGanttModel(userId, projectId);
         model.addAttribute("ganttModel", ganttModel);
         return "gantt";
     }
+    // Add this method
+   @Autowired
+private ProjectRepository projectRepository;
+
+@GetMapping("/projects")
+public String getAllProjects(Model model) {
+    List<Project> projects = projectRepository.getAllProjects();
+    model.addAttribute("projects", projects);
+    return "projects";
+}
+
+
 }

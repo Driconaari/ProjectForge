@@ -29,4 +29,8 @@ public interface IProjectRepository {
 
     //Get calculated time for project
     Double getProjectTimeByProjectID(int project_id);
+
+    //Get all projects
+    List<Project> getAllProjects();
+
 }
