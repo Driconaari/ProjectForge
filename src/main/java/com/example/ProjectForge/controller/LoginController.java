@@ -13,6 +13,9 @@ import java.util.List;
 
 
 //Login controller with login, register, logout, edit user, home and session timeout pages
+
+//Path for login controller is /login and all pages are under /login path with different paths for each page in controller class
+// below with @RequestMapping annotation for each page path in controller class and @GetMapping and @PostMapping annotations for each
 @RequestMapping(path = "")
 @Controller
 public class LoginController {
