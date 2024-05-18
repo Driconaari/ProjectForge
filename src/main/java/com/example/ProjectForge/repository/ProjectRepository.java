@@ -20,11 +20,11 @@ private TaskRepository taskRepository;
 public List<Project> getAllProjectsWithTasks() {
     List<Project> projects = getAllProjects();
 
-    for (Project project : projects) {
-        List<Task> tasks = taskRepository.getTaskByProjectID(project.getProject_id());
-        project.setTasks(tasks);
-    }
-
+ for (Project project : projects) {
+    List<Task> tasks = taskRepository.getTaskByProjectID(project.getProject_id());
+    project.setTasks(tasks);
+    System.out.println("Tasks for project " + project.getProject_id() + ": " + tasks);
+}
     return projects;
 }
 
