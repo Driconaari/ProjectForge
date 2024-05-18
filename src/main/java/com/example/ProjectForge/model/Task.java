@@ -1,8 +1,12 @@
 package com.example.ProjectForge.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class Task {
+
+    //List of subtasks for a task object (One to many relationship)
+    private List<Subtask> subtasks;
 
     private int task_id;
     private String task_name;
@@ -103,5 +107,9 @@ public class Task {
 
     public void setProject_id(int project_id) {
         this.project_id = project_id;
+    }
+
+    public List<Subtask> getSubtasks() {
+        return subtasks;
     }
 }

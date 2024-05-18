@@ -7,11 +7,11 @@
 </head>
 <body>
 <header>
-    <a th:href="@{/home/{user_id}(user_id=${user_id})}">
+    <a th:href="@{/home/{user_id}(user_id=${userId})}">
         <div class="logo"></div>
     </a>
     <nav class="navigation">
-        <a th:href="@{/editUser/{user_id}(user_id=${user_id})}">Edit Profile</a>
+        <a th:href="@{/editUser/{user_id}(user_id=${userId})}">Edit Profile</a>
         <a th:href="@{/logout}" button class="btnlogin-popup">Log out</a>
     </nav>
 </header>
@@ -21,7 +21,12 @@
 <div th:each="ganttModel : ${ganttModels}">
     <h2 th:text="${ganttModel.project.project_name}">Project Name</h2>
     <ul>
-        <li th:each="task : ${ganttModel.tasks}" th:text="${task.taskName}">Task Name</li>
+        <li th:each="task : ${ganttModel.tasks}">
+            <span th:text="${task.task_name}">Task Name</span>
+            <ul>
+                <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li>
+            </ul>
+        </li>
     </ul>
 </div>
 
