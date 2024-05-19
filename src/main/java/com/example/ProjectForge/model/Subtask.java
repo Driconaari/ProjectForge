@@ -12,10 +12,15 @@ public class Subtask {
     private int status;
     private int task_id;
 
+
+    // New fields
+    private long startOffset;
+    private long duration;
+
     public Subtask(int subtask_id, String subtask_name, double hours, LocalDate start_date, LocalDate end_date, int status, int task_id) {
         this.subtask_id = subtask_id;
         this.subtask_name = subtask_name;
-        this.hours=hours;
+        this.hours = hours;
         this.start_date = start_date;
         this.end_date = end_date;
         this.status = status;
@@ -95,4 +100,21 @@ public class Subtask {
                 '}';
     }
 
+
+    // New getters and setters
+    public long getStartOffset() {
+        return startOffset;
+    }
+
+    public void setStartOffset(long startOffset) {
+        this.startOffset = startOffset;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
 }

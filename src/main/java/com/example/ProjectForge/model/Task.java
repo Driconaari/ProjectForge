@@ -19,6 +19,12 @@ public class Task {
     private int project_id;
     private Project project;
 
+
+    // New fields
+    private long startOffset;
+    private long duration;
+
+
     //Used when receiving a task from the database
     public Task(int task_id, String task_name, double hours, LocalDate start_date, LocalDate end_date, int status, int project_id) {
         this.task_id = task_id;
@@ -42,6 +48,7 @@ public class Task {
         this.project_id = project_id;
     }
 
+
     //Default constructor
     public Task() {
     }
@@ -52,6 +59,7 @@ public class Task {
     public Project getProject() {
         return project;
     }
+
     public int getTask_id() {
         return task_id;
     }
@@ -133,4 +141,23 @@ public class Task {
     public void setSubtasks(List<Subtask> subtasks) {
         this.subtasks = subtasks;
     }
+
+
+    // New getters and setters
+    public long getStartOffset() {
+        return startOffset;
+    }
+
+    public void setStartOffset(long startOffset) {
+        this.startOffset = startOffset;
+    }
+
+    public long getDuration() {
+        return duration;
+    }
+
+    public void setDuration(long duration) {
+        this.duration = duration;
+    }
 }
+
