@@ -3,6 +3,7 @@ package com.example.ProjectForge.controller;
 import com.example.ProjectForge.dto.TaskSubtaskDTO;
 import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.repository.ProjectRepository;
 import com.example.ProjectForge.service.ProjectService;
 import com.example.ProjectForge.service.TaskService;
 import com.example.ProjectForge.service.UserService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class TaskController {
@@ -23,11 +25,13 @@ public class TaskController {
     TaskService taskService;
     ProjectService projectService;
     UserService userService;
+    ProjectRepository projectRepository;
 
-    public TaskController(TaskService taskService, UserService userService, ProjectService projectService){
-        this.taskService=taskService;
+    public TaskController(TaskService taskService, UserService userService, ProjectService projectService, ProjectRepository projectRepository) {
+        this.taskService = taskService;
         this.userService = userService;
         this.projectService = projectService;
+        this.projectRepository = projectRepository;
     }
 
     public boolean isSignedIn(HttpSession session) {
@@ -37,7 +41,7 @@ public class TaskController {
     //Get tasks
     @GetMapping(path = "tasks/{project_id}")
     public String showTasks(Model model, @PathVariable int project_id, HttpSession session) {
-        if(isSignedIn(session)) {
+        if (isSignedIn(session)) {
             List<Task> tasks = taskService.getTaskByProID(project_id);
             int user_id = userService.getUserID(project_id);
 
@@ -46,30 +50,19 @@ public class TaskController {
             for (Task task : tasks) {
                 double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
                 task.setCalculatedTime(taskCalculatedTime);
+
+                // Fetch the Project object and set it in the Task object
+                Optional<Project> projectOptional = projectRepository.findById(task.getProject_id());
+                if (projectOptional.isPresent()) {
+                    Project project = projectOptional.get();
+                    task.setProject(project);
+                }
             }
 
             model.addAttribute("tasks", tasks);
             model.addAttribute("user_id", user_id);
             model.addAttribute("projectCalculatedTime", projectCalculatedTime);
             return "Task/tasks";
-        }
-        return "redirect:/sessionTimeout";
-    }
-
-
-    //Create task page
-    @GetMapping(path = "task/create/{project_id}")
-    public String showCreateTask(Model model, @PathVariable("project_id") int project_id, HttpSession session) {
-
-        if (isSignedIn(session)) {
-            Task task = new Task();
-            Project project = projectService.getProjectByProjectID(project_id);
-
-            model.addAttribute("task", task);
-            model.addAttribute("project_id", project_id);
-            model.addAttribute("project_start_date", project.getStart_date());
-            model.addAttribute("project_end_date", project.getEnd_date());
-            return "Task/createTask";
         }
         return "redirect:/sessionTimeout";
     }
@@ -87,7 +80,7 @@ public class TaskController {
 
     //Edit task page
     @GetMapping(path = "/task/{project_id}/edit/{task_id}")
-    public String showEditTask(Model model , @PathVariable int task_id, @PathVariable int project_id, HttpSession session) {
+    public String showEditTask(Model model, @PathVariable int task_id, @PathVariable int project_id, HttpSession session) {
         if (isSignedIn(session)) {
             Task task = taskService.getTaskByIDs(task_id, project_id);
             Project project = projectService.getProjectByProjectID(project_id);
@@ -148,7 +141,7 @@ public class TaskController {
     @PostMapping(path = "task/delete/{task_id}")
     public String removeTask(@PathVariable("task_id") int task_id, Model model, HttpSession session) {
         if (isSignedIn(session)) {
-            int projectID = taskService.getProIDbyTaskID(task_id);
+            int projectID = taskService.getProjectIDbyTaskID(task_id);
             taskService.deleteTask(task_id);
             return "redirect:/tasks/" + projectID;
         }
@@ -156,9 +149,8 @@ public class TaskController {
     }
 
 
-
     //get project with task and subtasks
-    @GetMapping(path="project/{project_id}")
+    @GetMapping(path = "project/{project_id}")
     public String showProject(Model model, @PathVariable int project_id, HttpSession session) {
 
         if (isSignedIn(session)) {
@@ -173,10 +165,10 @@ public class TaskController {
                 task.setCalculatedTime(taskCalculatedTime2);
             }
 
-        model.addAttribute("taskSubtask", taskSubtasks);
-        model.addAttribute("projectCalculatedTime", projectCalculatedTime);
-        model.addAttribute("taskCalculatedTime", taskCalculatedTime1);
-        model.addAttribute("user_id", user_id);
+            model.addAttribute("taskSubtask", taskSubtasks);
+            model.addAttribute("projectCalculatedTime", projectCalculatedTime);
+            model.addAttribute("taskCalculatedTime", taskCalculatedTime1);
+            model.addAttribute("user_id", user_id);
 
             return "Task/taskSubtask";
         }

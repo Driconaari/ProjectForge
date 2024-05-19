@@ -17,6 +17,7 @@ public class Task {
     private LocalDate end_date;
     private int status;
     private int project_id;
+    private Project project;
 
     //Used when receiving a task from the database
     public Task(int task_id, String task_name, double hours, LocalDate start_date, LocalDate end_date, int status, int project_id) {
@@ -45,6 +46,12 @@ public class Task {
     public Task() {
     }
 
+
+    //Getters and setters
+
+    public Project getProject() {
+        return project;
+    }
     public int getTask_id() {
         return task_id;
     }
@@ -110,6 +117,9 @@ public class Task {
         this.project_id = project_id;
     }
 
+    public void setProject(Project project) {
+        this.project = project;
+    }
 
     //Get subtasks for a task object (One to many relationship)
     public List<Subtask> getSubtasks() {

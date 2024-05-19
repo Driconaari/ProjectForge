@@ -4,6 +4,7 @@ import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProjectRepository {
 
@@ -35,4 +36,9 @@ public interface IProjectRepository {
     List<Project> getAllProjects();
 
     List<Task> getTasksWithSubtasksByProjectID(int project_id);
+
+//Get project by project_id
+    Optional<Project> findById(int project_id);
+
+
 }
