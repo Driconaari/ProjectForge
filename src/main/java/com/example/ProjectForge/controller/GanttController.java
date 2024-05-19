@@ -25,20 +25,23 @@ public class GanttController {
     private TaskRepository taskRepository;
 
     @GetMapping("/gantt/{user_id}")
-    public String showGantt(@PathVariable("user_id") int userId, Model model) {
-        // Use the userId to fetch the relevant projects
-        List<Project> projects = projectRepository.getProjectsByID(userId);
+public String showGantt(@PathVariable("user_id") int userId, Model model) {
+    // Use the userId to fetch the relevant projects
+    List<Project> projects = projectRepository.getProjectsByID(userId);
 
-        // If you want to display tasks of all projects, you can loop through the projects
-        // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
-        List<Task> allTasks = new ArrayList<>();
-        for (Project project : projects) {
-            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
-            allTasks.addAll(tasks);
+    // If you want to display tasks of all projects, you can loop through the projects
+    // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
+    List<Task> allTasks = new ArrayList<>();
+    for (Project project : projects) {
+        List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
+        for (Task task : tasks) {
+            task.setProject(project); // Set the project field of the task
         }
-
-        model.addAttribute("tasks", allTasks);
-        model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
-        return "gantt";
+        allTasks.addAll(tasks);
     }
+
+    model.addAttribute("tasks", allTasks);
+    model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
+    return "gantt";
+}
 }
