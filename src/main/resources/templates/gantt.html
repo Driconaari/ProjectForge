@@ -12,18 +12,22 @@
     </a>
     <nav class="navigation">
         <a th:href="@{/editUser/{user_id}(user_id=${userId})}">Edit Profile</a>
-        <a th:href="@{/logout}" button class="btnlogin-popup">Log out</a>
+        <a th:href="@{/logout}" button class="slidelogin-popup">Log out</a>
     </nav>
 </header>
 
 <h1>Gantt Models</h1>
 
-<div th:each="task : ${ganttModels}">
-    <h2 th:text="${task.task_name}">Task Name</h2>
+
+<h1>Gantt Models</h1>
+
+<div th:each="task : ${tasks}">
+    <h2 th:text="${task.name}">Task Name</h2>
     <ul>
-        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li>
+        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.name}">Subtask Name</li>
     </ul>
 </div>
+
 
 <copyrightSection>
     <p>&copy; 2024 Project Forge by Alphasolutions</p>

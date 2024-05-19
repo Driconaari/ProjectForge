@@ -1,6 +1,7 @@
 package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.util.ConnectionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,9 @@ import org.springframework.stereotype.Repository;
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class ProjectRepository implements IProjectRepository {
@@ -260,6 +263,51 @@ public List<Project> getAllProjects() {
     } catch (SQLException e) {
         throw new RuntimeException(e);
     }
+}
+
+
+@Override
+public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
+    List<Task> tasks = new ArrayList<>();
+    Map<Integer, Task> taskMap = new HashMap<>();
+
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM task LEFT JOIN subtask ON task.task_id = subtask.task_id WHERE task.project_id = ?";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, projectId);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int taskId = rs.getInt("task.task_id");
+
+            if (!taskMap.containsKey(taskId)) {
+                String taskName = rs.getString("task.task_name");
+                // Add other task fields here
+                Task task = new Task();
+                task.setTask_id(taskId);
+                task.setTask_name(taskName);
+                // Set other task fields here
+                tasks.add(task);
+                taskMap.put(taskId, task);
+            }
+
+            int subtaskId = rs.getInt("subtask.subtask_id");
+            if (subtaskId > 0) {
+                String subtaskName = rs.getString("subtask.subtask_name");
+                // Add other subtask fields here
+                Subtask subtask = new Subtask();
+                subtask.setSubtask_id(subtaskId);
+                subtask.setSubtask_name(subtaskName);
+                // Set other subtask fields here
+                taskMap.get(taskId).getSubtasks().add(subtask);
+            }
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+
+    return tasks;
 }
 
 
