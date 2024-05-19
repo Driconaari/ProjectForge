@@ -20,10 +20,20 @@
 
 <div class="gantt-chart" th:each="task : ${tasks}">
     <h2 class="project-name" th:if="${task.project != null}" th:text="${task.project.project_name}">Project Name</h2>
+    <p th:if="${task.project != null}" th:text="'Start Date: ' + ${task.project.start_date}">Start Date</p>
+    <p th:if="${task.project != null}" th:text="'End Date: ' + ${task.project.end_date}">End Date</p>
     <div class="gantt-task">
         <span class="task-name" th:text="${task.task_name}">Task Name</span>
+        <p th:text="'Start Date: ' + ${task.start_date}">Task Start Date</p>
+        <p th:text="'End Date: ' + ${task.end_date}">Task End Date</p>
+        <p th:text="'Calculated Time: ' + ${task.calculatedTime}">Task Calculated Time</p>
         <ul>
-            <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li>
+            <li th:each="subtask : ${task.subtasks}">
+                <span th:text="${subtask.subtask_name}">Subtask Name</span>
+                <p th:text="'Start Date: ' + ${subtask.start_date}">Subtask Start Date</p>
+                <p th:text="'End Date: ' + ${subtask.end_date}">Subtask End Date</p>
+                <p th:text="'Calculated Time: ' + ${subtask.hours}">Subtask Calculated Time</p>
+            </li>
         </ul>
     </div>
 </div>
