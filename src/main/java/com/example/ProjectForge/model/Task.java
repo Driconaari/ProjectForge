@@ -1,6 +1,7 @@
 package com.example.ProjectForge.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Task {
@@ -109,12 +110,17 @@ public class Task {
         this.project_id = project_id;
     }
 
+
+    //Get subtasks for a task object (One to many relationship)
     public List<Subtask> getSubtasks() {
+        if (subtasks == null) {
+            subtasks = new ArrayList<>();
+        }
         return subtasks;
     }
 
     //Set subtasks for a task object (One to many relationship)
-   public void setSubtasks(List<Subtask> subtasks) {
-    this.subtasks = subtasks;
-}
+    public void setSubtasks(List<Subtask> subtasks) {
+        this.subtasks = subtasks;
+    }
 }

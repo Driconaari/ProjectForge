@@ -18,16 +18,12 @@
 
 <h1>Gantt Models</h1>
 
-
-<h1>Gantt Models</h1>
-
 <div th:each="task : ${tasks}">
-    <h2 th:text="${task.name}">Task Name</h2>
+    <h2 th:text="${task.task_name}">Task Name</h2> <!-- Updated this line -->
     <ul>
-        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.name}">Subtask Name</li>
+        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li> <!-- Updated this line -->
     </ul>
 </div>
-
 
 <copyrightSection>
     <p>&copy; 2024 Project Forge by Alphasolutions</p>
