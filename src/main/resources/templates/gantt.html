@@ -19,9 +19,10 @@
 <h1>Gantt Models</h1>
 
 <div th:each="task : ${tasks}">
-    <h2 th:text="${task.task_name}">Task Name</h2> <!-- Updated this line -->
+    <h2 th:text="${task.task_name}">Task Name</h2>
+    <h3 th:text="${task.project.project_name}">Project Name</h3> <!-- Added this line -->
     <ul>
-        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li> <!-- Updated this line -->
+        <li th:each="subtask : ${task.subtasks}" th:text="${subtask.subtask_name}">Subtask Name</li>
     </ul>
 </div>
 
