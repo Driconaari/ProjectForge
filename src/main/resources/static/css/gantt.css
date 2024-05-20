@@ -115,11 +115,12 @@ h1 {
     text-align: center;
 }
 
-/* Gantt Chart Styles */
-.gantt-chart {
-    width: 100%;
+/* Gantt Project */
+.gantt-project {
+    margin-bottom: 20px;
 }
 
+/* Gantt Chart Styles */
 .gantt-row {
     display: flex;
     align-items: center;
