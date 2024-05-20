@@ -59,7 +59,7 @@ public class TaskController {
                 }
             }
 
-            model.addAttribute("task", tasks);
+            model.addAttribute("tasks", tasks);
             model.addAttribute("user_id", user_id);
             model.addAttribute("projectCalculatedTime", projectCalculatedTime);
             return "Task/tasks";
