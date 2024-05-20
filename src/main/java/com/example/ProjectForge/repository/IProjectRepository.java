@@ -1,8 +1,10 @@
 package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Task;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface IProjectRepository {
 
@@ -29,4 +31,14 @@ public interface IProjectRepository {
 
     //Get calculated time for project
     Double getProjectTimeByProjectID(int project_id);
+
+    //Get all projects
+    List<Project> getAllProjects();
+
+    List<Task> getTasksWithSubtasksByProjectID(int project_id);
+
+//Get project by project_id
+    Optional<Project> findById(int project_id);
+
+
 }

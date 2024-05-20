@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gantt Models</title>
+    <link rel="stylesheet" th:href="@{/css/gantt.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<header>
+    <a th:href="@{/home/{user_id}(user_id=${userId})}">
+        <div class="logo"></div>
+    </a>
+    <nav class="navigation">
+        <a th:href="@{/editUser/{user_id}(user_id=${userId})}">Edit Profile</a>
+        <a th:href="@{/logout}" button class="slidelogin-popup">Log out</a>
+    </nav>
+</header>
+
+<h1>Gantt Models</h1>
+
+<div class="gantt-container">
+    <div class="gantt-time-axis">
+        <div class="time-interval" th:each="day : ${days}" th:text="${day}">Day</div>
+    </div>
+
+    <div th:each="task : ${tasks}">
+        <div class="gantt-project">
+            <h2 class="project-name" th:text="${task.project.project_name}">Project Name</h2>
+            <div class="gantt-row">
+                <div class="task-name" th:text="${task.task_name}">Task Name</div>
+                <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
+            </div>
+            <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
+                <div class="gantt-row subtask">
+                    <div class="task-name" th:text="${subtask.subtask_name}">Subtask Name</div>
+                    <div class="gantt-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2024 Project Forge by Alphasolutions</p>
+</footer>
+</body>
+</html>

@@ -1,7 +1,9 @@
 package com.example.ProjectForge.service;
 
 import com.example.ProjectForge.dto.TaskSubtaskDTO;
+import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.repository.ProjectRepository;
 import com.example.ProjectForge.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
@@ -9,10 +11,12 @@ import java.util.List;
 
 @Service
 public class TaskService {
-    TaskRepository taskRepository;
+    private final TaskRepository taskRepository;
+    private final ProjectRepository projectRepository;
 
-    public TaskService(TaskRepository taskRepository){
-       this.taskRepository = taskRepository;
+    public TaskService(TaskRepository taskRepository, ProjectRepository projectRepository) {
+        this.taskRepository = taskRepository;
+        this.projectRepository = projectRepository;
     }
 
     //Create Task
@@ -46,7 +50,7 @@ public class TaskService {
     }
 
     //Get project_id by task_id
-    public int getProIDbyTaskID(int task_id) {
+    public int getProjectIDbyTaskID(int task_id) {
         return taskRepository.getProjectIDbyTaskID(task_id);
     }
 

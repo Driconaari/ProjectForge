@@ -13,7 +13,9 @@
 
         <div class="createTaskForm">
             <label class="createTaskForm">Opgave navn:</label>
-            <input type="text" th:field="*{task_name}" placeholder="Task name" required>
+            <label>
+                <input type="text" th:field="*{task_name}" placeholder="Task name" required>
+            </label>
         </div>
 
         <div class="createTaskForm">
@@ -23,12 +25,16 @@
 
         <div>
             <label class="createTaskForm">Start Dato</label>
-            <input type="date" th:field="*{start_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
+            <label>
+                <input type="date" th:field="*{start_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
+            </label>
         </div>
 
         <div>
             <label class="createTaskForm">Slut Dato</label>
-            <input type="date" th:field="*{end_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
+            <label>
+                <input type="date" th:field="*{end_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
+            </label>
         </div>
 
         <div>

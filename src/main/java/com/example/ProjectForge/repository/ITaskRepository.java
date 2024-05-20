@@ -34,4 +34,6 @@ public interface ITaskRepository {
     //Get task subtasks by project_id
     public List<TaskSubtaskDTO> getTaskSubtasksByProID(int project_id);
 
+
+    List<Task> getTasksWithSubtasksByProjectID(int projectId);
 }

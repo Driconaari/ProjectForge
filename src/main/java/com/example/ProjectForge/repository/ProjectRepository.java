@@ -1,16 +1,34 @@
 package com.example.ProjectForge.repository;
 
 import com.example.ProjectForge.model.Project;
+import com.example.ProjectForge.model.Subtask;
+import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.util.ConnectionManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class ProjectRepository implements IProjectRepository {
+
+  @Autowired
+private TaskRepository taskRepository;
+
+public List<Project> getAllProjectsWithTasks() {
+    List<Project> projects = getAllProjects();
+
+ for (Project project : projects) {
+    List<Task> tasks = taskRepository.getTaskByProjectID(project.getProject_id());
+    project.setTasks(tasks);
+    System.out.println("Tasks for project " + project.getProject_id() + ": " + tasks);
+}
+    return projects;
+}
 
     //Get projects from user_id
     @Override
@@ -219,4 +237,132 @@ public class ProjectRepository implements IProjectRepository {
         }
     }
 
+
+    //Get all projects
+ @Override
+public List<Project> getAllProjects() {
+    List<Project> projects = new ArrayList<>();
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM project;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int project_id = rs.getInt("project_id");
+            String project_name = rs.getString("project_name");
+            String project_description = rs.getString("project_description");
+            LocalDate start_date = rs.getDate("start_date").toLocalDate();
+            LocalDate end_date = rs.getDate("end_date").toLocalDate();
+            int user_id = rs.getInt("user_id");
+
+            projects.add(new Project(project_id, project_name, project_description, start_date, end_date, user_id));
+        }
+        return projects;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+
+@Override
+public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
+    List<Task> tasks = new ArrayList<>();
+    Map<Integer, Task> taskMap = new HashMap<>();
+
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM task LEFT JOIN subtask ON task.task_id = subtask.task_id WHERE task.project_id = ?";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, projectId);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int taskId = rs.getInt("task.task_id");
+
+            if (!taskMap.containsKey(taskId)) {
+                String taskName = rs.getString("task.task_name");
+                // Add other task fields here
+                Task task = new Task();
+                task.setTask_id(taskId);
+                task.setTask_name(taskName);
+                // Set other task fields here
+                tasks.add(task);
+                taskMap.put(taskId, task);
+            }
+
+            int subtaskId = rs.getInt("subtask.subtask_id");
+            if (subtaskId > 0) {
+                String subtaskName = rs.getString("subtask.subtask_name");
+                // Add other subtask fields here
+                Subtask subtask = new Subtask();
+                subtask.setSubtask_id(subtaskId);
+                subtask.setSubtask_name(subtaskName);
+                // Set other subtask fields here
+                taskMap.get(taskId).getSubtasks().add(subtask);
+            }
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+
+    return tasks;
+}
+
+   @Override
+public Optional<Project> findById(int id) {
+    Optional<Project> projectOptional = Optional.empty();
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM project WHERE project_id = ?;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        pstmt.setInt(1, id);
+        ResultSet rs = pstmt.executeQuery();
+
+        if (rs.next()) {
+            int project_id = rs.getInt("project_id");
+            String project_name = rs.getString("project_name");
+            String project_description = rs.getString("project_description");
+            LocalDate start_date = rs.getDate("start_date").toLocalDate();
+            LocalDate end_date = rs.getDate("end_date").toLocalDate();
+            int user_id = rs.getInt("user_id");
+
+            Project project = new Project(project_id, project_name, project_description, start_date, end_date, user_id);
+            projectOptional = Optional.of(project);
+        }
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+    return projectOptional;
+}
+
+
+    //old code
+    /*
+    @Override
+public List<Project> getAllProjects() {
+    List<Project> projects = new ArrayList<>();
+    try {
+        Connection con = ConnectionManager.getConnection();
+        String SQL = "SELECT * FROM project;";
+        PreparedStatement pstmt = con.prepareStatement(SQL);
+        ResultSet rs = pstmt.executeQuery();
+
+        while (rs.next()) {
+            int project_id = rs.getInt("project_id");
+            String project_name = rs.getString("project_name");
+            String project_description = rs.getString("project_description");
+            LocalDate start_date = rs.getDate("start_date").toLocalDate();
+            LocalDate end_date = rs.getDate("end_date").toLocalDate();
+            int user_id = rs.getInt("user_id");
+
+            projects.add(new Project(project_id, project_name, project_description, start_date, end_date, user_id));
+        }
+        return projects;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
+    }
+}
+
+     */
 }
