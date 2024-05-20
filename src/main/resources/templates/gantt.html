@@ -26,12 +26,12 @@
 
     <div class="gantt-chart" th:each="task : ${tasks}">
         <div class="gantt-row">
-            <div class="task-name" th:text="${task.taskName}">Task Name</div>
+            <div class="task-name" th:text="${task.task_name}">Task Name</div>
             <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
         </div>
         <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
             <div class="gantt-row subtask">
-                <div class="task-name" th:text="${subtask.subtaskName}">Subtask Name</div>
+                <div class="task-name" th:text="${subtask.subtask_name}">Subtask Name</div>
                 <div class="gantt-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
             </div>
         </div>

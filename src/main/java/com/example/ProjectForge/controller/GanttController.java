@@ -1,8 +1,8 @@
 package com.example.ProjectForge.controller;
 
 import com.example.ProjectForge.model.Project;
-import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.model.Task;
+import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.repository.IProjectRepository;
 import com.example.ProjectForge.repository.TaskRepository;
 import com.example.ProjectForge.service.GanttChartService;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,14 +56,14 @@ public class GanttController {
     }
 
     private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
-        // Find the maximum end date from all tasks
+        // Find the maximum end date from all tasks and subtasks
         LocalDate maxEndDate = projectStartDate;
         for (Task task : tasks) {
-            if (task.getEnd_date().isAfter(maxEndDate)) {
+            if (task.getEnd_date() != null && task.getEnd_date().isAfter(maxEndDate)) {
                 maxEndDate = task.getEnd_date();
             }
             for (Subtask subtask : task.getSubtasks()) {
-                if (subtask.getEnd_date().isAfter(maxEndDate)) {
+                if (subtask.getEnd_date() != null && subtask.getEnd_date().isAfter(maxEndDate)) {
                     maxEndDate = subtask.getEnd_date();
                 }
             }

@@ -19,8 +19,7 @@ public class Task {
     private int project_id;
     private Project project;
 
-
-    // New fields
+    // New fields for Gantt chart visualization
     private long startOffset;
     private long duration;
 
@@ -48,6 +47,12 @@ public class Task {
         this.project_id = project_id;
     }
 
+    public Task(String taskName, LocalDate startDate, LocalDate endDate, List<Subtask> subtasks) {
+        this.task_name = taskName;
+        this.start_date = startDate != null ? startDate : LocalDate.now(); // Default to today if null
+        this.end_date = endDate != null ? endDate : this.start_date.plusDays(1); // Default to start date + 1 day if null
+        this.subtasks = subtasks;
+    }
 
     //Default constructor
     public Task() {
@@ -143,7 +148,7 @@ public class Task {
     }
 
 
-    // New getters and setters
+    // Getters and setters for startOffset and duration
     public long getStartOffset() {
         return startOffset;
     }

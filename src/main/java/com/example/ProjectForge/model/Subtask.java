@@ -27,6 +27,13 @@ public class Subtask {
         this.task_id = task_id;
     }
 
+    //Used to add calculatedTime to task
+    public Subtask(String subtaskName, LocalDate startDate, LocalDate endDate) {
+        this.subtask_name = subtaskName;
+        this.start_date = startDate != null ? startDate : LocalDate.now(); // Default to today if null
+        this.end_date = endDate != null ? endDate : this.start_date.plusDays(1); // Default to start date + 1 day if null
+    }
+
     //Default constructor
     public Subtask() {
     }
