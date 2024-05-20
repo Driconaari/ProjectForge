@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Task {
 
-    //List of subtasks for a task object (One to many relationship)
+    //List of subtasks for a task object (One-to-many relationship)
     private List<Subtask> subtasks;
 
     private int task_id;
@@ -134,7 +134,7 @@ public class Task {
         this.project = project;
     }
 
-    //Get subtasks for a task object (One to many relationship)
+    //Get subtasks for a task object (One-to-many relationship)
     public List<Subtask> getSubtasks() {
         if (subtasks == null) {
             subtasks = new ArrayList<>();
@@ -142,7 +142,7 @@ public class Task {
         return subtasks;
     }
 
-    //Set subtasks for a task object (One to many relationship)
+    //Set subtasks for a task object (One-to-many relationship)
     public void setSubtasks(List<Subtask> subtasks) {
         this.subtasks = subtasks;
     }

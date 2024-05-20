@@ -59,7 +59,7 @@ public class TaskController {
                 }
             }
 
-            model.addAttribute("tasks", tasks);
+            model.addAttribute("task", tasks);
             model.addAttribute("user_id", user_id);
             model.addAttribute("projectCalculatedTime", projectCalculatedTime);
             return "Task/tasks";
@@ -68,32 +68,33 @@ public class TaskController {
     }
 
     //Create task
-    @PostMapping(path = "task/create/{project_id}")
-    public String createTask(@ModelAttribute("task") Task task, @PathVariable("project_id") int project_id, HttpSession session) {
-        if (isSignedIn(session)) {
-            taskService.createTask(task, project_id);
-            return "redirect:/tasks/" + project_id;
-        }
-        return "redirect:/sessionTimeout";
+@GetMapping(path = "/task/create/{project_id}")
+public String showCreateTask(Model model, @PathVariable int project_id, HttpSession session) {
+    if (isSignedIn(session)) {
+        model.addAttribute("task", new Task()); // Add the task object to the model
+        model.addAttribute("project_id", project_id);
+        return "Task/createTask";
     }
+    return "redirect:/sessionTimeout";
+}
 
 
     //Edit task page
-    @GetMapping(path = "/task/{project_id}/edit/{task_id}")
-    public String showEditTask(Model model, @PathVariable int task_id, @PathVariable int project_id, HttpSession session) {
-        if (isSignedIn(session)) {
-            Task task = taskService.getTaskByIDs(task_id, project_id);
-            Project project = projectService.getProjectByProjectID(project_id);
+@GetMapping(path = "/task/{project_id}/edit/{task_id}")
+public String showEditTask(Model model, @PathVariable int task_id, @PathVariable int project_id, HttpSession session) {
+    if (isSignedIn(session)) {
+        Task task = taskService.getTaskByIDs(task_id, project_id);
+        Project project = projectService.getProjectByProjectID(project_id);
 
-            model.addAttribute("task", task);
-            model.addAttribute("task_id", task_id);
-            model.addAttribute("project_id", project_id);
-            model.addAttribute("project_start_date", project.getStart_date());
-            model.addAttribute("project_end_date", project.getEnd_date());
-            return "Task/editTask";
-        }
-        return "redirect:/sessionTimeout";
+        model.addAttribute("task", task); // Add the task object to the model
+        model.addAttribute("task_id", task_id);
+        model.addAttribute("project_id", project_id);
+        model.addAttribute("project_start_date", project.getStart_date());
+        model.addAttribute("project_end_date", project.getEnd_date());
+        return "Task/editTask";
     }
+    return "redirect:/sessionTimeout";
+}
 
     //Edit task
     @PostMapping(path = "/task/{project_id}/edit/{task_id}")
