@@ -67,13 +67,27 @@ public class TaskController {
         return "redirect:/sessionTimeout";
     }
 
-    //Create task
+
+    //Create task page
 @GetMapping(path = "/task/create/{project_id}")
 public String showCreateTask(Model model, @PathVariable int project_id, HttpSession session) {
     if (isSignedIn(session)) {
         model.addAttribute("task", new Task()); // Add the task object to the model
         model.addAttribute("project_id", project_id);
         return "Task/createTask";
+    }
+    return "redirect:/sessionTimeout";
+}
+
+    //Create task
+
+@PostMapping(path = "task/create/{project_id}")
+public String createTask(@ModelAttribute("task") Task task, @PathVariable("project_id") int project_id, Model model, HttpSession session) {
+    if (isSignedIn(session)) {
+        model.addAttribute("task", task); // Add the task object to the model
+        System.out.println(task); // Log the task object
+        taskService.createTask(task, project_id);
+        return "redirect:/tasks/" + project_id;
     }
     return "redirect:/sessionTimeout";
 }
