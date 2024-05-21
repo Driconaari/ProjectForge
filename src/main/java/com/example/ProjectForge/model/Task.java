@@ -81,7 +81,6 @@ public class Task {
         this.task_name = task_name;
     }
 
-
     public double getHours() {
         return hours;
     }

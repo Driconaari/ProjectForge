@@ -48,22 +48,18 @@ public String showGantt(@PathVariable("user_id") int userId, Model model) {
 
     // If you want to display tasks of all projects, you can loop through the projects
     // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
-    List<Task> allTasks = new ArrayList<>();
-    for (Project project : projects) {
-        List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
-        for (Task task : tasks) {
-            task.setProject(project);
-            double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-            task.setCalculatedTime(taskCalculatedTime); // calculate and set the task time
-            List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
-            for (Subtask subtask : subtasks) {
-                double subtaskCalculatedTime = subtaskService.getProjectTimeBySubtaskID(subtask.getSubtask_id());
-                subtask.setCalculatedTime(subtaskCalculatedTime); // calculate and set the subtask time
+        List<Task> allTasks = new ArrayList<>();
+        for (Project project : projects) {
+            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
+            for (Task task : tasks) {
+                task.setProject(project);
+                double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                task.setCalculatedTime(taskCalculatedTime); // calculate and set the task time
+                List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
+                task.setSubtasks(subtasks);
             }
-            task.setSubtasks(subtasks);
+            allTasks.addAll(tasks);
         }
-        allTasks.addAll(tasks);
-    }
 
     LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
     allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);

@@ -17,9 +17,10 @@ header {
 .logo {
     width: 50px;
     height: 50px;
-background-image: url("ganttimages/Logo.png");
-background-repeat: no-repeat;
-background-position: center center;    background-size: contain;
+    background-image: url("ganttimages/Logo.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
 }
 
 .navigation a {
@@ -63,7 +64,14 @@ h1 {
     margin-bottom: 5px;
 }
 
-.task-name {
+.task-row .task-name,
+.subtask-row .subtask-name,
+.task-row .task-start-date,
+.subtask-row .subtask-start-date,
+.task-row .task-end-date,
+.subtask-row .subtask-end-date,
+.task-row .task-calculated-time,
+.subtask-row .subtask-status {
     flex: 1;
     padding-right: 10px;
 }
@@ -74,7 +82,7 @@ h1 {
     background-color: #4caf50;
 }
 
-.subtask .gantt-bar {
+.subtask-row .gantt-bar {
     background-color: #2196f3;
 }
 
