@@ -3,13 +3,15 @@ body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    background-color: #f4f4f9;
+    color: #333;
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 20px;
+    padding: 15px 30px;
     background-color: #333;
     color: #fff;
 }
@@ -25,61 +27,85 @@ header {
 
 .navigation a {
     color: #fff;
-    margin: 0 10px;
+    margin: 0 15px;
     text-decoration: none;
+    font-size: 1.1em;
 }
 
 h1 {
     text-align: center;
-    margin: 20px 0;
+    margin: 30px 0;
+    font-size: 2em;
 }
 
 .gantt-container {
     padding: 20px;
+    margin: 0 auto;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 .gantt-time-axis {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+    color: #666;
 }
 
 .time-interval {
     flex: 1;
     text-align: center;
+    padding: 10px;
+    background-color: #e0e0e0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 2px;
 }
 
 .gantt-project {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding: 15px;
+    background-color: #fafafa;
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
 .project-name {
     font-size: 1.5em;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    color: #444;
 }
 
 .gantt-row {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
-.task-row .task-name,
-.subtask-row .subtask-name,
-.task-row .task-start-date,
-.subtask-row .subtask-start-date,
-.task-row .task-end-date,
-.subtask-row .subtask-end-date,
-.task-row .task-calculated-time,
-.subtask-row .subtask-status {
+.task-row, .subtask-row {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 2px 0;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+}
+
+.task-name, .subtask-name,
+.task-start-date, .subtask-start-date,
+.task-end-date, .subtask-end-date,
+.task-calculated-time, .subtask-status {
     flex: 1;
-    padding-right: 10px;
+    padding: 5px 10px;
 }
 
 .gantt-bar {
     position: relative;
     height: 20px;
     background-color: #4caf50;
+    border-radius: 4px;
 }
 
 .subtask-row .gantt-bar {
@@ -88,7 +114,8 @@ h1 {
 
 footer {
     text-align: center;
-    padding: 10px 0;
-    background-color: #f1f1f1;
-    margin-top: 20px;
+    padding: 15px 0;
+    background-color: #333;
+    color: #fff;
+    margin-top: 30px;
 }
