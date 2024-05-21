@@ -36,6 +36,7 @@ h1 {
     text-align: center;
     margin: 30px 0;
     font-size: 2em;
+    color: #444;
 }
 
 .gantt-container {
@@ -45,6 +46,7 @@ h1 {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    overflow-x: auto;
 }
 
 .gantt-time-axis {
@@ -53,10 +55,11 @@ h1 {
     margin-bottom: 20px;
     font-size: 0.9em;
     color: #666;
+    white-space: nowrap;
 }
 
 .time-interval {
-    flex: 1;
+    flex: 0 0 120px; /* Adjust width as needed */
     text-align: center;
     padding: 10px;
     background-color: #e0e0e0;
@@ -77,12 +80,15 @@ h1 {
     font-size: 1.5em;
     margin-bottom: 15px;
     color: #444;
+    font-weight: bold;
+    text-transform: capitalize;
 }
 
 .gantt-row {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
+    position: relative;
 }
 
 .task-row, .subtask-row {
@@ -91,6 +97,7 @@ h1 {
     border-radius: 4px;
     margin: 2px 0;
     box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    position: relative;
 }
 
 .task-name, .subtask-name,
@@ -102,7 +109,7 @@ h1 {
 }
 
 .gantt-bar {
-    position: relative;
+    position: absolute;
     height: 20px;
     background-color: #4caf50;
     border-radius: 4px;
