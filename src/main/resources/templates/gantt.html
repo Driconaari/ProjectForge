@@ -24,27 +24,27 @@
         <div class="time-interval" th:each="day : ${days}" th:text="${day}">Day</div>
     </div>
 
-    <div th:each="task : ${tasks}">
-        <div class="gantt-project">
-            <h2 class="project-name" th:text="${task.project.project_name}">Project Name</h2>
-            <div class="gantt-row">
-                <div class="task-name" th:text="${task.task_name}"></div>
-                <div class="task-hours" th:text="${task.hours}"></div>
-                <div class="task-start-date" th:text="${task.start_date}"></div>
-                <div class="task-end-date" th:text="${task.end_date}"></div>
-                <div class="task-calculated-time" th:text="${task.calculatedTime}"></div>
-                <div class="task-status" th:text="${task.status}"></div>
-                <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
-            </div>
-            <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
-                <div class="gantt-row subtask">
-                    <div class="subtask-name" th:text="${subtask.subtask_name}"></div>
-                    <div class="subtask-hours" th:text="${subtask.hours}"></div>
-                    <div class="subtask-start-date" th:text="${subtask.start_date}"></div>
-                    <div class="subtask-end-date" th:text="${subtask.end_date}"></div>
-                    <div class="subtask-status" th:text="${subtask.status}"></div>
-                    <div class="gantt-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
-                </div>
+   <div th:each="task : ${tasks}">
+    <div class="gantt-project">
+        <h2 class="project-name" th:text="${task.project.project_name}">Project Name</h2>
+        <div class="project-calculated-time" th:text="${task.project.projectCalculatedTime}"></div>
+        <div class="gantt-row">
+            <div class="task-name" th:text="${task.task_name}"></div>
+            <div class="task-hours" th:text="${task.hours}"></div>
+            <div class="task-start-date" th:text="${task.start_date}"></div>
+            <div class="task-end-date" th:text="${task.end_date}"></div>
+            <div class="task-calculated-time" th:text="${task.calculatedTime}"></div>
+            <div class="task-status" th:text="${task.status}"></div>
+            <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
+        </div>
+        <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
+            <div class="gantt-row subtask">
+                <div class="subtask-name" th:text="${subtask.subtask_name}"></div>
+                <div class="subtask-hours" th:text="${subtask.hours}"></div>
+                <div class="subtask-start-date" th:text="${subtask.start_date}"></div>
+                <div class="subtask-end-date" th:text="${subtask.end_date}"></div>
+                <div class="subtask-status" th:text="${subtask.status}"></div>
+                <div class="gantt-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
             </div>
         </div>
     </div>
