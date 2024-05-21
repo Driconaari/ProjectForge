@@ -10,7 +10,7 @@
     <a th:href="@{/home/{user_id}(user_id=${user_id})}">
         <div class="logo"></div>
         <nav class="navigation">
-            <a th:href="@{/projects/{user_id}(user_id=${user_id})}">Projekter</a>
+            <a th:href="@{/projects/{user_id}(user_id=${user_id})}" class="btn">Projekter</a>
             <a th:href="@{/logout}" button class="btnlogin-popup">Log ud</a>
         </nav>
     </a>
@@ -18,7 +18,7 @@
 
 <h1>Tasks</h1>
 
-<div style="position: fixed; top: 30%; left: 50%; transform: translate(-50%, -50%);">
+<div style="position: fixed; top: 30%; left: 49%; transform: translate(-50%, -50%);">
     <a th:href="@{/task/create/{project_id}(project_id=${project_id})}">
         <button type="button" class="btn">Opret Opgave</button>
     </a>
