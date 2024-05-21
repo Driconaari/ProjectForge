@@ -31,9 +31,9 @@
                 <div class="task-name" th:text="${task.task_name}">Task Name</div>
                 <div class="task-start-date" th:text="${task.start_date}">Start Date</div>
                 <div class="task-end-date" th:text="${task.end_date}">End Date</div>
-                <div class="task-status">
                     <div class="task-hours" th:text="'Hours: ' + ${task.calculatedTime}"></div>
-                    <span th:if="${task.status}==1" style="color: #0050ff;">TODO</span>
+                <div class="task-status">
+                <span th:if="${task.status}==1" style="color: #0050ff;">TODO</span>
                     <span th:if="${task.status}==2" style="color: #ffdc0c;">I Gang</span>
                     <span th:if="${task.status}==3" style="color: #14cb2e;">Færdig</span>
                 </div>
