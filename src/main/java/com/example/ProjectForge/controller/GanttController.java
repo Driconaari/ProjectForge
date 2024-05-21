@@ -4,6 +4,7 @@ import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.repository.IProjectRepository;
+import com.example.ProjectForge.repository.SubtaskRepository;
 import com.example.ProjectForge.repository.TaskRepository;
 import com.example.ProjectForge.service.GanttChartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,8 @@ public class GanttController {
 
     @Autowired
     private GanttChartService ganttChartService;
+    @Autowired
+    private SubtaskRepository subtaskRepository;
 
     @GetMapping("/gantt/{user_id}")
     public String showGantt(@PathVariable("user_id") int userId, Model model) {
@@ -41,7 +44,8 @@ public class GanttController {
         for (Project project : projects) {
             List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
             for (Task task : tasks) {
-                task.setProject(project); // Set the project field of the task
+                task.setProject(project);
+                task.setSubtasks(subtaskRepository.getSubtasksByTaskID(task.getTask_id()));// Set the project field of the task
             }
             allTasks.addAll(tasks);
         }
