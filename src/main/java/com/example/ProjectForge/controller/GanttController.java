@@ -4,8 +4,11 @@ import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.repository.IProjectRepository;
+import com.example.ProjectForge.repository.SubtaskRepository;
 import com.example.ProjectForge.repository.TaskRepository;
 import com.example.ProjectForge.service.GanttChartService;
+import com.example.ProjectForge.service.SubtaskService;
+import com.example.ProjectForge.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,31 +32,43 @@ public class GanttController {
 
     @Autowired
     private GanttChartService ganttChartService;
+    @Autowired
+    private SubtaskRepository subtaskRepository;
+
+    @Autowired
+    TaskService taskService;
+
+    @Autowired
+    SubtaskService subtaskService;
 
     @GetMapping("/gantt/{user_id}")
-    public String showGantt(@PathVariable("user_id") int userId, Model model) {
-        // Use the userId to fetch the relevant projects
-        List<Project> projects = projectRepository.getProjectsByID(userId);
+public String showGantt(@PathVariable("user_id") int userId, Model model) {
+    // Use the userId to fetch the relevant projects
+    List<Project> projects = projectRepository.getProjectsByID(userId);
 
-        // If you want to display tasks of all projects, you can loop through the projects
-        // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
+    // If you want to display tasks of all projects, you can loop through the projects
+    // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
         List<Task> allTasks = new ArrayList<>();
         for (Project project : projects) {
             List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
             for (Task task : tasks) {
-                task.setProject(project); // Set the project field of the task
+                task.setProject(project);
+                double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                task.setCalculatedTime(taskCalculatedTime); // calculate and set the task time
+                List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
+                task.setSubtasks(subtasks);
             }
             allTasks.addAll(tasks);
         }
 
-        LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
-        allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
+    LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
+    allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
 
-        model.addAttribute("tasks", allTasks);
-        model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks)); // Add time axis data
-        model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
-        return "gantt";
-    }
+    model.addAttribute("tasks", allTasks);
+    model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks)); // Add time axis data
+    model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
+    return "gantt";
+}
 
     private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
         // Find the maximum end date from all tasks and subtasks

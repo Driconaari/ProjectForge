@@ -34,6 +34,8 @@ ALTER TABLE user
     ADD email VARCHAR(255);
 -- Create project table
 CREATE TABLE project
+
+
 (
     project_id          INT AUTO_INCREMENT,
     project_name        VARCHAR(255) NOT NULL,

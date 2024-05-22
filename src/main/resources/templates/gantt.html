@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Gantt Models</title>
+    <title>Gantt Model</title>
     <link rel="stylesheet" th:href="@{/css/gantt.css}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -13,7 +13,7 @@
     </a>
     <nav class="navigation">
         <a th:href="@{/editUser/{user_id}(user_id=${userId})}">Edit Profile</a>
-        <a th:href="@{/logout}" button class="slidelogin-popup">Log out</a>
+        <a th:href="@{/logout}" class="slidelogin-popup">Log out</a>
     </nav>
 </header>
 
@@ -27,14 +27,30 @@
     <div th:each="task : ${tasks}">
         <div class="gantt-project">
             <h2 class="project-name" th:text="${task.project.project_name}">Project Name</h2>
-            <div class="gantt-row">
+            <div class="gantt-row task-row">
                 <div class="task-name" th:text="${task.task_name}">Task Name</div>
-                <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
+                <div class="task-start-date" th:text="${task.start_date}">Start Date</div>
+                <div class="task-end-date" th:text="${task.end_date}">End Date</div>
+                    <div class="task-hours" th:text="'Hours: ' + ${task.calculatedTime}"></div>
+                <div class="task-status">
+                <span th:if="${task.status}==1" style="color: #0050ff;">TODO</span>
+                    <span th:if="${task.status}==2" style="color: #ffdc0c;">I Gang</span>
+                    <span th:if="${task.status}==3" style="color: #14cb2e;">Færdig</span>
+                </div>
+                <div class="gantt-bar"
+                     th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
             </div>
             <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
-                <div class="gantt-row subtask">
-                    <div class="task-name" th:text="${subtask.subtask_name}">Subtask Name</div>
-                    <div class="gantt-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
+                <div class="gantt-row subtask-row">
+                    <div class="subtask-name" th:text="${subtask.subtask_name}">Subtask Name</div>
+                    <div class="subtask-hours" th:text="'Hours: ' + ${subtask.hours}"></div>
+                    <div class="subtask-start-date" th:text="${subtask.start_date}">Start Date</div>
+                    <div class="subtask-end-date" th:text="${subtask.end_date}">End Date</div>
+                    <div class="subtask-status">
+                        <span th:if="${subtask.status}==1" style="color: #0050ff;">TODO</span>
+                        <span th:if="${subtask.status}==2" style="color: #ffdc0c;">I Gang</span>
+                        <span th:if="${subtask.status}==3" style="color: #14cb2e;">Færdig</span>
+                    </div>
                 </div>
             </div>
         </div>
