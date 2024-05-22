@@ -164,7 +164,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
     }
 
 
-    //get project with task and subtasks
+    //get project with task and subtasks by project_id and show in taskSubtask page
     @GetMapping(path = "project/{project_id}")
     public String showProject(Model model, @PathVariable int project_id, HttpSession session) {
 

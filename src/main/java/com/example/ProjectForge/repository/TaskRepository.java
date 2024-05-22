@@ -340,13 +340,22 @@ public class TaskRepository implements ITaskRepository {
             while (rs.next()) {
                 int taskId = rs.getInt("task.task_id");
 
+
                 if (!taskMap.containsKey(taskId)) {
                     String taskName = rs.getString("task.task_name");
-                    // Add other task fields here
+                    Double hours = rs.getDouble("task.hours");
+                    LocalDate startDate = rs.getDate("task.start_date").toLocalDate();
+                    LocalDate endDate = rs.getDate("task.end_date").toLocalDate();
+                    int status = rs.getInt("task.status");
+
                     Task task = new Task();
                     task.setTask_id(taskId);
                     task.setTask_name(taskName);
-                    // Set other task fields here
+                    task.setHours(hours);
+                    task.setStart_date(startDate);
+                    task.setEnd_date(endDate);
+                    task.setStatus(status);
+
                     tasks.add(task);
                     taskMap.put(taskId, task);
                 }

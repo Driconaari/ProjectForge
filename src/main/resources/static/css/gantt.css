@@ -1,146 +1,86 @@
-:root {
-    --background-color: #f4f4f9;
-    --text-color: #333;
-    --header-background: #333;
-    --header-text: #fff;
-    --primary-color: #4caf50;
-    --secondary-color: #2196f3;
-    --light-grey: #e0e0e0;
-    --dark-grey: #444;
-}
-
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    background-color: var(--background-color);
-    color: var(--text-color);
 }
 
 header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 30px;
-    background-color: var(--header-background);
-    color: var(--header-text);
+    padding: 10px 20px;
+    background-color: #f8f9fa;
 }
 
-.logo {
+header .logo {
     width: 50px;
     height: 50px;
-    background-image: url("ganttimages/Logo.png");
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-size: contain;
+    background-color: #343a40;
 }
 
-.navigation a {
-    color: var(--header-text);
-    margin: 0 15px;
+header .navigation a {
+    margin-left: 20px;
     text-decoration: none;
-    font-size: 1.1em;
-}
-
-h1 {
-    text-align: center;
-    margin: 30px 0;
-    font-size: 2em;
-    color: var(--dark-grey);
+    color: #007bff;
 }
 
 .gantt-container {
-    padding: 20px;
-    margin: 0 auto;
-    max-width: 1200px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    overflow-x: auto;
+    margin: 20px;
 }
 
 .gantt-time-axis {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
-    font-size: 0.9em;
-    color: #666;
-    white-space: nowrap;
+    padding: 10px 0;
+    border-bottom: 2px solid #000;
 }
 
 .time-interval {
-    flex: 0 0 10%;
+    flex: 1;
     text-align: center;
-    padding: 10px;
-    background-color: var(--light-grey);
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 2px;
 }
 
 .gantt-project {
-    margin-bottom: 30px;
-    padding: 15px;
-    background-color: #fafafa;
-    border-radius: 8px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-}
-
-.project-name {
-    font-size: 1.5em;
-    margin-bottom: 15px;
-    color: var(--dark-grey);
-    font-weight: bold;
-    text-transform: capitalize;
+    margin: 20px 0;
 }
 
 .gantt-row {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    position: relative;
 }
 
 .task-row, .subtask-row {
-    background-color: #f9f9f9;
     padding: 10px;
-    border-radius: 4px;
-    margin: 2px 0;
-    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    border: 1px solid #ddd;
     position: relative;
 }
 
-.task-name, .subtask-name,
-.task-start-date, .subtask-start-date,
-.task-end-date, .subtask-end-date,
-.task-hours, .subtask-hours,
+.task-name, .subtask-name {
+    flex: 2;
+}
+
+.task-start-date, .task-end-date, .subtask-start-date, .subtask-end-date,
+.task-hours, .subtask-hours {
+    flex: 1;
+    text-align: center;
+}
+
 .task-status, .subtask-status {
     flex: 1;
-    padding: 5px 10px;
+    text-align: center;
 }
 
 .gantt-bar {
-    position: absolute;
     height: 20px;
-    background-color: var(--primary-color);
-    border-radius: 4px;
+    background-color: #007bff;
+    position: absolute;
 }
 
-.subtask-row .gantt-bar {
-    background-color: var(--secondary-color);
+.subtask-bar {
+    background-color: #5bc0de;
 }
 
 footer {
     text-align: center;
-    padding: 15px 0;
-    background-color: var(--header-background);
-    color: var(--header-text);
-    margin-top: 30px;
-}
-
-@media (max-width: 768px) {
-    .time-interval {
-        flex: 0 0 20%;
-    }
+    padding: 20px;
+    background-color: #f8f9fa;
 }
