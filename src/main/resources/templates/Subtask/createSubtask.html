@@ -2,23 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Create Subtask</title>
+  <title>Opret underopgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-<h1>Opret Subtask</h1>
+<h1>Opret Underopgave</h1>
 
 <form th:action="@{/subtasks/create/{task_id}(task_id=${task_id})}" method="post"
       th:object="${subtask}">
 
   <div>
-    <label class="createSubtaskForm">Subtask navn:</label>
-    <input type="text" th:field="*{subtask_name}" placeholder="Subtask name" required>
+    <label class="createSubtaskForm">Underopgave navn:</label>
+    <input type="text" th:field="*{subtask_name}" placeholder="Underopgave navn" required>
   </div>
 
   <div>
-    <label class="createSubtaskForm">Estimerede timer:</label>
+    <label class="createSubtaskForm">Estimeret tid:</label>
     <input type="text" th:field="*{hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
   </div>
 
@@ -46,14 +46,14 @@
   <br>
 
   <div>
-    <input type="submit" value="Create Subtask" class="btn success"/>
-    <input type="reset" value="Reset" class="btn reset"/>
+    <input type="submit" value="Lav Underopgave" class="button success"/>
+    <input type="reset" value="Reset" class="button reset"/>
   </div>
 
   <br>
 
   <a th:href="@{/subtasks/{task_id}(task_id=${task_id})}">
-    <button type="button" class="btn go-back">Go Back</button>
+    <button type="button" class="button go-back">Gå tilbage</button>
   </a>
 
 </form>

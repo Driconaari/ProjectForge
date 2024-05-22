@@ -2,7 +2,7 @@
 <html xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Project</title>
+    <title>Projekt</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
@@ -16,11 +16,11 @@
     </a>
 </header>
 
-<h1>Tasks</h1>
+<h1>Opgaver</h1>
 
 <div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">
     <a th:href="@{/task/create/{project_id}(project_id=${project_id})}">
-        <button type="button" class="btn">Opret Opgave</button>
+        <button type="button" class="button">Opret Opgave</button>
     </a>
 </div>
 
@@ -37,11 +37,11 @@
                 <th scope="col">Timer</th>
                 <th scope="col">Start dato</th>
                 <th scope="col">Slut dato</th>
-                <th scope="col">EST. tid sub/task</th>
+                <th scope="col">EST. tid Opgave/underopgave</th>
                 <th scope="col">Status</th>
                 <th scope="col">Rediger projekt</th>
                 <th scope="col">Slet projekt</th>
-                <th scope="col">Se subtasks</th>
+                <th scope="col">Se underopgave</th>
             </tr>
             </thead>
             <tbody>
@@ -57,16 +57,16 @@
 
                 <td>
                     <a th:href="@{/task/{project_id}/edit/{task_id}(project_id=${project_id}, task_id=${task.task_id})}">
-                        <button type="button" class="btn">Rediger Opgave</button>
+                        <button type="button" class="button">Rediger Opgave</button>
                     </a>
                 <td>
                     <a th:href="@{/task/delete/{task_id}(task_id=${task.task_id})}">
-                        <button type="button" class="btn">Slet Opgave</button>
+                        <button type="button" class="button">Slet Opgave</button>
                     </a>
                 </td>
                 <td>
                     <a th:href="@{/subtasks/{task_id}(task_id=${task.task_id})}">
-                        <button type="button" class="btn">Se subtasks</button>
+                        <button type="button" class="button">Se underopgave</button>
                     </a>
                 </td>
             </tr>

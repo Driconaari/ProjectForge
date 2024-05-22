@@ -2,28 +2,28 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Edit Subtask</title>
+  <title>Rediger Underopgave</title>
   <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
-<h1>Rediger Subtask</h1>
+<h1>Rediger Underopgave</h1>
 
 <div>
   <form method="post" th:action="@{/subtask/{task_id}/edit/{subtask_id}(task_id=${task_id}, subtask_id=${subtask_id})}">
 
-  <label for="subtask_name" class="form-label">Subtask name:</label>
+  <label for="subtask_name" class="form-label">Underopgave navn:</label>
     <input id="subtask_name" type="text" th:name="subtask_name" th:value="${subtask.subtask_name}">
 
 
-    <label for="hours" class="form-label">Hours:</label>
+    <label for="hours" class="form-label">Tid:</label>
     <input id="hours" type="text" th:name="hours" th:value="${subtask.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
 
-    <label for="subtask_start_date" class="form-label">Start date</label>
+    <label for="subtask_start_date" class="form-label">Start dato</label>
     <input id="subtask_start_date" type="date" th:field="${subtask.start_date}" th:min="${task_start_date}" th:max="${task_end_date}" >
 
-    <label for="subtask_end_date" class="form-label">End date</label>
+    <label for="subtask_end_date" class="form-label">Slut dato</label>
     <input id="subtask_end_date" type="date" th:field="${subtask.end_date}" th:min="${task_start_date}" th:max="${task_end_date}">
 
     <input type="hidden" th:field="*{subtask_id}" required>
@@ -34,17 +34,17 @@
     <label>
       <select th:field="${subtask.status}" id="status">
         <option value="1">TODO</option>
-        <option value="2">In Progress</option>
-        <option value="3">Done</option>
+        <option value="2">I gang</option>
+        <option value="3">Færdig</option>
       </select>
     </label>
 
 
-    <button type="submit" class="btn">Save</button>
+    <button type="submit" class="button">Gem</button>
   </form>
 
   <a th:href="@{/subtasks/{task_id}(task_id=${task_id})}">
-    <button type="button" class="btn">Return to subtask</button>
+    <button type="button" class="button">Returner til Underopgaver</button>
   </a>
 
 </div>
