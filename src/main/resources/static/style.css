@@ -128,6 +128,7 @@ tbody tr:hover {
 }
 
 /* Form Styles */
+/* login form
 form {
     width: 120%;
     height: 120%;
@@ -138,6 +139,117 @@ form {
     font-weight: bolder;
     align-content: center;
 }
+/* Register form*/
+
+form {
+    width: 120%;
+    height: 120%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    font-weight: bolder;
+    align-content: center;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: rgba(29, 29, 29, 0.8);
+}
+
+.form-box {
+    width: 400px;
+    padding: 40px;
+    position: relative;
+    margin: 6% auto;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 10px;
+}
+
+.form-box h2 {
+    margin: 10px 0 30px;
+    padding: 0;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.input-box input {
+    width: 100%;
+    padding: 10px;
+    background: #f0f0f0;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    color: #333;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.input-box label {
+    position: absolute;
+    left: 0;
+    padding: 10px;
+    pointer-events: none;
+    font-size: 18px;
+    color: #666;
+    transition: all 0.3s ease;
+}
+
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -20px;
+    left: 10px;
+    color: #ff6124;
+    font-size: 12px;
+}
+
+.input-box span.icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    font-size: 22px;
+    color: #666;
+}
+
+.btn {
+    width: 100%;
+    background: #ff6124;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+.btn:hover {
+    background: #e4561a;
+}
+
+.login-register p {
+    color: #666;
+    font-size: 14px;
+}
+
+.login-register a {
+    color: #ff6124;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 
 .form-label {
     font-size: 1rem;
