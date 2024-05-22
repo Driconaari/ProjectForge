@@ -29,10 +29,10 @@
 
         <input type="hidden" th:name="user" th:value="*{user_id}" required>
 
-        <button class="btn" type="submit">Gem</button>
+        <button class="button" type="submit">Gem</button>
 
         <a th:href="@{/projects/{user_id}(user_id=${user_id})}">
-            <button type="button" class="btn">Tilbage til projekter</button>
+            <button type="button" class="button">Tilbage til projekter</button>
         </a>
 
     </form>

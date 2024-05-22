@@ -20,7 +20,7 @@
 
 <div style="position: fixed; top: 15%; left: 80%; transform: translate(-50%, -50%);">
     <a th:href="@{/projects/create/{user_id}(user_id=${user_id})}">
-        <button type="button" class="btn">Opret projekt</button>
+        <button type="button" class="button">Opret projekt</button>
     </a>
 </div>
 
@@ -37,7 +37,7 @@
                 <th scope="col">Start Dato</th>
                 <th scope="col">Slut Dato</th>
                 <th scope="col">Projektets Estimerede tid</th>
-                <th scope="col">Se dine tasks</th>
+                <th scope="col">Se dine opgaver</th>
                 <th scope="col">Vis projekt</th>
                 <th scope="col">Rediger Projekt</th>
                 <th scope="col">Slet Projekt</th>
@@ -54,24 +54,24 @@
 
                 <td>
                     <a th:href="@{/tasks/{project_id}(project_id=${project.project_id})}">
-                        <button type="button" class="btn">Vis Opgaver</button>
+                        <button type="button" class="button">Vis Opgaver</button>
                     </a>
                 </td>
 
                 <td>
                     <a th:href="@{/project/{project_id}(project_id=${project.project_id})}">
-                        <button type="button" class="btn">Vis Projekt</button>
+                        <button type="button" class="button">Vis Projekt</button>
                     </a>
                 </td>
 
                 <td>
                     <a th:href="@{/projects/{user_id}/edit/{project_id}(user_id=${user_id}, project_id=${project.project_id})}">
-                        <button type="button" class="btn">Rediger Projekt</button>
+                        <button type="button" class="button">Rediger Projekt</button>
                     </a>
                 </td>
                 <td>
                     <a th:href="@{/deleteProject/{project_id}(project_id=${project.project_id})}">
-                        <button type="button" class="btn">Slet Projekt</button>
+                        <button type="button" class="button">Slet Projekt</button>
                     </a>
                 </td>
 

@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Task</title>
+    <title>Rediger Opgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 
 <body>
 
-<h1>Edit Task</h1>
+<h1>Rediger Opgave</h1>
 
 <div>
     <form method="post" th:action="@{/task/{project_id}/edit/{task_id}(project_id=${project_id}, task_id=${task_id})}">
@@ -16,7 +16,7 @@
         <label for="task_name" class="form-label">Opgave navn:</label>
         <input id="task_name" type="text" th:name="task_name" th:value="${task.task_name}">
 
-        <label for="hours" class="form-label">Timer:</label>
+        <label for="hours" class="form-label">Tid:</label>
         <input id="hours" type="text" th:name="hours" th:value="${task.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
 
         <label for="task_start_date" class="form-label">Start dato</label>
@@ -39,11 +39,11 @@
         </label>
 
 
-        <button type="submit" class="btn">Gem</button>
+        <button type="submit" class="button">Gem</button>
     </form>
 
     <a th:href="@{/tasks/{project_id}(project_id=${task.project_id})}">
-        <button type="button" class="btn">Returner til opgaver</button>
+        <button type="button" class="button">Returner til opgaver</button>
     </a>
 
 </div>
