@@ -142,15 +142,16 @@ form {
 /* Register form*/
 
 form {
-    width: 120%;
-    height: 120%;
+    width: 320px;
+    height: 500px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: normal;
     align-items: center;
     font-weight: bolder;
     align-content: center;
 }
+
 
 * {
     margin: 0;
@@ -167,7 +168,7 @@ form {
     margin: 6% auto;
     background: #fff;
     text-align: center;
-    box-shadow: 0 0 20px 9px #ff61241f;
+    /*box-shadow: 0 0 20px 9px #ff61241f;*/
     border-radius: 10px;
 }
 
@@ -259,160 +260,139 @@ form {
 }
 
 /*create a new project*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
-}
-body, html {
-    height: 100%;
-    font-family: Montserrat-Regular, sans-serif;
-}
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-}
-html {
-    box-sizing: border-box;
-    font-family: sans-serif;
-    line-height: 1.15;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -ms-overflow-style: scrollbar;
-    -webkit-tap-highlight-color: transparent;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
+.create-project-form {
+    animation-name: click_kf;
+    position: relative;
+    width: 400px; /* Adjust the width as needed */
+    height: 440px; /* Adjust the height as needed */
+    background: whitesmoke;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
 }
 
-.create-project-form form {
-    width: 120%;
-    height: 120%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bolder;
-    align-content: center;
+@keyframes click_kf {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.create-project-form.active {
+    height: 520px; /* Adjust the height when active */
 }
 
 .create-project-form .form-box {
-    width: 400px;
+    width: 100%;
     padding: 40px;
-    position: relative;
-    margin: 6% auto;
-    background: #fff;
-    text-align: center;
-    box-shadow: 0 0 20px 9px #ff61241f;
-    border-radius: 10px;
 }
 
-.create-project-form .form-box h2 {
-    margin: 10px 0 30px;
-    padding: 0;
-    color: #333;
-    text-transform: uppercase;
+.create-project-form .form-box.login {
+    transition: transform .18s ease;
+    transform: translateX(0)
 }
 
-.create-project-form .input-box {
-    position: relative;
-    width: 100%;
-    margin-bottom: 30px;
+.create-project-form.active .form-box.login {
+    transition: none;
+    transform: translateX(-400px);
 }
 
-.create-project-form .input-box input {
-    width: 100%;
-    padding: 10px;
-    background: #f0f0f0;
-    border: none;
-    outline: none;
-    font-size: 18px;
-    color: #333;
-    border-radius: 5px;
-    transition: all 0.3s ease;
-}
-
-.create-project-form .input-box label {
+.create-project-form .form-box.register {
     position: absolute;
-    left: 0;
-    padding: 10px;
-    pointer-events: none;
-    font-size: 18px;
-    color: #666;
-    transition: all 0.3s ease;
+    transition: none;
+    transform: translateX(400px);
 }
 
-.create-project-form .input-box input:focus ~ label,
-.create-project-form .input-box input:valid ~ label {
-    top: -20px;
-    left: 10px;
-    color: #ff6124;
-    font-size: 12px;
+.create-project-form.active .form-box.register {
+    transition: transform .18s ease;
+    transform: translateX(0);
 }
 
-.create-project-form .input-box span.icon {
+.create-project-form .icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 0, 0, 0.68);
+    font-size: 2em;
+    color: rgba(29, 29, 29, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.form-box h2 {
+    font-size: 2em;
+    color: rgba(29, 29, 29, 0.8);
+    text-align: center;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    border-bottom: 2px solid #ffffff;
+    margin: 30px 0;
+}
+
+.input-box label {
     position: absolute;
     top: 50%;
+    left: 5px;
     transform: translateY(-50%);
-    right: 20px;
-    font-size: 22px;
-    color: #666;
+    font-size: 1em;
+    color: rgba(29, 29, 29, 0.8);
+    font-weight: 500;
+    pointer-events: none;
+    transition: none;
 }
 
-.create-project-form .button {
-    width: 100%;
-    background: #ff6124;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #fff;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
+.input-box input:focus ~ label,
+.input-box input:valid ~ label {
+    top: -5px;
 
-.create-project-form .button:hover {
-    background: #e4561a;
-}
-
-.create-project-form .loginogregister p {
-    color: #666;
-    font-size: 14px;
-}
-
-.create-project-form .loginogregister a {
-    color: #ff6124;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* New styles from another project */
-.create-project-form .input1 + .shadow-input1 {
-    border-radius: 25px;
-}
-
-.create-project-form .shadow-input1 {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
+.input-box input {
     width: 100%;
     height: 100%;
-    box-shadow: 0 0;
-    color: rgba(87, 184, 70, .5);
+    background: whitesmoke;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    color: rgba(29, 29, 29, 0.8);
+    font-weight: 600;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 8px;
+    font-size: 1.2em;
+    color: rgba(29, 29, 29, 0.8);
+    line-height: 57px;
+}
+
+.btn {
+    width: 100%;
+    height: 45px;
+    background: #f5f5f5;
+    border: 2px solid rgba(29, 29, 29, 0.8);
+    outline: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    color: rgba(29, 29, 29, 0.8);
+    margin: 0;
 }
 
 
@@ -482,7 +462,7 @@ body {
     animation-name: click_kf;
     position: relative;
     width: 400px;
-    height: 440px;
+    height: 700px;
     background: whitesmoke;
     border: 2px solid rgba(255, 255, 255, 0.5);
     border-radius: 20px;
