@@ -324,7 +324,7 @@ public class TaskRepository implements ITaskRepository {
         return task;
     }
 
-
+// Get tasks with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTasksWithSubtasks method in frontend (ganttmodel.vue) - getTasksWithSubtasks
     @Override
     public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
         List<Task> tasks = new ArrayList<>();
