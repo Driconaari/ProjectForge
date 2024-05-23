@@ -33,10 +33,12 @@
                 <div class="task-end-date" th:text="${task.end_date}">End Date</div>
                 <div class="task-hours" th:text="'Hours: ' + ${task.calculatedTime}"></div>
                 <div class="task-status">
-                    <span th:if="${task.status}==1" style="color: #0050ff;">TODO</span>
-                    <span th:if="${task.status}==2" style="color: #ffdc0c;">In Progress</span>
-                    <span th:if="${task.status}==3" style="color: #14cb2e;">Completed</span>
+                    <span th:if="${task.status} == 1" style="color: #0050ff;">TODO</span>
+                    <span th:if="${task.status} == 2" style="color: #ffdc0c;">In Progress</span>
+                    <span th:if="${task.status} == 3" style="color: #14cb2e;">Completed</span>
                 </div>
+            </div>
+            <div class="gantt-bar-container">
                 <div class="gantt-bar"
                      th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
             </div>
@@ -47,18 +49,19 @@
                     <div class="subtask-start-date" th:text="${subtask.start_date}">Start Date</div>
                     <div class="subtask-end-date" th:text="${subtask.end_date}">End Date</div>
                     <div class="subtask-status">
-                        <span th:if="${subtask.status}==1" style="color: #0050ff;">TODO</span>
-                        <span th:if="${subtask.status}==2" style="color: #ffdc0c;">In Progress</span>
-                        <span th:if="${subtask.status}==3" style="color: #14cb2e;">Completed</span>
+                        <span th:if="${subtask.status} == 1" style="color: #0050ff;">TODO</span>
+                        <span th:if="${subtask.status} == 2" style="color: #ffdc0c;">In Progress</span>
+                        <span th:if="${subtask.status} == 3" style="color: #14cb2e;">Completed</span>
                     </div>
-                    <div class="gantt-bar subtask-bar"
-                         th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
+                    <div class="gantt-bar-container">
+                        <div class="gantt-bar subtask-bar"
+                             th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <footer>
     <p>&copy; 2024 Project Forge by Alphasolutions</p>
 </footer>
