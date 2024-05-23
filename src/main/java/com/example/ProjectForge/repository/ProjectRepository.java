@@ -309,32 +309,32 @@ public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
     return tasks;
 }
 
-   @Override
-public Optional<Project> findById(int id) {
-    Optional<Project> projectOptional = Optional.empty();
-    try {
-        Connection con = ConnectionManager.getConnection();
-        String SQL = "SELECT * FROM project WHERE project_id = ?;";
-        PreparedStatement pstmt = con.prepareStatement(SQL);
-        pstmt.setInt(1, id);
-        ResultSet rs = pstmt.executeQuery();
+    @Override
+    public Optional<Project> findById(int id) {
+        Optional<Project> projectOptional = Optional.empty();
+        try {
+            Connection con = ConnectionManager.getConnection();
+            String SQL = "SELECT * FROM project WHERE project_id = ?;";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setInt(1, id);
+            ResultSet rs = pstmt.executeQuery();
 
-        if (rs.next()) {
-            int project_id = rs.getInt("project_id");
-            String project_name = rs.getString("project_name");
-            String project_description = rs.getString("project_description");
-            LocalDate start_date = rs.getDate("start_date").toLocalDate();
-            LocalDate end_date = rs.getDate("end_date").toLocalDate();
-            int user_id = rs.getInt("user_id");
+            if (rs.next()) {
+                int project_id = rs.getInt("project_id");
+                String project_name = rs.getString("project_name");
+                String project_description = rs.getString("project_description");
+                LocalDate start_date = rs.getDate("start_date").toLocalDate();
+                LocalDate end_date = rs.getDate("end_date").toLocalDate();
+                int user_id = rs.getInt("user_id");
 
-            Project project = new Project(project_id, project_name, project_description, start_date, end_date, user_id);
-            projectOptional = Optional.of(project);
+                Project project = new Project(project_id, project_name, project_description, start_date, end_date, user_id);
+                projectOptional = Optional.of(project);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
+        return projectOptional;
     }
-    return projectOptional;
-}
 
 
     //old code

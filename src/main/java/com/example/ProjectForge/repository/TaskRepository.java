@@ -213,8 +213,6 @@ public class TaskRepository implements ITaskRepository {
             throw new RuntimeException(e);
         }
     }
-
-
     @Override
     public List<TaskSubtaskDTO> getTaskSubtasksByProID(int project_id) {
         List<TaskSubtaskDTO> taskSubtaskList = new ArrayList<>();
@@ -271,11 +269,63 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
+    @Override
+    public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
+        List<Task> tasks = new ArrayList<>();
+        Map<Integer, Task> taskMap = new HashMap<>();
+
+        try {
+            Connection con = ConnectionManager.getConnection();
+            String SQL = "SELECT * FROM task LEFT JOIN subtask ON task.task_id = subtask.task_id WHERE task.project_id = ?";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setInt(1, projectId);
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int taskId = rs.getInt("task.task_id");
+
+                if (!taskMap.containsKey(taskId)) {
+                    String taskName = rs.getString("task.task_name");
+                    Double hours = rs.getDouble("task.hours");
+                    LocalDate startDate = rs.getDate("task.start_date").toLocalDate();
+                    LocalDate endDate = rs.getDate("task.end_date").toLocalDate();
+                    int status = rs.getInt("task.status");
+
+                    Task task = new Task();
+                    task.setTask_id(taskId);
+                    task.setTask_name(taskName);
+                    task.setHours(hours);
+                    task.setStart_date(startDate);
+                    task.setEnd_date(endDate);
+                    task.setStatus(status);
+
+                    tasks.add(task);
+                    taskMap.put(taskId, task);
+                }
+
+                int subtaskId = rs.getInt("subtask.subtask_id");
+                if (subtaskId > 0) {
+                    String subtaskName = rs.getString("subtask.subtask_name");
+                    // Add other subtask fields here
+                    Subtask subtask = new Subtask();
+                    subtask.setSubtask_id(subtaskId);
+                    subtask.setSubtask_name(subtaskName);
+                    // Set other subtask fields here
+                    taskMap.get(taskId).getSubtasks().add(subtask);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return tasks;
+    }
+
     //Get task with subtasks by task_id and project_id for edit task page in frontend (TaskSubtaskDTO) - used in TaskController
     // for editTask method in frontend (editTask.vue) - getTaskWithSubtasks
     //used for ganttmodel in frontend
 
-    public Task getTaskWithSubtasks(int taskId) {
+   /* public Task getTaskWithSubtasks(int taskId) {
         Task task = null;
         List<Subtask> subtasks = new ArrayList<>();
 
@@ -324,57 +374,5 @@ public class TaskRepository implements ITaskRepository {
         return task;
     }
 
-// Get tasks with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTasksWithSubtasks method in frontend (ganttmodel.vue) - getTasksWithSubtasks
-    @Override
-    public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
-        List<Task> tasks = new ArrayList<>();
-        Map<Integer, Task> taskMap = new HashMap<>();
-
-        try {
-            Connection con = ConnectionManager.getConnection();
-            String SQL = "SELECT * FROM task LEFT JOIN subtask ON task.task_id = subtask.task_id WHERE task.project_id = ?";
-            PreparedStatement pstmt = con.prepareStatement(SQL);
-            pstmt.setInt(1, projectId);
-            ResultSet rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                int taskId = rs.getInt("task.task_id");
-
-
-                if (!taskMap.containsKey(taskId)) {
-                    String taskName = rs.getString("task.task_name");
-                    Double hours = rs.getDouble("task.hours");
-                    LocalDate startDate = rs.getDate("task.start_date").toLocalDate();
-                    LocalDate endDate = rs.getDate("task.end_date").toLocalDate();
-                    int status = rs.getInt("task.status");
-
-                    Task task = new Task();
-                    task.setTask_id(taskId);
-                    task.setTask_name(taskName);
-                    task.setHours(hours);
-                    task.setStart_date(startDate);
-                    task.setEnd_date(endDate);
-                    task.setStatus(status);
-
-                    tasks.add(task);
-                    taskMap.put(taskId, task);
-                }
-
-                int subtaskId = rs.getInt("subtask.subtask_id");
-                if (subtaskId > 0) {
-                    String subtaskName = rs.getString("subtask.subtask_name");
-                    // Add other subtask fields here
-                    Subtask subtask = new Subtask();
-                    subtask.setSubtask_id(subtaskId);
-                    subtask.setSubtask_name(subtaskName);
-                    // Set other subtask fields here
-                    taskMap.get(taskId).getSubtasks().add(subtask);
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return tasks;
-    }
+    */
 }
