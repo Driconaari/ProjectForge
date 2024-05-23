@@ -15,7 +15,7 @@ To run ProjectForge, you need to have the following installed on your system:
 * MySQL Workbench
 * Java
 * MySQL
-* Azure
+* Azure (Microsoft)
 * Thymeleaf
 * SpringBoot
 * Spring Security
