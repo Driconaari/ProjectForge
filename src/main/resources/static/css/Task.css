@@ -17,7 +17,7 @@ header {
 
 .logo {
     display: inline-block;
-    background-image: url('images/logo.png');
+    background-image: url('logo.png'); /* Replace with your logo path */
     background-size: cover;
     width: 50px;
     height: 50px;
@@ -65,6 +65,7 @@ label {
 }
 
 input[type="text"],
+input[type="number"],
 input[type="date"],
 select {
     width: 100%;
@@ -151,6 +152,67 @@ button {
 
 button:hover {
     background-color: #0056b3;
+}
+
+.createTaskForm label,
+.createSubtaskForm label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.createTaskForm input[type="text"],
+.createSubtaskForm input[type="text"],
+.createTaskForm input[type="number"],
+.createSubtaskForm input[type="number"],
+.createTaskForm input[type="date"],
+.createSubtaskForm input[type="date"],
+.createTaskForm select,
+.createSubtaskForm select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.createTaskForm input[type="submit"],
+.createSubtaskForm input[type="submit"],
+.createTaskForm input[type="reset"],
+.createSubtaskForm input[type="reset"],
+.createTaskForm button.button,
+.createSubtaskForm button.button {
+    width: calc(50% - 10px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.createTaskForm input[type="submit"].success,
+.createSubtaskForm input[type="submit"].success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.createTaskForm input[type="reset"].reset,
+.createSubtaskForm input[type="reset"].reset {
+    background-color: #f44336;
+    color: white;
+}
+
+.createTaskForm button.go-back,
+.createSubtaskForm button.go-back {
+    background-color: #333;
+    color: white;
+}
+
+.createTaskForm input[type="submit"]:hover,
+.createSubtaskForm input[type="submit"]:hover,
+.createTaskForm input[type="reset"]:hover,
+.createSubtaskForm input[type="reset"]:hover,
+.createTaskForm button.button:hover,
+.createSubtaskForm button.button:hover {
+    opacity: 0.9;
 }
 body {
     background-image: url('ganttimages/forge-background.jpg');
