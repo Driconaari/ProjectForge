@@ -1,13 +1,13 @@
 ![img_3.png](img_3.png) 
 
-**ProjectForge** 
+**ProjectForge**
 
 **Introduction**
 
 Welcome to ProjectForge, a project creation tool designed to help you manage your projects efficiently. This guide will help you set up and run the program, as well as provide an overview of its features.
 
 
-Prerequisites
+**Prerequisites**
 
 
 To run ProjectForge, you need to have the following installed on your system:
