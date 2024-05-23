@@ -79,7 +79,6 @@ select {
 input[type="submit"],
 input[type="reset"],
 button.button {
-    width: calc(50% - 10px);
     padding: 10px;
     border: none;
     border-radius: 5px;
