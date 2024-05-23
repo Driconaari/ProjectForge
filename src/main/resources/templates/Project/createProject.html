@@ -3,39 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Opret Projekt</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/css/Project.css">
 </head>
 <body>
 <header>
     <div class="logo"></div>
 </header>
-<div class="wrapper create-project-form">
-        <span class="icon-close">
-            <ion-icon name="close-outline"></ion-icon>
-        </span>
 
-    <div class="form-box">
+    <div class="form-box create-project-form">
         <h2>Opret Projekt</h2>
         <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post" th:object="${project}">
             <div class="input-box">
                 <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
-                <input type="text" th:field="*{project_name}" class="input1" placeholder="Project name" required>
-                <label>Projekt navn</label>
+                <input type="text" th:field="*{project_name}" class="input1" placeholder="Projekt navn" required>
                 <div class="shadow-input1"></div>
             </div>
-            <div class="input-box">
+            <div class="form-box create-project-form">
                 <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
-                <input type="text" th:field="*{project_description}" class="input1" placeholder="Describe the project">
+                <input type="text" th:field="*{project_description}" class="input1" placeholder="Beskriv Projektet">
                 <label>Projekt beskrivelse</label>
                 <div class="shadow-input1"></div>
             </div>
-            <div class="input-box">
+            <div class="form-box create-project-form">
                 <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
                 <input type="date" th:field="*{start_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Start Dato</label>
                 <div class="shadow-input1"></div>
             </div>
-            <div class="input-box">
+            <div class="form-box create-project-form">
                 <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
                 <input type="date" th:field="*{end_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Slut Dato</label>
@@ -50,7 +45,5 @@
 <copyrightSection>
     <p>&copy; 2024 Project Forge by Alphasolutions</p>
 </copyrightSection>
-<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
