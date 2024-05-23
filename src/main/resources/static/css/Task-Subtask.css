@@ -1,295 +1,217 @@
-/* Base Styles */
+/* style.css */
+
 body {
     font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
     margin: 0;
     padding: 0;
-    background: #f2f2f2;
 }
 
 header {
     background-color: #333;
-    padding: 10px 0;
+    color: #fff;
+    padding: 1rem 0;
     text-align: center;
 }
 
 .logo {
-    background-image: url('images/logo.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 100px;
-    width: 400px;
-    margin: 0 auto;
+    width: 120px;
+    height: 150px;
+    background-image: url("images/Logo.png");
+    background-size: cover;
+    border-radius: 10px;
+    cursor: pointer;
 }
 
-header .navigation {
-    display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-header .navigation a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 16px;
-}
-
-header .navigation a:hover {
-    text-decoration: underline;
-}
-
-/* Form Container */
-.form-box {
-    background: #fff;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-}
-
-.form-box h2 {
-    margin-bottom: 20px;
-    font-size: 24px;
-    color: #333;
-    text-align: center;
-}
-
-/* Input Styles */
-.input-box {
-    position: relative;
-    margin-bottom: 20px;
-}
-
-.input-box .icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #666;
-}
-
-.input-box input {
-    width: calc(100% - 40px);
-    padding: 10px 15px 10px 40px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-}
-
-.input-box input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-}
-
-.shadow-input1 {
-    position: absolute;
-    bottom: -2px;
-    left: 10px;
-    right: 10px;
-    height: 2px;
-    background: #007bff;
-    border-radius: 2px;
-    opacity: 0;
-    transition: opacity 0.3s ease-in-out;
-}
-
-.input-box input:focus ~ .shadow-input1 {
-    opacity: 1;
-}
-
-/* Label Styles */
-.form-box label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-/* Button Styles */
-.button {
+nav.navigation {
     display: inline-block;
-    padding: 10px 20px;
-    font-size: 16px;
+    margin-left: 20px;
+}
+
+nav.navigation a {
     color: #fff;
-    background: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
     text-decoration: none;
-    transition: background 0.3s ease-in-out;
+    margin: 0 10px;
+    padding: 10px 15px;
 }
 
-.button:hover {
-    background: #0056b3;
-}
-
-.button.btn-danger {
-    background: #dc3545;
-}
-
-.button.btn-danger:hover {
-    background: #c82333;
-}
-
-div[align="center"] {
-    background: #fff;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    text-align: center;
-}
-
-h2 {
-    color: #333;
-    margin-bottom: 20px;
-}
-
-form button.button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-form button.button:hover {
-    background: #0056b3;
-}
-
-form button.button[style*="background-color: #d54848"] {
-    background-color: #d54848;
-}
-
-form button.button[style*="background-color: white"] {
-    background-color: white;
-    color: #333;
-}
-
-div > form {
-    background: #fff;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-}
-
-div > form label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #333;
-}
-
-div > form input[type="text"],
-div > form input[type="number"],
-div > form input[type="date"] {
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-size: 16px;
-    margin-bottom: 20px;
+nav.navigation a:hover {
+    background-color: #575757;
+    border-radius: 5px;
 }
 
 h1 {
-    color: #333;
     text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin: 20px 0;
 }
 
-div[style*="position: fixed; top: 15%; left: 80%;"] {
-    position: fixed;
-    top: 15%;
-    left: 80%;
-    transform: translate(-50%, -50%);
-}
-
-div[style*="position: fixed; top: 15%; left: 80%;"] .button {
-    padding: 10px 20px;
-    font-size: 16px;
-    color: #fff;
-    background: #007bff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s ease-in-out;
-}
-
-div[style*="position: fixed; top: 15%; left: 80%;"] .button:hover {
-    background: #0056b3;
-}
-
-main.table {
+form {
     width: 80%;
-    margin: 50px auto;
+    max-width: 500px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-table {
+form div {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="date"],
+select {
     width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+input[type="submit"],
+input[type="reset"],
+button.button {
+    width: calc(50% - 10px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+input[type="submit"].success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+input[type="reset"].reset {
+    background-color: #f44336;
+    color: white;
+}
+
+button.go-back {
+    background-color: #333;
+    color: white;
+}
+
+input[type="submit"]:hover,
+input[type="reset"]:hover,
+button.button:hover {
+    opacity: 0.9;
+}
+
+.table {
+    width: 100%;
+    margin: 20px 0;
     border-collapse: collapse;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: #fff;
-    border-radius: 8px;
-    overflow: hidden;
 }
 
-thead {
-    background: #007bff;
-    color: #fff;
-}
-
-thead th {
+.table th,
+.table td {
+    border: 1px solid #ccc;
     padding: 10px;
     text-align: left;
 }
 
-tbody td {
-    padding: 10px;
-    border-bottom: 1px solid #ddd;
+.table th {
+    background-color: #f4f4f4;
 }
 
-tbody tr:nth-child(even) {
-    background: #f9f9f9;
+.table tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
 }
 
-tbody tr:hover {
-    background: #f1f1f1;
+.table tbody tr:nth-child(even) {
+    background-color: #fff;
 }
 
-tbody .button {
-    padding: 5px 10px;
-    font-size: 14px;
+a {
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+button {
+    display: inline-block;
+    background-color: #007BFF;
     color: #fff;
-    background: #007bff;
+    padding: 10px 20px;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
-    transition: background 0.3s ease-in-out;
+    text-align: center;
 }
 
-tbody .button:hover {
-    background: #0056b3;
+button:hover {
+    background-color: #0056b3;
 }
 
-tbody .button[style*="background-color: #d54848"] {
-    background-color: #d54848;
+.createTaskForm label,
+.createSubtaskForm label {
+    display: block;
+    margin-bottom: 5px;
 }
 
-tbody .button[style*="background-color: white"] {
-    background-color: white;
-    color: #333;
+.createTaskForm input[type="text"],
+.createSubtaskForm input[type="text"],
+.createTaskForm input[type="number"],
+.createSubtaskForm input[type="number"],
+.createTaskForm input[type="date"],
+.createSubtaskForm input[type="date"],
+.createTaskForm select,
+.createSubtaskForm select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
 }
-body {
-    background-image: url('ganttimages/forge-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover; /* This will make sure the image covers the whole body */
+
+.createTaskForm input[type="submit"],
+.createSubtaskForm input[type="submit"],
+.createTaskForm input[type="reset"],
+.createSubtaskForm input[type="reset"],
+.createTaskForm button.button,
+.createSubtaskForm button.button {
+    width: calc(50% - 10px);
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.createTaskForm input[type="submit"].success,
+.createSubtaskForm input[type="submit"].success {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.createTaskForm input[type="reset"].reset,
+.createSubtaskForm input[type="reset"].reset {
+    background-color: #f44336;
+    color: white;
+}
+
+.createTaskForm button.go-back,
+.createSubtaskForm button.go-back {
+    background-color: #333;
+    color: white;
+}
+
+.createTaskForm input[type="submit"]:hover,
+.createSubtaskForm input[type="submit"]:hover,
+.createTaskForm input[type="reset"]:hover,
+.createSubtaskForm input[type="reset"]:hover,
+.createTaskForm button.button:hover,
+.createSubtaskForm button.button:hover {
+    opacity: 0.9;
 }
