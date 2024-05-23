@@ -181,8 +181,11 @@ form {
 .input-box {
     position: relative;
     width: 100%;
-    margin-bottom: 30px;
+    height: 50px;
+    border-bottom: 2px solid #ffffff;
+    margin: 15px 0; /* Adjust this value as needed */
 }
+
 
 .input-box input {
     width: 100%;
