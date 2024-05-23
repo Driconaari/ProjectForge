@@ -213,9 +213,6 @@ public class TaskRepository implements ITaskRepository {
             throw new RuntimeException(e);
         }
     }
-
-
-    // Get task with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTaskSubtasksByProID method in frontend (ganttmodel.vue) - getTaskSubtasksByProID
     @Override
     public List<TaskSubtaskDTO> getTaskSubtasksByProID(int project_id) {
         List<TaskSubtaskDTO> taskSubtaskList = new ArrayList<>();
@@ -272,7 +269,6 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
-// Get tasks with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTasksWithSubtasks method in frontend (ganttmodel.vue) - getTasksWithSubtasks
     @Override
     public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
         List<Task> tasks = new ArrayList<>();
@@ -287,7 +283,6 @@ public class TaskRepository implements ITaskRepository {
 
             while (rs.next()) {
                 int taskId = rs.getInt("task.task_id");
-
 
                 if (!taskMap.containsKey(taskId)) {
                     String taskName = rs.getString("task.task_name");
@@ -325,7 +320,6 @@ public class TaskRepository implements ITaskRepository {
 
         return tasks;
     }
-
 
     //Get task with subtasks by task_id and project_id for edit task page in frontend (TaskSubtaskDTO) - used in TaskController
     // for editTask method in frontend (editTask.vue) - getTaskWithSubtasks
