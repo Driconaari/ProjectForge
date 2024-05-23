@@ -8,7 +8,6 @@ Welcome to ProjectForge, a project creation tool designed to help you manage you
 
 
 Prerequisites
-To run ProjectForge, you need to have the following installed on your system:
 
 
 To run ProjectForge, you need to have the following installed on your system:
