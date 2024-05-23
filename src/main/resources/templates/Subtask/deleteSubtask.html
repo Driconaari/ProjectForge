@@ -2,23 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Delete subtask</title>
+    <title>Slet underopgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
 <div align="center">
 
-    <h2>Er du sikker på du vil slette denne Subtask?</h2>
+    <h2>Er du sikker på du vil slette denne underopgave?</h2>
 
     <br>
 
     <form th:action="@{/subtasks/delete/{subtask_id}(subtask_id=${subtask_id})}" method="post">
         <input type="hidden" name="subtask_id" value="${subtask_id}">
-        <button type="submit" class="btn" style="background-color: #d54848">Slet subtask</button>
+        <button type="submit" class="button" style="background-color: #d54848">Slet underopgave</button>
 
         <a th:href="@{/subtasks/{task_id}(task_id=${subtask.task_id})}">
-            <button type="button" class="btn">Returner til subtask</button>
+            <button type="button" class="button">Returner til underopgaver</button>
         </a>
 
     </form>

@@ -2,19 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Task</title>
+    <title>Opret opgave</title>
     <link rel="stylesheet" href="/style.css">
 </head>
 <body>
 
-    <h1>Create Task</h1>
+    <h1>Opret Opgave</h1>
 
     <form th:action="@{/task/create/{project_id}(project_id=${project_id})}" method="POST" th:object="${task}">
 
         <div class="createTaskForm">
             <label class="createTaskForm">Opgave navn:</label>
             <label>
-                <input type="text" th:field="*{task_name}" placeholder="Task name" required>
+                <input type="text" th:field="*{task_name}" placeholder="Opgave navn" required>
             </label>
         </div>
 
@@ -51,14 +51,14 @@
         <br>
 
         <div>
-            <input type="submit" value="Create Task" class="btn success"/>
-            <input type="reset" value="Reset" class="btn reset"/>
+            <input type="submit" value="Lav Opgave" class="button success"/>
+            <input type="reset" value="Reset" class="button reset"/>
         </div>
 
         <br>
 
         <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">
-            <button type="button" class="btn go-back">Gå tilbage</button>
+            <button type="button" class="button go-back">Gå tilbage</button>
         </a>
 
     </form>

@@ -49,22 +49,22 @@
                 </tr>
                 <th:block th:each="subtask, subtaskIndex : ${task.subtasks}">
                     <tr>
-                        <td class="subtask custom-td">
+                        <td class="underopgaver custom-td">
                             <a th:href="@{/subtasks/{task_id}(task_id=${task.id})}">
                                 <span th:text="${taskIndex.index + 1 + '.' + (subtaskIndex.index + 1) + ' ' + subtask.subtask_name}"></span>
                             </a>
                         </td>
-                        <td class="subtask" th:text="${subtask.hours}"></td>
-                        <td class="subtask"></td>
-                        <td class="subtask" th:text="${subtask.start_date}"></td>
-                        <td class="subtask" th:text="${subtask.end_date}"></td>
-                        <td class="subtask">
+                        <td class="underopgaver" th:text="${subtask.hours}"></td>
+                        <td class="underopgaver"></td>
+                        <td class="underopgaver" th:text="${subtask.start_date}"></td>
+                        <td class="underopgaver" th:text="${subtask.end_date}"></td>
+                        <td class="underopgaver">
                             <span th:if="${subtask.status}==1" style="color: #0050ff;">TODO</span>
                             <span th:if="${subtask.status}==2" style="color: #ffdc0c;">I Gang </span>
                             <span th:if="${subtask.status}==3" style="color: #14cb2e;">Færdig</span>
                         </td>
-                        <td class="subtask"></td>
-                        <td class="subtask"></td>
+                        <td class="underopgaver"></td>
+                        <td class="underopgaver"></td>
                     </tr>
                 </th:block>
             </th:block>

@@ -1,5 +1,6 @@
 package com.example.ProjectForge.service;
 
+import com.example.ProjectForge.dto.TaskSubtaskDTO;
 import com.example.ProjectForge.model.Subtask;
 import com.example.ProjectForge.repository.SubtaskRepository;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,7 @@ public class SubtaskService {
 
     private SubtaskRepository subtaskRepository;
 
-    public SubtaskService (SubtaskRepository subtaskRepository) {
+    public SubtaskService(SubtaskRepository subtaskRepository) {
         this.subtaskRepository = subtaskRepository;
     }
 
@@ -22,7 +23,7 @@ public class SubtaskService {
 
     //Get subtask by taskID
     public List<Subtask> getSubtasksByTaskID(int task_id) {
-       return subtaskRepository.getSubtasksByTaskID(task_id);
+        return subtaskRepository.getSubtasksByTaskID(task_id);
     }
 
     //Delete subtask
@@ -45,6 +46,5 @@ public class SubtaskService {
     public void editSubtask(Subtask subtask, int subtask_id, int task_id) {
         subtaskRepository.editSubtask(subtask, subtask_id, task_id);
     }
-
 
 }
