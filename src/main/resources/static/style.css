@@ -127,20 +127,6 @@ tbody tr:hover {
     color: #a93226;
 }
 
-/* Form Styles */
-/* login form
-form {
-    width: 120%;
-    height: 120%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    font-weight: bolder;
-    align-content: center;
-}
-/* Register form*/
-
 form {
     width: 120%;
     height: 120%;
@@ -152,14 +138,7 @@ form {
     align-content: center;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
-    color: rgba(29, 29, 29, 0.8);
-}
-
+/* Form Box Styles */
 .form-box {
     width: 400px;
     padding: 40px;
@@ -197,7 +176,7 @@ form {
 }
 
 .input-box label {
-    position: absolute;
+    position: fixed;
     left: 0;
     padding: 10px;
     pointer-events: none;
@@ -208,14 +187,14 @@ form {
 
 .input-box input:focus ~ label,
 .input-box input:valid ~ label {
-    top: -20px;
+    top: 20px;
     left: 10px;
     color: #ff6124;
     font-size: 12px;
 }
 
 .input-box span.icon {
-    position: absolute;
+    position: fixed;
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
@@ -239,17 +218,25 @@ form {
     background: #e4561a;
 }
 
-.loginogregister p {
+.btn-danger {
+    background-color: #dc3545;
+    margin-top: 10px;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.loginorRegister p {
     color: #666;
     font-size: 14px;
 }
 
-.loginogregister a {
+.loginorRegister a {
     color: #ff6124;
     text-decoration: none;
     font-weight: bold;
 }
-
 
 .form-label {
     font-size: 1rem;
@@ -258,47 +245,10 @@ form {
     align-content: center;
 }
 
-/*create a new project*/
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
-}
-body, html {
-    height: 100%;
-    font-family: Montserrat-Regular, sans-serif;
-}
-body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #212529;
-    background-color: #fff;
-}
-html {
-    box-sizing: border-box;
-    font-family: sans-serif;
-    line-height: 1.15;
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    -ms-overflow-style: scrollbar;
-    -webkit-tap-highlight-color: transparent;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
-}
-*, ::after, ::before {
-    box-sizing: inherit;
-}
-
+/* Create a new project */
 .create-project-form form {
-    width: 120%;
-    height: 120%;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -308,7 +258,7 @@ html {
 }
 
 .create-project-form .form-box {
-    width: 400px;
+    width: 80%; /* Adjusted from 400px to 90% */
     padding: 40px;
     position: relative;
     margin: 6% auto;
@@ -327,12 +277,12 @@ html {
 
 .create-project-form .input-box {
     position: relative;
-    width: 100%;
+    width: 80%;
     margin-bottom: 30px;
 }
 
 .create-project-form .input-box input {
-    width: 100%;
+    width: 80%;
     padding: 10px;
     background: #f0f0f0;
     border: none;
@@ -342,79 +292,6 @@ html {
     border-radius: 5px;
     transition: all 0.3s ease;
 }
-
-.create-project-form .input-box label {
-    position: absolute;
-    left: 0;
-    padding: 10px;
-    pointer-events: none;
-    font-size: 18px;
-    color: #666;
-    transition: all 0.3s ease;
-}
-
-.create-project-form .input-box input:focus ~ label,
-.create-project-form .input-box input:valid ~ label {
-    top: -20px;
-    left: 10px;
-    color: #ff6124;
-    font-size: 12px;
-}
-
-.create-project-form .input-box span.icon {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 20px;
-    font-size: 22px;
-    color: #666;
-}
-
-.create-project-form .button {
-    width: 100%;
-    background: #ff6124;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #fff;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.create-project-form .button:hover {
-    background: #e4561a;
-}
-
-.create-project-form .loginogregister p {
-    color: #666;
-    font-size: 14px;
-}
-
-.create-project-form .loginogregister a {
-    color: #ff6124;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-/* New styles from another project */
-.create-project-form .input1 + .shadow-input1 {
-    border-radius: 25px;
-}
-
-.create-project-form .shadow-input1 {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    width: 100%;
-    height: 100%;
-    box-shadow: 0 0;
-    color: rgba(87, 184, 70, .5);
-}
-
 
 /* Body Styles */
 body {
@@ -477,7 +354,7 @@ body {
     color: #000000;
 }
 
-/* Wrapper Styles    */
+/* Wrapper Styles */
 .wrapper {
     animation-name: click_kf;
     position: relative;
@@ -515,7 +392,7 @@ body {
 
 .wrapper .form-box.login {
     transition: transform .18s ease;
-    transform: translateX(0)
+    transform: translateX(0);
 }
 
 .wrapper.active .form-box.login {
@@ -532,6 +409,14 @@ body {
 .wrapper.active .form-box.register {
     transition: transform .18s ease;
     transform: translateX(0);
+}
+
+.form-box.edit-user {
+    border: 2px solid rgba(29, 29, 29, 0.8);
+    padding: 20px;
+    border-radius: 20px;
+    width: fit-content;
+    margin: auto;
 }
 
 .wrapper .icon-close {
@@ -591,6 +476,7 @@ body {
     font-size: 1em;
     color: rgba(29, 29, 29, 0.8);
     font-weight: 600;
+    box-sizing: border-box;
 }
 
 .input-box .icon {
@@ -623,7 +509,7 @@ body {
     margin: 0;
 }
 
-.loginogregister {
+.loginorRegister {
     font-size: .9em;
     color: rgba(29, 29, 29, 0.8);
     text-align: center;
@@ -631,13 +517,13 @@ body {
     margin: 25px 0 10px;
 }
 
-.loginogregister p a {
+.loginorRegister p a {
     color: rgba(29, 29, 29, 0.8);
     text-decoration: none;
     font-weight: 600;
 }
 
-.loginogregister p a:hover {
+.loginorRegister p a:hover {
     text-decoration: underline;
 }
 
@@ -669,6 +555,7 @@ body {
 .footer p a:hover {
     text-decoration: underline;
 }
+
 .logo {
     position: absolute;
     top: 0;
