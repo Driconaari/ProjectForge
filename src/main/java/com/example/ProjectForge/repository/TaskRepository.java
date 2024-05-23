@@ -215,6 +215,7 @@ public class TaskRepository implements ITaskRepository {
     }
 
 
+    // Get task with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTaskSubtasksByProID method in frontend (ganttmodel.vue) - getTaskSubtasksByProID
     @Override
     public List<TaskSubtaskDTO> getTaskSubtasksByProID(int project_id) {
         List<TaskSubtaskDTO> taskSubtaskList = new ArrayList<>();
@@ -271,59 +272,6 @@ public class TaskRepository implements ITaskRepository {
         }
     }
 
-    //Get task with subtasks by task_id and project_id for edit task page in frontend (TaskSubtaskDTO) - used in TaskController
-    // for editTask method in frontend (editTask.vue) - getTaskWithSubtasks
-    //used for ganttmodel in frontend
-
-    public Task getTaskWithSubtasks(int taskId) {
-        Task task = null;
-        List<Subtask> subtasks = new ArrayList<>();
-
-        try {
-            Connection con = ConnectionManager.getConnection();
-            String SQL = "SELECT * FROM task WHERE task_id = ?";
-            PreparedStatement pstmt = con.prepareStatement(SQL);
-            pstmt.setInt(1, taskId);
-            ResultSet rs = pstmt.executeQuery();
-
-            if (rs.next()) {
-                String task_name = rs.getString("task_name");
-                Double hours = rs.getDouble("hours");
-                LocalDate start_date = rs.getDate("start_date").toLocalDate();
-                LocalDate end_date = rs.getDate("end_date").toLocalDate();
-                int status = rs.getInt("status");
-                int project_id = rs.getInt("project_id");
-
-                task = new Task(taskId, task_name, hours, start_date, end_date, status, project_id);
-            }
-
-            SQL = "SELECT * FROM subtask WHERE task_id = ?";
-            pstmt = con.prepareStatement(SQL);
-            pstmt.setInt(1, taskId);
-            rs = pstmt.executeQuery();
-
-            while (rs.next()) {
-                int subtask_id = rs.getInt("subtask_id");
-                String subtask_name = rs.getString("subtask_name");
-                Double subtask_hours = rs.getDouble("hours");
-                LocalDate subtask_start_date = rs.getDate("start_date").toLocalDate();
-                LocalDate subtask_end_date = rs.getDate("end_date").toLocalDate();
-                int subtask_status = rs.getInt("status");
-
-                Subtask subtask = new Subtask(subtask_id, subtask_name, subtask_hours, subtask_start_date, subtask_end_date, subtask_status, taskId);
-                subtasks.add(subtask);
-            }
-
-            if (task != null) {
-                task.setSubtasks(subtasks);
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-
-        return task;
-    }
-
 // Get tasks with subtasks by project_id for ganttmodel in frontend (TaskSubtaskDTO) - used in TaskController for getTasksWithSubtasks method in frontend (ganttmodel.vue) - getTasksWithSubtasks
     @Override
     public List<Task> getTasksWithSubtasksByProjectID(int projectId) {
@@ -377,4 +325,60 @@ public class TaskRepository implements ITaskRepository {
 
         return tasks;
     }
+
+
+    //Get task with subtasks by task_id and project_id for edit task page in frontend (TaskSubtaskDTO) - used in TaskController
+    // for editTask method in frontend (editTask.vue) - getTaskWithSubtasks
+    //used for ganttmodel in frontend
+
+   /* public Task getTaskWithSubtasks(int taskId) {
+        Task task = null;
+        List<Subtask> subtasks = new ArrayList<>();
+
+        try {
+            Connection con = ConnectionManager.getConnection();
+            String SQL = "SELECT * FROM task WHERE task_id = ?";
+            PreparedStatement pstmt = con.prepareStatement(SQL);
+            pstmt.setInt(1, taskId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String task_name = rs.getString("task_name");
+                Double hours = rs.getDouble("hours");
+                LocalDate start_date = rs.getDate("start_date").toLocalDate();
+                LocalDate end_date = rs.getDate("end_date").toLocalDate();
+                int status = rs.getInt("status");
+                int project_id = rs.getInt("project_id");
+
+                task = new Task(taskId, task_name, hours, start_date, end_date, status, project_id);
+            }
+
+            SQL = "SELECT * FROM subtask WHERE task_id = ?";
+            pstmt = con.prepareStatement(SQL);
+            pstmt.setInt(1, taskId);
+            rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                int subtask_id = rs.getInt("subtask_id");
+                String subtask_name = rs.getString("subtask_name");
+                Double subtask_hours = rs.getDouble("hours");
+                LocalDate subtask_start_date = rs.getDate("start_date").toLocalDate();
+                LocalDate subtask_end_date = rs.getDate("end_date").toLocalDate();
+                int subtask_status = rs.getInt("status");
+
+                Subtask subtask = new Subtask(subtask_id, subtask_name, subtask_hours, subtask_start_date, subtask_end_date, subtask_status, taskId);
+                subtasks.add(subtask);
+            }
+
+            if (task != null) {
+                task.setSubtasks(subtasks);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return task;
+    }
+
+    */
 }

@@ -16,6 +16,9 @@ body {
     box-sizing: border-box;
     background-color: var(--background-color);
     color: var(--text-color);
+    background-image: url('ganttimages/forge-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 header {
@@ -50,11 +53,18 @@ h1 {
     color: var(--dark-grey);
 }
 
+.zoom-container {
+    transform: scale(0.8); /* Adjust the scale value as needed */
+    transform-origin: top left;
+    width: 100%;
+    overflow-x: auto;
+}
+
 .gantt-container {
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
     overflow-x: auto;
@@ -139,15 +149,20 @@ footer {
     margin-top: 30px;
 }
 
+.status-todo {
+    color: #0050ff;
+}
+
+.status-in-progress {
+    color: #ffdc0c;
+}
+
+.status-completed {
+    color: #14cb2e;
+}
+
 @media (max-width: 768px) {
     .time-interval {
         flex: 0 0 20%;
     }
-
-body {
-    background-image: url('ganttimages/forge-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover; /* This will make sure the image covers the whole body */
-}
-
 }
