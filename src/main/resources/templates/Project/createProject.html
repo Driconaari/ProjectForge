@@ -18,21 +18,25 @@
         <h2>Opret Projekt</h2>
         <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post" th:object="${project}">
             <div class="input-box">
-                <input type="text" th:field="*{project_name}" class="input1">
+                <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
+                <input type="text" th:field="*{project_name}" class="input1" placeholder="Project name" required>
                 <label>Projekt navn</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
-                <input type="text" th:field="*{project_description}" class="input1">
+                <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
+                <input type="text" th:field="*{project_description}" class="input1" placeholder="Describe the project">
                 <label>Projekt beskrivelse</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
+                <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
                 <input type="date" th:field="*{start_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Start Dato</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
+                <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
                 <input type="date" th:field="*{end_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Slut Dato</label>
                 <div class="shadow-input1"></div>
