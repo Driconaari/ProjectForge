@@ -143,4 +143,11 @@ footer {
     .time-interval {
         flex: 0 0 20%;
     }
+
+body {
+    background-image: url('ganttimages/forge-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover; /* This will make sure the image covers the whole body */
+}
+
 }
