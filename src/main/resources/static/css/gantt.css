@@ -53,20 +53,25 @@ h1 {
     color: var(--dark-grey);
 }
 
-.zoom-container {
-    transform: scale(0.8); /* Adjust the scale value as needed */
-    transform-origin: top left;
-    width: 100%;
-    overflow-x: auto;
-}
-
 .gantt-container {
+    display: flex;
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.side-panel {
+    width: 30%;
+    padding-right: 20px;
+    border-right: 1px solid var(--light-grey);
+}
+
+.gantt-chart {
+    width: 70%;
+    padding-left: 20px;
     overflow-x: auto;
 }
 
@@ -87,6 +92,31 @@ h1 {
     border: 1px solid #ccc;
     border-radius: 4px;
     margin: 2px;
+}
+
+.gantt-bars {
+    position: relative;
+}
+
+.gantt-bar {
+    position: absolute;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.project-bar {
+    background-color: var(--primary-color);
+    height: 25px;
+}
+
+.task-bar {
+    background-color: var(--secondary-color);
+    height: 20px;
+}
+
+.subtask-bar {
+    background-color: #ff9800;
+    height: 15px;
 }
 
 .gantt-project {
@@ -140,17 +170,6 @@ h1 {
     padding: 5px 10px;
 }
 
-.gantt-bar {
-    position: absolute;
-    height: 20px;
-    background-color: var(--primary-color);
-    border-radius: 4px;
-}
-
-.subtask-bar {
-    background-color: var(--secondary-color);
-}
-
 footer {
     text-align: center;
     padding: 15px 0;
@@ -174,5 +193,20 @@ footer {
 @media (max-width: 768px) {
     .time-interval {
         flex: 0 0 20%;
+    }
+
+    .side-panel {
+        width: 100%;
+        padding-right: 0;
+        border-right: none;
+    }
+
+    .gantt-chart {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .gantt-container {
+        flex-direction: column;
     }
 }

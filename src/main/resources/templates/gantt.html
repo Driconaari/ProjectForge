@@ -19,11 +19,8 @@
 
 <h1>Gantt Models</h1>
 
-<div class="zoom-container">
-    <div class="gantt-container">
-        <div class="gantt-time-axis">
-            <div class="time-interval" th:each="day : ${days}" th:text="${day}">Day</div>
-        </div>
+<div class="gantt-container">
+    <div class="side-panel">
         <div th:each="project : ${projects}">
             <div class="gantt-project">
                 <h2 class="project-name" th:text="${project.project_name}">Project Name</h2>
@@ -43,7 +40,6 @@
                             <span th:if="${task.status}==2" class="status-in-progress">In Progress</span>
                             <span th:if="${task.status}==3" class="status-completed">Completed</span>
                         </div>
-                        <div class="gantt-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
                     </div>
                     <div class="gantt-subtasks" th:each="subtask : ${task.subtasks}">
                         <div class="gantt-row subtask-row">
@@ -56,8 +52,23 @@
                                 <span th:if="${subtask.status}==2" class="status-in-progress">In Progress</span>
                                 <span th:if="${subtask.status}==3" class="status-completed">Completed</span>
                             </div>
-                            <div class="gantt-bar subtask-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="gantt-chart">
+        <div class="gantt-time-axis">
+            <div class="time-interval" th:each="day : ${days}" th:text="${day}">Day</div>
+        </div>
+        <div class="gantt-bars">
+            <div th:each="project : ${projects}">
+                <div class="gantt-bar project-bar" th:style="'left:' + ${project.startOffset} + 'px; width:' + ${project.duration} + 'px;'"></div>
+                <div th:each="task : ${project.tasks}">
+                    <div class="gantt-bar task-bar" th:style="'left:' + ${task.startOffset} + 'px; width:' + ${task.duration} + 'px;'"></div>
+                    <div th:each="subtask : ${task.subtasks}">
+                        <div class="gantt-bar subtask-bar" th:style="'left:' + ${subtask.startOffset} + 'px; width:' + ${subtask.duration} + 'px;'"></div>
                     </div>
                 </div>
             </div>
