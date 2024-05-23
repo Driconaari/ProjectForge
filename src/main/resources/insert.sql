@@ -6,6 +6,7 @@ INSERT INTO role (role) VALUES ('ADMIN 2');
 
 
 -- Insert into user
+-- after inserstion, password is 'mand'
 INSERT INTO user (username, password, email, role_id) VALUES ('mand', '$2a$10$ukVU7pwssLL/zYZxVjt0CuFw98TRRBs6tR0qLRLsQZ/1VxkxChOaK', 'mand@mand.com', 2);
 -- Insert into project
 INSERT INTO project (project_name, project_description, start_date, end_date, user_id) VALUES ('Project 1', 'Description 1', '2022-01-01', '2022-12-31', 1);
