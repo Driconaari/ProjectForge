@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Controller
 @RequestMapping("/api")
 public class GanttController {
@@ -82,6 +84,14 @@ public class GanttController {
             allTasks.addAll(project.getTasks());
         }
         allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
+
+        for (Project project : projects) {
+            long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
+            long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
+            project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
+            project.setDuration(projectDurationDays * 10); // assuming 10px per day
+        }
+
         model.addAttribute("projects", projects);
         model.addAttribute("projectCalculatedTime", totalProjectCalculatedTime);
         model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks));
