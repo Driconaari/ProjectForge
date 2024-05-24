@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping(path = "")
 @Controller
+@RequestMapping(path = "")
 public class ProjectController {
 
     private ProjectService projectService;
