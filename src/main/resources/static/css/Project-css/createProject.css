@@ -1,0 +1,156 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+    color: rgba(29, 29, 29, 0.8);
+}
+
+/* Body Styles */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("../../images/forge-background.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Header Styles */
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* Wrapper Styles */
+.wrapper {
+    position: relative;
+    width: 400px;
+    height: 580px;
+    background: whitesmoke;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, .5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form Styles */
+.create-project-form .form-box {
+    width: 400px;
+    padding: 40px;
+    position: static;
+    margin: 6% auto;
+    background: #fff;
+    text-align: center;
+    box-shadow: 0 0 20px 9px #ff61241f;
+    border-radius: 10px;
+}
+
+.create-project-form .form-box h2 {
+    margin: 10px 0 0px;
+    padding: 0;
+    color: #333;
+    text-transform: uppercase;
+}
+
+.create-project-form .input-box {
+    position: static;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.create-project-form .input-box input {
+    width: 100%;
+    padding: 10px;
+    background: #f0f0f0;
+    border: none;
+    outline: none;
+    font-size: 18px;
+    color: #333;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.create-project-form .input-box label {
+    top: -20px;
+    left: 10px;
+    color: #ff6124;
+    font-size: 12px;
+}
+
+.create-project-form .input-box input:focus ~ label,
+.create-project-form .input-box input:valid ~ label {
+    top: -20px;
+    left: 10px;
+    color: #ff6124;
+    font-size: 12px;
+}
+
+.create-project-form .input-box .shadow-input1 {
+    border-radius: 25px;
+}
+
+.create-project-form .button {
+    width: 100%;
+    background: #ff6124;
+    border: none;
+    margin: 2px;
+    padding: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    color: #fff;
+    border-radius: 5px;
+}
+
+.create-project-form .button:hover {
+    background: #e4561a;
+}
+
+.icon-close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 45px;
+    height: 45px;
+    background: rgba(255, 0, 0, 0.68);
+    font-size: 2em;
+    color: rgba(29, 29, 29, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 20px;
+    cursor: pointer;
+}
+
+.logo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 120px;
+    height: 150px;
+    background-image: url("../../images/logo.png");
+    background-size: cover;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+/* Footer Styles */
+copyrightSection {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    text-align: left;
+    padding-left: 10px;
+}

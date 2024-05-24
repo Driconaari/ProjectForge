@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Opret Projekt</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" type="text/css" href="/css/Project-css/createProject.css">
+
 </head>
 <body>
 <header>
@@ -18,32 +19,32 @@
         <h2>Opret Projekt</h2>
         <form th:action="@{/projects/create/{user_id}(user_id=${user_id})}" method="post" th:object="${project}">
             <div class="input-box">
-                <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
-                <input type="text" th:field="*{project_name}" class="input1" placeholder="Project name" required>
+
+                <input type="text" th:field="*{project_name}" class="input1"  required>
                 <label>Projekt navn</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
-                <span class="icon"><ion-icon name="clipboard-outline"></ion-icon></span>
-                <input type="text" th:field="*{project_description}" class="input1" placeholder="Describe the project">
+
+                <input type="text" th:field="*{project_description}" class="input1" >
                 <label>Projekt beskrivelse</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
-                <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+
                 <input type="date" th:field="*{start_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Start Dato</label>
                 <div class="shadow-input1"></div>
             </div>
             <div class="input-box">
-                <span class="icon"><ion-icon name="calendar-outline"></ion-icon></span>
+
                 <input type="date" th:field="*{end_date}" class="input1" min="2000-01-01" max="3000-12-31">
                 <label>Slut Dato</label>
                 <div class="shadow-input1"></div>
             </div>
-            <button type="submit" class="button">Submit</button>
-            <button type="reset" class="button btn-danger">Reset</button>
-            <a th:href="@{/projects/{user_id}(user_id=${user_id})}" class="button">Gå tilbage til projekter</a>
+            <button style="margin: 2px" type="submit" class="button">Submit</button>
+            <button style="margin: 2px" type="reset" class="button btn-danger">Reset</button>
+            <a th:href="@{/projects/{user_id}(user_id=${user_id})}" style="margin-top: 20px" class="button">Gå tilbage til projekter</a>
         </form>
     </div>
 </div>
