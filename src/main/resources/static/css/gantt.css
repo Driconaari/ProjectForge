@@ -16,9 +16,6 @@ body {
     box-sizing: border-box;
     background-color: var(--background-color);
     color: var(--text-color);
-    background-image: url('ganttimages/forge-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
 }
 
 header {
@@ -30,13 +27,13 @@ header {
     color: var(--header-text);
 }
 
-.logo {
-    width: 120px;
-    height: 150px;
-    background-image: url("images/Logo.png");
-    background-size: cover;
-    border-radius: 10px;
-    cursor: pointer;
+logo {
+    width: 50px;
+    height: 50px;
+    background-image: url("ganttimages/Logo.png");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
 }
 
 .navigation a {
@@ -54,7 +51,6 @@ h1 {
 }
 
 .gantt-container {
-    display: flex;
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
