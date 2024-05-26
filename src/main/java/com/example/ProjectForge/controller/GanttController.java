@@ -11,15 +11,16 @@ import com.example.ProjectForge.service.ProjectService;
 import com.example.ProjectForge.service.SubtaskService;
 import com.example.ProjectForge.service.TaskService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,31 +30,30 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @RequestMapping("/api")
 public class GanttController {
 
-    @Autowired
-    private IProjectRepository projectRepository;
+    private final IProjectRepository projectRepository;
+    private final TaskRepository taskRepository;
+    private final GanttChartService ganttChartService;
+    private final SubtaskRepository subtaskRepository;
+    private final TaskService taskService;
+    private final SubtaskService subtaskService;
+    private final ProjectService projectService;
+    private static final Logger logger = LoggerFactory.getLogger(GanttController.class);
 
-    @Autowired
-    private TaskRepository taskRepository;
-
-    @Autowired
-    private GanttChartService ganttChartService;
-
-    @Autowired
-    private SubtaskRepository subtaskRepository;
-
-    @Autowired
-    TaskService taskService;
-
-    @Autowired
-    SubtaskService subtaskService;
-
-    @Autowired
-    ProjectService projectService;
-
-    public boolean isLoggedIn(HttpSession session) {
-        return session.getAttribute("user") != null;
+    public GanttController(IProjectRepository projectRepository, TaskRepository taskRepository,
+                           GanttChartService ganttChartService, SubtaskRepository subtaskRepository,
+                           TaskService taskService, SubtaskService subtaskService, ProjectService projectService) {
+        this.projectRepository = projectRepository;
+        this.taskRepository = taskRepository;
+        this.ganttChartService = ganttChartService;
+        this.subtaskRepository = subtaskRepository;
+        this.taskService = taskService;
+        this.subtaskService = subtaskService;
+        this.projectService = projectService;
     }
 
+    private boolean isLoggedIn(HttpSession session) {
+        return session.getAttribute("user") != null;
+    }
 
     @GetMapping("/gantt/{user_id}")
     public String showGantt(@PathVariable("user_id") int userId, Model model, HttpSession session) {
@@ -61,85 +61,90 @@ public class GanttController {
             return "redirect:/sessionTimeout";
         }
 
-    // Fetch the relevant projects
-    List<Project> projects = projectRepository.getProjectsByID(userId);
+        try {
+            List<Project> projects = projectRepository.getProjectsByID(userId);
+            double totalProjectCalculatedTime = calculateProjectTimes(projects);
+            LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
+            List<Task> allTasks = getAllTasks(projects);
+            allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
 
-    double totalProjectCalculatedTime = 0;
-        for(
-    Project project :projects)
+            calculateProjectOffsetsAndDurations(projects, projectStartDate);
 
-    {
-        int projectId = project.getProject_id();
-        List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(projectId);
+            model.addAttribute("projects", projects);
+            model.addAttribute("projectCalculatedTime", totalProjectCalculatedTime);
+            model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks));
+            model.addAttribute("userId", userId);
 
-        double projectCalculatedTime = 0;
-        for (Task task : tasks) {
-            double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-            task.setCalculatedTime(taskCalculatedTime);
-            projectCalculatedTime += taskCalculatedTime;
+            return "gantt";
+        } catch (Exception e) {
+            logger.error("Error generating Gantt chart", e);
+            model.addAttribute("errorMessage", "An error occurred while generating the Gantt chart. Please try again.");
+            return "error";
+        }
+    }
 
-            List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
-            for (Subtask subtask : subtasks) {
-                double subtaskHours = subtask.getHours();
-                subtask.setHours(subtaskHours);
+    private double calculateProjectTimes(List<Project> projects) {
+        double totalProjectCalculatedTime = 0;
+        for (Project project : projects) {
+            double projectCalculatedTime = 0;
+            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
+
+            for (Task task : tasks) {
+                double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                task.setCalculatedTime(taskCalculatedTime);
+                projectCalculatedTime += taskCalculatedTime;
+
+                List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
+                for (Subtask subtask : subtasks) {
+                    subtask.setHours(subtask.getHours());
+                }
+                task.setSubtasks(subtasks);
             }
-            task.setSubtasks(subtasks);
+            project.setTasks(tasks);
+            project.setProjectCalculatedTime(projectCalculatedTime);
+            totalProjectCalculatedTime += projectCalculatedTime;
         }
-        project.setTasks(tasks);
-        project.setProjectCalculatedTime(projectCalculatedTime);
-        totalProjectCalculatedTime += projectCalculatedTime;
+        return totalProjectCalculatedTime;
     }
 
-    LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
-    List<Task> allTasks = new ArrayList<>();
-        for(
-    Project project :projects)
-
-    {
-        allTasks.addAll(project.getTasks());
-    }
-
-    allTasks =ganttChartService.calculateOffsetsAndDurations(allTasks,projectStartDate);
-
-        for(
-    Project project :projects)
-
-    {
-        long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
-        long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
-        project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
-        project.setDuration(projectDurationDays * 10); // assuming 10px per day
-    }
-
-        model.addAttribute("projects",projects);
-        model.addAttribute("projectCalculatedTime",totalProjectCalculatedTime);
-        model.addAttribute("days",
-
-    calculateProjectDays(projectStartDate, allTasks));
-        model.addAttribute("userId",userId); // Add the userId to the model so it can be used in the Thymeleaf template
-        return"gantt";
-}
-
-private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
-    LocalDate maxEndDate = projectStartDate;
-    for (Task task : tasks) {
-        if (task.getEnd_date() != null && task.getEnd_date().isAfter(maxEndDate)) {
-            maxEndDate = task.getEnd_date();
+    private List<Task> getAllTasks(List<Project> projects) {
+        List<Task> allTasks = new ArrayList<>();
+        for (Project project : projects) {
+            allTasks.addAll(project.getTasks());
         }
-        for (Subtask subtask : task.getSubtasks()) {
-            if (subtask.getEnd_date() != null && subtask.getEnd_date().isAfter(maxEndDate)) {
-                maxEndDate = subtask.getEnd_date();
-            }
+        return allTasks;
+    }
+
+    private void calculateProjectOffsetsAndDurations(List<Project> projects, LocalDate projectStartDate) {
+        for (Project project : projects) {
+            long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
+            long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
+            project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
+            project.setDuration(projectDurationDays * 10); // assuming 10px per day
         }
     }
 
-    List<String> days = new ArrayList<>();
-    LocalDate currentDate = projectStartDate;
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    while (!currentDate.isAfter(maxEndDate)) {
-        days.add(currentDate.format(formatter));
-        currentDate = currentDate.plusDays(1);
+    private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
+        LocalDate maxEndDate = tasks.stream()
+                .flatMap(task -> {
+                    List<LocalDate> dates = new ArrayList<>();
+                    dates.add(task.getEnd_date());
+                    dates.addAll(task.getSubtasks().stream()
+                            .map(Subtask::getEnd_date)
+                            .toList());
+                    return dates.stream();
+                })
+                .filter(date -> date != null && date.isAfter(projectStartDate))
+                .max(LocalDate::compareTo)
+                .orElse(projectStartDate);
+
+        List<String> days = new ArrayList<>();
+        LocalDate currentDate = projectStartDate;
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        while (!currentDate.isAfter(maxEndDate)) {
+            days.add(currentDate.format(formatter));
+            currentDate = currentDate.plusDays(1);
+        }
+        return days;
     }
-    return days;
-}
 }
