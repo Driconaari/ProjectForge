@@ -422,7 +422,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: url("images/forge-background.jpg") no-repeat;
+    background: url("../../images/forge-background.jpg") no-repeat;
     background-size: cover;
     background-position: center;
 }
@@ -604,7 +604,7 @@ body {
 .logo {
     width: 120px;
     height: 150px;
-    background-image: url("images/Logo.png");
+    background-image: url("../../images/logo.png");
     background-size: cover;
     border-radius: 10px;
     cursor: pointer;

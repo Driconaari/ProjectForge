@@ -4,50 +4,55 @@
   <meta charset="UTF-8">
   <title>Rediger Underopgave</title>
   <link rel="stylesheet" type="text/css" href="/css/Subtask-css/editSubTask.css">
-
 </head>
-
 <body>
-
-<h1>Rediger Underopgave</h1>
-
-<div>
-  <form method="post" th:action="@{/subtask/{task_id}/edit/{subtask_id}(task_id=${task_id}, subtask_id=${subtask_id})}">
-
-  <label for="subtask_name" class="form-label">Underopgave navn:</label>
-    <input id="subtask_name" type="text" th:name="subtask_name" th:value="${subtask.subtask_name}">
-
-
-    <label for="hours" class="form-label">Tid:</label>
-    <input id="hours" type="text" th:name="hours" th:value="${subtask.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
-
-    <label for="subtask_start_date" class="form-label">Start dato</label>
-    <input id="subtask_start_date" type="date" th:field="${subtask.start_date}" th:min="${task_start_date}" th:max="${task_end_date}" >
-
-    <label for="subtask_end_date" class="form-label">Slut dato</label>
-    <input id="subtask_end_date" type="date" th:field="${subtask.end_date}" th:min="${task_start_date}" th:max="${task_end_date}">
-
-    <input type="hidden" th:field="*{subtask_id}" required>
-
-    <input type="hidden" th:name="task" th:value="*{task_id}" required>
-
-    <label for="status">Status</label>
-    <label>
-      <select th:field="${subtask.status}" id="status">
-        <option value="1">TODO</option>
-        <option value="2">I gang</option>
-        <option value="3">Færdig</option>
-      </select>
-    </label>
-
-
-    <button type="submit" class="button">Gem</button>
-  </form>
-
-  <a th:href="@{/subtasks/{task_id}(task_id=${task_id})}">
-    <button type="button" class="button">Returner til Underopgaver</button>
-  </a>
-
+<header>
+  <div class="logo"></div>
+</header>
+<div class="wrapper create-project-form">
+    <span class="icon-close">
+        <ion-icon name="close-outline"></ion-icon>
+    </span>
+  <div class="form-box">
+    <h2>Rediger Underopgave</h2>
+    <form method="post" th:action="@{/subtask/{task_id}/edit/{subtask_id}(task_id=${task_id}, subtask_id=${subtask_id})}" th:object="${subtask}">
+      <div class="input-box">
+        <input id="subtask_name" type="text" th:field="*{subtask_name}" class="input1" placeholder="Underopgave navn" required>
+        <label>Underopgave navn</label>
+        <div class="shadow-input1"></div>
+      </div>
+      <div class="input-box">
+        <input id="hours" type="number" th:field="*{hours}" class="input1" placeholder="Estimeret tid (timer)" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
+        <label>Estimeret tid</label>
+        <div class="shadow-input1"></div>
+      </div>
+      <div class="input-box">
+        <input id="subtask_start_date" type="date" th:field="*{start_date}" class="input1" th:min="${task_start_date}" th:max="${task_end_date}" required>
+        <label>Start Dato</label>
+        <div class="shadow-input1"></div>
+      </div>
+      <div class="input-box">
+        <input id="subtask_end_date" type="date" th:field="*{end_date}" class="input1" th:min="${task_start_date}" th:max="${task_end_date}" required>
+        <label>Slut Dato</label>
+        <div class="shadow-input1"></div>
+      </div>
+      <div class="input-box">
+        <select th:field="*{status}" id="status" class="input1">
+          <option value="1">TODO</option>
+          <option value="2">I gang</option>
+          <option value="3">Færdig</option>
+        </select>
+        <label>Status</label>
+      </div>
+      <button style="margin: 2px" type="submit" class="button">Gem</button>
+      <a th:href="@{/subtasks/{task_id}(task_id=${task_id})}" style="margin-top: 20px" class="button">Returner til Underopgaver</a>
+    </form>
+  </div>
 </div>
+<copyrightSection>
+  <p>&copy; 2024 Project Forge by Alphasolutions</p>
+</copyrightSection>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>

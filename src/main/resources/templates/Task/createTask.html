@@ -2,68 +2,58 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Opret opgave</title>
+    <title>Opret Opgave</title>
     <link rel="stylesheet" type="text/css" href="/css/Task-css/createTask.css">
-
 </head>
 <body>
-
-    <h1>Opret Opgave</h1>
-
-    <form th:action="@{/task/create/{project_id}(project_id=${project_id})}" method="POST" th:object="${task}">
-
-        <div class="createTaskForm">
-            <label class="createTaskForm">Opgave navn:</label>
-            <label>
-                <input type="text" th:field="*{task_name}" placeholder="Opgave navn" required>
-            </label>
-        </div>
-
-        <div class="createTaskForm">
-            <label class="createTaskForm">Timer:</label>
-            <input type="number" th:field="*{hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
-        </div>
-
-        <div>
-            <label class="createTaskForm">Start Dato</label>
-            <label>
-                <input type="date" th:field="*{start_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
-            </label>
-        </div>
-
-        <div>
-            <label class="createTaskForm">Slut Dato</label>
-            <label>
-                <input type="date" th:field="*{end_date}" th:min="${project_start_date}" th:max="${project_end_date}" required>
-            </label>
-        </div>
-
-        <div>
-            <label class="createTaskForm">Status</label>
-            <label>
+<header>
+    <div class="logo"></div>
+</header>
+<div class="wrapper create-project-form">
+    <span class="icon-close">
+        <ion-icon name="close-outline"></ion-icon>
+    </span>
+    <div class="form-box">
+        <h2>Opret Opgave</h2>
+        <form th:action="@{/task/create/{project_id}(project_id=${project_id})}" method="POST" th:object="${task}">
+            <div class="input-box">
+                <input type="text" th:field="*{task_name}" class="input1" placeholder="Opgave navn" required>
+                <label>Opgave navn</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input type="number" th:field="*{hours}" class="input1" placeholder="Timer" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
+                <label>Timer</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input type="date" th:field="*{start_date}" class="input1" th:min="${project_start_date}" th:max="${project_end_date}" required>
+                <label>Start Dato</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input type="date" th:field="*{end_date}" class="input1" th:min="${project_start_date}" th:max="${project_end_date}" required>
+                <label>Slut Dato</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
                 <select name="status" id="status">
                     <option value="1">TODO</option>
                     <option value="2">I gang</option>
                     <option value="3">Færdig</option>
                 </select>
-            </label>
-        </div>
-
-        <br>
-
-        <div>
-            <input type="submit" value="Lav Opgave" class="button success"/>
-            <input type="reset" value="Reset" class="button reset"/>
-        </div>
-
-        <br>
-
-        <a th:href="@{/tasks/{project_id}(project_id=${project_id})}">
-            <button type="button" class="button go-back">Gå tilbage</button>
-        </a>
-
-    </form>
-
+                <label>Status</label>
+            </div>
+            <button style="margin: 2px" type="submit" class="button">Lav Opgave</button>
+            <button style="margin: 2px" type="reset" class="button btn-danger">Reset</button>
+            <a th:href="@{/tasks/{project_id}(project_id=${project_id})}" style="margin-top: 20px" class="button">Gå tilbage til opgaver</a>
+        </form>
+    </div>
+</div>
+<copyrightSection>
+    <p>&copy; 2024 Project Forge by Alphasolutions</p>
+</copyrightSection>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
-

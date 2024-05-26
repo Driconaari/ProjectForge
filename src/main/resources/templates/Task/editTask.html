@@ -3,50 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Rediger Opgave</title>
-    <link rel="stylesheet" type="text/css" href="/css/Task-css/editTask.css.css">
-
+    <link rel="stylesheet" type="text/css" href="/css/Task-css/editTask.css">
 </head>
-
 <body>
+<header>
+    <div class="logo"></div>
+</header>
+<div class="wrapper create-project-form">
+    <span class="icon-close">
+        <ion-icon name="close-outline"></ion-icon>
+    </span>
 
-<h1>Rediger Opgave</h1>
-
-<div>
-    <form method="post" th:action="@{/task/{project_id}/edit/{task_id}(project_id=${project_id}, task_id=${task_id})}">
-
-        <label for="task_name" class="form-label">Opgave navn:</label>
-        <input id="task_name" type="text" th:name="task_name" th:value="${task.task_name}">
-
-        <label for="hours" class="form-label">Tid:</label>
-        <input id="hours" type="text" th:name="hours" th:value="${task.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
-
-        <label for="task_start_date" class="form-label">Start dato</label>
-        <input id="task_start_date" type="date" th:field="${task.start_date}" th:min="${project_start_date}" th:max="${project_end_date}">
-
-        <label for="task_end_date" class="form-label">Slut dato</label>
-        <input id="task_end_date" type="date" th:field="${task.end_date}" th:min="${project_start_date}" th:max="${project_end_date}">
-
-        <input type="hidden" th:field="*{task_id}" required>
-
-        <input type="hidden" th:name="project" th:value="*{project_id}" required>
-
-        <label for="status">Status</label>
-        <label>
-            <select th:field="${task.status}" id="status">
-                <option value="1">TODO</option>
-                <option value="2">I Gang</option>
-                <option value="3">Færdig</option>
-            </select>
-        </label>
-
-
-        <button type="submit" class="button">Gem</button>
-    </form>
-
-    <a th:href="@{/tasks/{project_id}(project_id=${task.project_id})}">
-        <button type="button" class="button">Returner til opgaver</button>
-    </a>
-
+    <div class="form-box">
+        <h2>Rediger Opgave</h2>
+        <form method="post" th:action="@{/task/{project_id}/edit/{task_id}(project_id=${project_id}, task_id=${task_id})}">
+            <div class="input-box">
+                <input id="task_name" type="text" th:name="task_name" th:value="${task.task_name}" class="input1" required>
+                <label for="task_name">Opgave navn</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input id="hours" type="text" th:name="hours" th:value="${task.hours}" class="input1" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999" required>
+                <label for="hours">Tid</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input id="task_start_date" type="date" th:field="*{task.start_date}" class="input1" required th:min="${project_start_date}" th:max="${project_end_date}" th:value="${task.start_date}">
+                <label for="task_start_date">Start dato</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <input id="task_end_date" type="date" th:field="*{task.end_date}" class="input1" required th:min="${project_start_date}" th:max="${project_end_date}" th:value="${task.end_date}">
+                <label for="task_end_date">Slut dato</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <div class="input-box">
+                <select th:field="*{task.status}" id="status" class="input1" required>
+                    <option value="1" th:selected="${task.status == 1}">TODO</option>
+                    <option value="2" th:selected="${task.status == 2}">I Gang</option>
+                    <option value="3" th:selected="${task.status == 3}">Færdig</option>
+                </select>
+                <label for="status">Status</label>
+                <div class="shadow-input1"></div>
+            </div>
+            <input type="hidden" th:field="*{task_id}" required>
+            <input type="hidden" th:name="project" th:value="*{project_id}" required>
+            <button type="submit" class="button">Gem</button>
+        </form>
+        <a th:href="@{/tasks/{project_id}(project_id=${task.project_id})}">
+            <button type="button" class="button">Returner til opgaver</button>
+        </a>
+    </div>
 </div>
+<copyrightSection>
+    <p>&copy; 2024 Project Forge by Alphasolutions</p>
+</copyrightSection>
+<script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
 </html>
+
