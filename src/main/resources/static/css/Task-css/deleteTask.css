@@ -1,0 +1,57 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Body Styles */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url("../../images/forge-background.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Container Styles */
+div {
+    text-align: center;
+    margin-top: 50px;
+}
+
+/* Heading Styles */
+h2 {
+    margin-bottom: 20px;
+}
+
+/* Button Styles */
+.button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    opacity: 0.8;
+}
+
+/* Logo Styles */
+.logo {
+    width: 120px;
+    height: 150px;
+    background-image: url("../../images/logo.png");
+    background-size: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

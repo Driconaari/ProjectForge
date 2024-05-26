@@ -3,8 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>Login</title>
-        <link rel="stylesheet" href="/css/style.css">
-    </head>
+        <link rel="stylesheet" type="text/css" href="/css/User-css/login.css">    </head>
     <body>
     <form method="post" th:action="@{/login}" th:object="${user}">
         <header>
@@ -30,7 +29,7 @@
                         <label>Kodeord</label>
                     </div>
                     <button type="submit" class="button">Login</button>
-                    <div class="loginorRegister">
+                    <div class="loginogregister">
                         <p>Har du ikke en bruger? <a href="/register" class="register-link">Register</a> </p>
                     </div>
 
