@@ -16,7 +16,6 @@ CREATE TABLE role
 );
 
 
-
 -- Create user table
 CREATE TABLE user
 (
@@ -30,8 +29,6 @@ CREATE TABLE user
     UNIQUE (username)
 );
 
-ALTER TABLE user
-    ADD email VARCHAR(255);
 -- Create project table
 CREATE TABLE project
 
