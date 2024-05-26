@@ -107,8 +107,8 @@ public class GanttController {
     {
         long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
         long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
-        project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
-        project.setDuration(projectDurationDays * 10); // assuming 10px per day
+        project.setStartOffset(projectStartOffsetDays * 108); // assuming 105px per day
+        project.setDuration(projectDurationDays * 108); // assuming 105px per day
     }
 
         model.addAttribute("projects",projects);
