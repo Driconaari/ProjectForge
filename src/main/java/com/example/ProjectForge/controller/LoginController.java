@@ -4,6 +4,7 @@ import com.example.ProjectForge.model.Role;
 import com.example.ProjectForge.model.User;
 import com.example.ProjectForge.service.RoleService;
 import com.example.ProjectForge.service.UserService;
+
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

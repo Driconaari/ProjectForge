@@ -1,6 +1,5 @@
 package com.example.ProjectForge.controller;
 
-import com.example.ProjectForge.dto.TaskSubtaskDTO;
 import com.example.ProjectForge.model.Project;
 import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.model.Subtask;
@@ -11,6 +10,7 @@ import com.example.ProjectForge.service.GanttChartService;
 import com.example.ProjectForge.service.ProjectService;
 import com.example.ProjectForge.service.SubtaskService;
 import com.example.ProjectForge.service.TaskService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -50,75 +50,96 @@ public class GanttController {
     @Autowired
     ProjectService projectService;
 
+    public boolean isLoggedIn(HttpSession session) {
+        return session.getAttribute("user") != null;
+    }
+
+
     @GetMapping("/gantt/{user_id}")
-    public String showGantt(@PathVariable("user_id") int userId, Model model) {
-        // Fetch the relevant projects
-        List<Project> projects = projectRepository.getProjectsByID(userId);
-
-        double totalProjectCalculatedTime = 0;
-        for (Project project : projects) {
-            int projectId = project.getProject_id();
-            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(projectId);
-
-            double projectCalculatedTime = 0;
-            for (Task task : tasks) {
-                double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-                task.setCalculatedTime(taskCalculatedTime);
-                projectCalculatedTime += taskCalculatedTime;
-
-                List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
-                for (Subtask subtask : subtasks) {
-                    double subtaskHours = subtask.getHours();
-                    subtask.setHours(subtaskHours);
-                }
-                task.setSubtasks(subtasks);
-            }
-            project.setTasks(tasks);
-            project.setProjectCalculatedTime(projectCalculatedTime);
-            totalProjectCalculatedTime += projectCalculatedTime;
+    public String showGantt(@PathVariable("user_id") int userId, Model model, HttpSession session) {
+        if (!isLoggedIn(session)) {
+            return "redirect:/sessionTimeout";
         }
 
-        LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
-        List<Task> allTasks = new ArrayList<>();
-        for (Project project : projects) {
-            allTasks.addAll(project.getTasks());
-        }
-        allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
+    // Fetch the relevant projects
+    List<Project> projects = projectRepository.getProjectsByID(userId);
 
-        for (Project project : projects) {
-            long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
-            long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
-            project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
-            project.setDuration(projectDurationDays * 10); // assuming 10px per day
-        }
+    double totalProjectCalculatedTime = 0;
+        for(
+    Project project :projects)
 
-        model.addAttribute("projects", projects);
-        model.addAttribute("projectCalculatedTime", totalProjectCalculatedTime);
-        model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks));
-        model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
-        return "gantt";
-    }
+    {
+        int projectId = project.getProject_id();
+        List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(projectId);
 
-    private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
-        LocalDate maxEndDate = projectStartDate;
+        double projectCalculatedTime = 0;
         for (Task task : tasks) {
-            if (task.getEnd_date() != null && task.getEnd_date().isAfter(maxEndDate)) {
-                maxEndDate = task.getEnd_date();
-            }
-            for (Subtask subtask : task.getSubtasks()) {
-                if (subtask.getEnd_date() != null && subtask.getEnd_date().isAfter(maxEndDate)) {
-                    maxEndDate = subtask.getEnd_date();
-                }
-            }
-        }
+            double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+            task.setCalculatedTime(taskCalculatedTime);
+            projectCalculatedTime += taskCalculatedTime;
 
-        List<String> days = new ArrayList<>();
-        LocalDate currentDate = projectStartDate;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-        while (!currentDate.isAfter(maxEndDate)) {
-            days.add(currentDate.format(formatter));
-            currentDate = currentDate.plusDays(1);
+            List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
+            for (Subtask subtask : subtasks) {
+                double subtaskHours = subtask.getHours();
+                subtask.setHours(subtaskHours);
+            }
+            task.setSubtasks(subtasks);
         }
-        return days;
+        project.setTasks(tasks);
+        project.setProjectCalculatedTime(projectCalculatedTime);
+        totalProjectCalculatedTime += projectCalculatedTime;
     }
+
+    LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
+    List<Task> allTasks = new ArrayList<>();
+        for(
+    Project project :projects)
+
+    {
+        allTasks.addAll(project.getTasks());
+    }
+
+    allTasks =ganttChartService.calculateOffsetsAndDurations(allTasks,projectStartDate);
+
+        for(
+    Project project :projects)
+
+    {
+        long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
+        long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
+        project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
+        project.setDuration(projectDurationDays * 10); // assuming 10px per day
+    }
+
+        model.addAttribute("projects",projects);
+        model.addAttribute("projectCalculatedTime",totalProjectCalculatedTime);
+        model.addAttribute("days",
+
+    calculateProjectDays(projectStartDate, allTasks));
+        model.addAttribute("userId",userId); // Add the userId to the model so it can be used in the Thymeleaf template
+        return"gantt";
+}
+
+private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
+    LocalDate maxEndDate = projectStartDate;
+    for (Task task : tasks) {
+        if (task.getEnd_date() != null && task.getEnd_date().isAfter(maxEndDate)) {
+            maxEndDate = task.getEnd_date();
+        }
+        for (Subtask subtask : task.getSubtasks()) {
+            if (subtask.getEnd_date() != null && subtask.getEnd_date().isAfter(maxEndDate)) {
+                maxEndDate = subtask.getEnd_date();
+            }
+        }
+    }
+
+    List<String> days = new ArrayList<>();
+    LocalDate currentDate = projectStartDate;
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    while (!currentDate.isAfter(maxEndDate)) {
+        days.add(currentDate.format(formatter));
+        currentDate = currentDate.plusDays(1);
+    }
+    return days;
+}
 }
