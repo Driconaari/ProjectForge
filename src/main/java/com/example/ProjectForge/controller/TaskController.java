@@ -34,14 +34,14 @@ public class TaskController {
         this.projectRepository = projectRepository;
     }
 
-    public boolean isSignedIn(HttpSession session) {
+    public boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
 
     //Get tasks
     @GetMapping(path = "tasks/{project_id}")
     public String showTasks(Model model, @PathVariable int project_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             List<Task> tasks = taskService.getTaskByProID(project_id);
             int user_id = userService.getUserID(project_id);
 
@@ -71,7 +71,7 @@ public class TaskController {
     //Create task page
 @GetMapping(path = "/task/create/{project_id}")
 public String showCreateTask(Model model, @PathVariable int project_id, HttpSession session) {
-    if (isSignedIn(session)) {
+    if (isLoggedIn(session)) {
         model.addAttribute("task", new Task()); // Add the task object to the model
         model.addAttribute("project_id", project_id);
         return "Task/createTask";
@@ -83,7 +83,7 @@ public String showCreateTask(Model model, @PathVariable int project_id, HttpSess
 
 @PostMapping(path = "task/create/{project_id}")
 public String createTask(@ModelAttribute("task") Task task, @PathVariable("project_id") int project_id, Model model, HttpSession session) {
-    if (isSignedIn(session)) {
+    if (isLoggedIn(session)) {
         model.addAttribute("task", task); // Add the task object to the model
         System.out.println(task); // Log the task object
         taskService.createTask(task, project_id);
@@ -96,7 +96,7 @@ public String createTask(@ModelAttribute("task") Task task, @PathVariable("proje
     //Edit task page
 @GetMapping(path = "/task/{project_id}/edit/{task_id}")
 public String showEditTask(Model model, @PathVariable int task_id, @PathVariable int project_id, HttpSession session) {
-    if (isSignedIn(session)) {
+    if (isLoggedIn(session)) {
         Task task = taskService.getTaskByIDs(task_id, project_id);
         Project project = projectService.getProjectByProjectID(project_id);
 
@@ -113,7 +113,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
     //Edit task
     @PostMapping(path = "/task/{project_id}/edit/{task_id}")
     public String editTask(@PathVariable int task_id, @PathVariable int project_id, @ModelAttribute Task updatedTask, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Task task = taskService.getTaskByIDs(task_id, project_id);
 
             task.setTask_name(updatedTask.getTask_name());
@@ -142,7 +142,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
     //Delete task page
     @GetMapping(path = "task/delete/{task_id}")
     public String deleteTask(@PathVariable("task_id") int task_id, Model model, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Task task = taskService.getTaskById(task_id);
 
             model.addAttribute("task_id", task_id);
@@ -155,7 +155,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
     //Delete task
     @PostMapping(path = "task/delete/{task_id}")
     public String removeTask(@PathVariable("task_id") int task_id, Model model, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             int projectID = taskService.getProjectIDbyTaskID(task_id);
             taskService.deleteTask(task_id);
             return "redirect:/tasks/" + projectID;
@@ -168,7 +168,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
     @GetMapping(path = "project/{project_id}")
     public String showProject(Model model, @PathVariable int project_id, HttpSession session) {
 
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             List<TaskSubtaskDTO> taskSubtasks = taskService.getTaskSubtasksByProID(project_id);
             double projectCalculatedTime = projectService.getProjectTimeByProjectID(project_id);
 
