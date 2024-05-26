@@ -26,7 +26,7 @@ public class RoleRepository implements IRoleRepository {
             while (rs.next()) {
                 int role_id = rs.getInt("role_id");
                 String role_name = rs.getString("role_name");
-                Role role = new Role();
+                Role role = new Role(1, "Admin");
                 roles.add(role);
             }
         } catch (SQLException e) {

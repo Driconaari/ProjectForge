@@ -29,11 +29,11 @@ public class RoleControllerTest {
     private RoleService roleService;
     @Test
     public void getAllRolesTest() throws Exception {
-        Role role1 = new Role();
+        Role role1 = new Role(1, "Admin");
         role1.setId(1);
         role1.setName("Admin");
 
-        Role role2 = new Role();
+        Role role2 = new Role(1, "Admin");
         role2.setId(2);
         role2.setName("User");
 
