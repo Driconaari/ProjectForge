@@ -27,7 +27,7 @@ public class ProjectController {
         this.taskService = taskService;
     }
 
-    public boolean isSignedIn(HttpSession session) {
+    public boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
 
@@ -35,7 +35,7 @@ public class ProjectController {
     @GetMapping(path = "projects/{user_id}")
     public String showProjects(Model model, @PathVariable int user_id, HttpSession session) {
 
-       if(isSignedIn(session)) {
+       if(isLoggedIn(session)) {
 
            List<Project> projects = projectService.getProjectsByID(user_id);
 
@@ -67,7 +67,7 @@ public class ProjectController {
     @GetMapping(path = "projects/create/{user_id}")
     public String showCreateProject(Model model, @PathVariable int user_id, HttpSession session) {
 
-        if(isSignedIn(session)) {
+        if(isLoggedIn(session)) {
             Project project = new Project();
             model.addAttribute("project", project);
             model.addAttribute("user_id", user_id);
@@ -89,7 +89,7 @@ public class ProjectController {
     @GetMapping(path = "/projects/{user_id}/edit/{project_id}")
     public String showEditProject(Model model, @PathVariable int project_id, @PathVariable int user_id, HttpSession session) {
 
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Project project = projectService.getProjectByIDs(project_id, user_id);
             model.addAttribute("project", project);
             model.addAttribute("project_id", project_id);
@@ -129,7 +129,7 @@ public class ProjectController {
     @GetMapping(path = "/deleteProject/{project_id}")
     public String deleteProject(@PathVariable("project_id") int project_id, Model model, HttpSession session) {
 
-        if (isSignedIn(session))  {
+        if (isLoggedIn(session))  {
             model.addAttribute("project_id", project_id);
             Project project = projectService.getProjectByProjectID(project_id);
             model.addAttribute("project", project);
