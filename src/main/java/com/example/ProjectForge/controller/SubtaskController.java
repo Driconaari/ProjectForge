@@ -29,7 +29,7 @@ public class  SubtaskController {
         this.taskService = taskService;
     }
 
-    public boolean isSignedIn(HttpSession session) {
+    public boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
 
@@ -37,7 +37,7 @@ public class  SubtaskController {
     @GetMapping(path = "subtasks/{task_id}")
     public String showSubtasks(Model model, @PathVariable int task_id, HttpSession session) {
 
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             List<Subtask> subtasks = subtaskService.getSubtasksByTaskID(task_id);
             int project_id = projectService.getProjectID(task_id);
 
@@ -52,7 +52,7 @@ public class  SubtaskController {
     //Create subtask page
     @GetMapping(path = "subtasks/create/{task_id}")
     public String showCreateSubtask(Model model, @PathVariable("task_id") int task_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Subtask subtask = new Subtask();
             Task task = taskService.getTaskById(task_id);
 
@@ -68,7 +68,7 @@ public class  SubtaskController {
     //Create subtask
     @PostMapping(path = "subtasks/create/{task_id}")
     public String createSubtask(@ModelAttribute("subtask") Subtask subtask, @PathVariable("task_id") int task_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             subtaskService.createSubtask(subtask, task_id);
             return "redirect:/subtasks/" + task_id;
         }
@@ -78,7 +78,7 @@ public class  SubtaskController {
     //Edit subtask page
     @GetMapping(path = "/subtask/{task_id}/edit/{subtask_id}")
     public String showEditSubtask(Model model, @PathVariable int subtask_id, @PathVariable int task_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Subtask subtask = subtaskService.getSubtaskbyIDs(subtask_id, task_id);
             Task task = taskService.getTaskById(task_id);
 
@@ -96,7 +96,7 @@ public class  SubtaskController {
     @PostMapping(path = "/subtask/{task_id}/edit/{subtask_id}")
     public String editSubtask(@PathVariable int subtask_id, @PathVariable int task_id, @ModelAttribute Subtask updatedSubtask, HttpSession session) {
 
-        if(isSignedIn(session)) {
+        if(isLoggedIn(session)) {
             Subtask subtask = subtaskService.getSubtaskbyIDs(subtask_id, task_id);
 
             subtask.setSubtask_name(updatedSubtask.getSubtask_name());
@@ -124,7 +124,7 @@ public class  SubtaskController {
     //Delete subtask page
     @GetMapping(path = "subtasks/delete/{subtask_id}")
     public String showDeleteSubtask(Model model, @PathVariable("subtask_id") int subtask_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             Subtask subtask = subtaskService.getSubtaskByID(subtask_id);
             model.addAttribute("subtask", subtask);
             return "Subtask/deleteSubtask";
@@ -135,7 +135,7 @@ public class  SubtaskController {
     //Delete Subtask
     @PostMapping(path = "subtasks/delete/{subtask_id}")
     public String deleteSubtask(@PathVariable("subtask_id") int subtask_id, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             int task_id = subtaskService.getSubtaskByID(subtask_id).getTask_id();
             subtaskService.deleteSubtask(subtask_id);
             return "redirect:/subtasks/" + task_id;
