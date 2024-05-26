@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Controller
-public class SubtaskController {
+public class  SubtaskController {
 
     private SubtaskService subtaskService;
     private ProjectService projectService;

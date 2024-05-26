@@ -18,6 +18,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+// test for getting all roles from role controller and role service with mockito and mockmvc for testing the controller and service
 @WebMvcTest(RoleController.class)
 public class RoleControllerTest {
 
@@ -26,14 +27,13 @@ public class RoleControllerTest {
 
     @MockBean
     private RoleService roleService;
-
     @Test
     public void getAllRolesTest() throws Exception {
-        Role role1 = new Role();
+        Role role1 = new Role(1, "Admin");
         role1.setId(1);
         role1.setName("Admin");
 
-        Role role2 = new Role();
+        Role role2 = new Role(1, "Admin");
         role2.setId(2);
         role2.setName("User");
 

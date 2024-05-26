@@ -5,7 +5,7 @@ public class Role {
     private int role_id;
     private String role_name;
 
-    public Role() {
+    public Role(int i, String admin) {
         this.role_id = role_id;
         this.role_name = role_name;
     }
