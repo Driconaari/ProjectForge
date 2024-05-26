@@ -23,6 +23,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Controller
 @RequestMapping("/api")
 public class GanttController {
@@ -50,41 +52,54 @@ public class GanttController {
 
     @GetMapping("/gantt/{user_id}")
     public String showGantt(@PathVariable("user_id") int userId, Model model) {
-        // Use the userId to fetch the relevant projects
+        // Fetch the relevant projects
         List<Project> projects = projectRepository.getProjectsByID(userId);
 
-        // If you want to display tasks of all projects, you can loop through the projects
-        // and fetch tasks for each project using the getTasksWithSubtasksByProjectID method
-        List<Task> allTasks = new ArrayList<>();
+        double totalProjectCalculatedTime = 0;
         for (Project project : projects) {
-            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(project.getProject_id());
+            int projectId = project.getProject_id();
+            List<Task> tasks = taskRepository.getTasksWithSubtasksByProjectID(projectId);
+
+            double projectCalculatedTime = 0;
             for (Task task : tasks) {
-                task.setProject(project);
                 double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-                task.setCalculatedTime(taskCalculatedTime); // calculate and set the task time
+                task.setCalculatedTime(taskCalculatedTime);
+                projectCalculatedTime += taskCalculatedTime;
+
                 List<Subtask> subtasks = subtaskRepository.getSubtasksByTaskID(task.getTask_id());
                 for (Subtask subtask : subtasks) {
                     double subtaskHours = subtask.getHours();
-                    subtask.setHours(subtaskHours); // set the subtask hours
+                    subtask.setHours(subtaskHours);
                 }
                 task.setSubtasks(subtasks);
             }
-            allTasks.addAll(tasks);
+            project.setTasks(tasks);
+            project.setProjectCalculatedTime(projectCalculatedTime);
+            totalProjectCalculatedTime += projectCalculatedTime;
         }
 
         LocalDate projectStartDate = LocalDate.of(2024, 5, 1); // Example project start date
+        List<Task> allTasks = new ArrayList<>();
+        for (Project project : projects) {
+            allTasks.addAll(project.getTasks());
+        }
         allTasks = ganttChartService.calculateOffsetsAndDurations(allTasks, projectStartDate);
 
-        double projectCalculatedTime = projectService.getProjectTimeByProjectID(userId);
-        model.addAttribute("projectCalculatedTime", projectCalculatedTime);
-        model.addAttribute("tasks", allTasks);
-        model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks)); // Add time axis data
+        for (Project project : projects) {
+            long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
+            long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
+            project.setStartOffset(projectStartOffsetDays * 10); // assuming 10px per day
+            project.setDuration(projectDurationDays * 10); // assuming 10px per day
+        }
+
+        model.addAttribute("projects", projects);
+        model.addAttribute("projectCalculatedTime", totalProjectCalculatedTime);
+        model.addAttribute("days", calculateProjectDays(projectStartDate, allTasks));
         model.addAttribute("userId", userId); // Add the userId to the model so it can be used in the Thymeleaf template
         return "gantt";
     }
 
     private List<String> calculateProjectDays(LocalDate projectStartDate, List<Task> tasks) {
-        // Find the maximum end date from all tasks and subtasks
         LocalDate maxEndDate = projectStartDate;
         for (Task task : tasks) {
             if (task.getEnd_date() != null && task.getEnd_date().isAfter(maxEndDate)) {
@@ -97,7 +112,6 @@ public class GanttController {
             }
         }
 
-        // Generate list of days from projectStartDate to maxEndDate
         List<String> days = new ArrayList<>();
         LocalDate currentDate = projectStartDate;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");

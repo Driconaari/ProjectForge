@@ -16,6 +16,9 @@ body {
     box-sizing: border-box;
     background-color: var(--background-color);
     color: var(--text-color);
+    background-image: url('ganttimages/forge-background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
 header {
@@ -51,12 +54,24 @@ h1 {
 }
 
 .gantt-container {
+    display: flex;
     padding: 20px;
     margin: 0 auto;
     max-width: 1200px;
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.side-panel {
+    width: 30%;
+    padding-right: 20px;
+    border-right: 1px solid var(--light-grey);
+}
+
+.gantt-chart {
+    width: 70%;
+    padding-left: 20px;
     overflow-x: auto;
 }
 
@@ -79,6 +94,31 @@ h1 {
     margin: 2px;
 }
 
+.gantt-bars {
+    position: relative;
+}
+
+.gantt-bar {
+    position: absolute;
+    height: 20px;
+    border-radius: 4px;
+}
+
+.project-bar {
+    background-color: var(--primary-color);
+    height: 25px;
+}
+
+.task-bar {
+    background-color: var(--secondary-color);
+    height: 20px;
+}
+
+.subtask-bar {
+    background-color: #ff9800;
+    height: 15px;
+}
+
 .gantt-project {
     margin-bottom: 30px;
     padding: 15px;
@@ -93,6 +133,16 @@ h1 {
     color: var(--dark-grey);
     font-weight: bold;
     text-transform: capitalize;
+}
+
+.project-description,
+.project-start-date,
+.project-end-date,
+.project-calculated-time {
+    padding: 5px 10px;
+    background-color: var(--light-grey);
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 .gantt-row {
@@ -120,17 +170,6 @@ h1 {
     padding: 5px 10px;
 }
 
-.gantt-bar {
-    position: absolute;
-    height: 20px;
-    background-color: var(--primary-color);
-    border-radius: 4px;
-}
-
-.subtask-row .gantt-bar {
-    background-color: var(--secondary-color);
-}
-
 footer {
     text-align: center;
     padding: 15px 0;
@@ -139,15 +178,35 @@ footer {
     margin-top: 30px;
 }
 
+.status-todo {
+    color: #0050ff;
+}
+
+.status-in-progress {
+    color: #ffdc0c;
+}
+
+.status-completed {
+    color: #14cb2e;
+}
+
 @media (max-width: 768px) {
     .time-interval {
         flex: 0 0 20%;
     }
 
-body {
-    background-image: url('ganttimages/forge-background.jpg');
-    background-repeat: no-repeat;
-    background-size: cover; /* This will make sure the image covers the whole body */
-}
+    .side-panel {
+        width: 100%;
+        padding-right: 0;
+        border-right: none;
+    }
 
+    .gantt-chart {
+        width: 100%;
+        padding-left: 0;
+    }
+
+    .gantt-container {
+        flex-direction: column;
+    }
 }

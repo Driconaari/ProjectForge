@@ -6,6 +6,8 @@ import java.util.List;
 public class Project {
 
     private List<Task> tasks;
+    private long startOffset;
+    private long duration;
 
     private int project_id;
     private String project_name;
@@ -16,7 +18,7 @@ public class Project {
 
     private double projectCalculatedTime;
 
-    public Project(int project_id , String project_name, String project_description, LocalDate start_date, LocalDate end_date, int user_id) {
+    public Project(int project_id, String project_name, String project_description, LocalDate start_date, LocalDate end_date, int user_id) {
         this.project_id = project_id;
         this.project_name = project_name;
         this.project_description = project_description;
@@ -94,5 +96,25 @@ public class Project {
 
     public void setProjectCalculatedTime(double projectCalculatedTime) {
         this.projectCalculatedTime = projectCalculatedTime;
+    }
+
+    // Add a getter for startOffset
+    public long getStartOffset() {
+        return startOffset;
+    }
+
+    // Add a getter for duration
+    public long getDuration() {
+        return this.duration;
+    }
+
+    // Add a setter for startOffset
+    public void setStartOffset(long startOffset) {
+        this.startOffset = startOffset;
+    }
+
+    // Add a setter for duration
+    public void setDuration(long duration) {
+        this.duration = duration;
     }
 }
