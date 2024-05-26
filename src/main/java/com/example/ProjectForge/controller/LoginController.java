@@ -30,7 +30,7 @@ public class LoginController {
     }
 //Check if user is signed in with session and return true or false if user is signed in or not,
 // signed in with session attribute user from session object
-    public boolean isSignedIn(HttpSession session) {
+    public boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
 
@@ -138,7 +138,7 @@ public String register(@ModelAttribute("user") User user, @RequestParam("role_id
     @GetMapping(path = "/editUser/{user_id}")
     public String showEditUser(@PathVariable("user_id") int user_id, Model model, HttpSession session) {
 
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             model.addAttribute("user_id", user_id);
             User user = userService.getUserFromId(user_id);
             model.addAttribute("user", user);
@@ -150,7 +150,7 @@ public String register(@ModelAttribute("user") User user, @RequestParam("role_id
     //Edit user information in database and redirect to home page with user_id
     @PostMapping(path = "/editUser/{user_id}")
     public String editUser(@PathVariable("user_id") int user_id, @RequestParam("username") String user_name, String password, HttpSession session) {
-        if (isSignedIn(session)) {
+        if (isLoggedIn(session)) {
             User user = userService.getUserFromId(user_id);
             user.setUsername(user_name);
             user.setPassword(password);

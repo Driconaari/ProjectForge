@@ -10,11 +10,10 @@ DROP TABLE IF EXISTS role;
 -- Create role table
 CREATE TABLE role
 (
-    role_id INT AUTO_INCREMENT NOT NULL,
-    role    VARCHAR(45)        NOT NULL,
-    PRIMARY KEY (role_id)
+    role_id   INT AUTO_INCREMENT PRIMARY KEY,
+    role      VARCHAR(45) NOT NULL,
+    role_name VARCHAR(45) NOT NULL
 );
-
 
 
 -- Create user table
