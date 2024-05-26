@@ -11,7 +11,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class TaskSubtaskDTOTest {
 
-    // Test TaskSubtaskDTO class methods and constructors using JUnit test framework and assertEquals method from org.junit.jupiter.api.Assertions '
+    // Test TaskSubtaskDTO class methods and constructors using JUnit test
+    // framework and assertEquals method from org.junit.jupiter.api.Assertions '
+    // package to compare the expected and actual values of the TaskSubtaskDTO object
     @Test
     public void testTaskSubtaskDTO() {
         TaskSubtaskDTO taskSubtaskDTO = new TaskSubtaskDTO();
