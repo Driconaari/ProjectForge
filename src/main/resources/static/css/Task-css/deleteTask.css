@@ -47,7 +47,7 @@ h2 {
 .logo {
     width: 120px;
     height: 150px;
-    background-image: url("../../images/logo.png");
+    background-image: url("../images/logo.png");
     background-size: cover;
     border-radius: 10px;
     cursor: pointer;
