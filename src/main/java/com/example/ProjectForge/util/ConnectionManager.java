@@ -12,13 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ConnectionManager {
-    private static volatile Connection conn = null;
+    private static Connection conn = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
-    private static final Properties properties = loadProperties();
-
-    private ConnectionManager() {
-        // private constructor to prevent instantiation
-    }
 
     // Load application properties
     private static Properties loadProperties() {
@@ -35,25 +30,6 @@ public class ConnectionManager {
         return properties;
     }
 
-    // Get database connection
-    public static Connection getConnection() {
-        if (conn == null) {
-            synchronized (ConnectionManager.class) {
-                if (conn == null) {
-                    try {
-                        String dbUrl = properties.getProperty("spring.datasource.url");
-                        String uid = properties.getProperty("spring.datasource.username");
-                        String pwd = properties.getProperty("spring.datasource.password");
-                        conn = DriverManager.getConnection(dbUrl, uid, pwd);
-                    } catch (SQLException e) {
-                        LOGGER.error("Failed to connect to the database", e);
-                    }
-                }
-            }
-        }
-        return conn;
-    }
-
     // Check if role_id exists in the database connection
     public boolean doesRoleIdExist(int roleId) {
         String SQL = "SELECT role_id FROM role WHERE role_id = ?";
@@ -67,5 +43,24 @@ public class ConnectionManager {
             LOGGER.error("Error checking role_id existence", e);
             throw new RuntimeException(e);
         }
+    }
+
+    // Get database connection
+    public static Connection getConnection() {
+        if (conn != null) {
+            return conn;
+        }
+
+        Properties properties = loadProperties();
+        String dbUrl = properties.getProperty("spring.datasource.url");
+        String uid = properties.getProperty("spring.datasource.username");
+        String pwd = properties.getProperty("spring.datasource.password");
+
+        try {
+            conn = DriverManager.getConnection(dbUrl, uid, pwd);
+        } catch (SQLException e) {
+            LOGGER.error("Failed to connect to the database", e);
+        }
+        return conn;
     }
 }
