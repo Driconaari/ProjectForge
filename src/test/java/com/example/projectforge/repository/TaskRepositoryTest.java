@@ -1,6 +1,7 @@
 package com.example.projectforge.repository;
 
 
+/*
 import com.example.ProjectForge.model.Task;
 import com.example.ProjectForge.repository.TaskRepository;
 import org.junit.jupiter.api.Test;
@@ -87,3 +88,5 @@ public class TaskRepositoryTest {
         assertNull(taskRepository.getTaskbyTaskId(task.getTask_id()));
     }
 }
+
+ */

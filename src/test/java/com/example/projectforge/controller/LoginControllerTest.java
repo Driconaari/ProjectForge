@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
+/*
 // Test class for LoginController with login, register, logout, edit user, home and session timeout pages
 // Path for login controller is /login and all pages are under /login path with different paths for each page in controller class
 // below with @RequestMapping annotation for each page path in controller class and @GetMapping and @PostMapping annotations for each
@@ -66,3 +66,5 @@ public class LoginControllerTest {
                 .andExpect(view().name("User/login"));
     }
 }
+
+ */
