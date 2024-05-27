@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
-@RequestMapping(path = "")
 @Controller
+@RequestMapping("")
 public class ProjectController {
 
-    private ProjectService projectService;
-    private UserService userService;
-    private TaskService taskService;
+    private final ProjectService projectService;
+    private final UserService userService;
+    private final TaskService taskService;
 
     public ProjectController(ProjectService projectService, UserService userService, TaskService taskService) {
         this.projectService = projectService;
@@ -27,122 +27,96 @@ public class ProjectController {
         this.taskService = taskService;
     }
 
-    public boolean isLoggedIn(HttpSession session) {
+    private boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("user") != null;
     }
 
-    //Get projects from user_id
-    @GetMapping(path = "projects/{user_id}")
-    public String showProjects(Model model, @PathVariable int user_id, HttpSession session) {
+    @GetMapping("projects/{user_id}")
+    public String showProjects(Model model, @PathVariable("user_id") int userId, HttpSession session) {
+        if (isLoggedIn(session)) {
+            List<Project> projects = projectService.getProjectsByID(userId);
+            for (Project project : projects) {
+                int projectId = project.getProject_id();
+                List<Task> tasks = taskService.getTaskByProID(projectId);
 
-       if(isLoggedIn(session)) {
-
-           List<Project> projects = projectService.getProjectsByID(user_id);
-
-           for (Project project : projects) {
-               int project_id = project.getProject_id();
-               List<Task> tasks = taskService.getTaskByProID(project_id);
-
-               double projectCalculatedTime = 0;
-
-               for (Task task : tasks) {
-                   double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
-                   task.setCalculatedTime(taskCalculatedTime);
-                   projectCalculatedTime += taskCalculatedTime;
-               }
-
-               project.setTasks(tasks);
-               project.setProjectCalculatedTime(projectCalculatedTime);
-           }
-
-           model.addAttribute("projects", projects);
-           return "Project/projects";
-       }
-       return "redirect:/sessionTimeout";
+                double projectCalculatedTime = 0;
+                for (Task task : tasks) {
+                    double taskCalculatedTime = taskService.getProjectTimeByTaskID(task.getTask_id());
+                    task.setCalculatedTime(taskCalculatedTime);
+                    projectCalculatedTime += taskCalculatedTime;
+                }
+                project.setTasks(tasks);
+                project.setProjectCalculatedTime(projectCalculatedTime);
+            }
+            model.addAttribute("projects", projects);
+            return "Project/projects";
+        }
+        return "redirect:/sessionTimeout";
     }
 
-
-
-    //Create project page
-    @GetMapping(path = "projects/create/{user_id}")
-    public String showCreateProject(Model model, @PathVariable int user_id, HttpSession session) {
-
-        if(isLoggedIn(session)) {
+    @GetMapping("projects/create/{user_id}")
+    public String showCreateProject(Model model, @PathVariable("user_id") int userId, HttpSession session) {
+        if (isLoggedIn(session)) {
             Project project = new Project();
             model.addAttribute("project", project);
-            model.addAttribute("user_id", user_id);
+            model.addAttribute("user_id", userId);
             return "Project/createProject";
         }
         return "redirect:/sessionTimeout";
     }
 
-    //Create project
-    @PostMapping(path = "projects/create/{user_id}")            //localhost//8080:/projects/create/1
-    public String createProject(@ModelAttribute("project") Project project, @PathVariable int user_id) {
-        projectService.createProject(project, user_id);
-        return "redirect:/projects/" + user_id;
+    @PostMapping("projects/create/{user_id}")
+    public String createProject(@ModelAttribute("project") Project project, @PathVariable("user_id") int userId) {
+        projectService.createProject(project, userId);
+        return "redirect:/projects/" + userId;
     }
 
-
-
-    //Edit project page
-    @GetMapping(path = "/projects/{user_id}/edit/{project_id}")
-    public String showEditProject(Model model, @PathVariable int project_id, @PathVariable int user_id, HttpSession session) {
-
+    @GetMapping("/projects/{user_id}/edit/{project_id}")
+    public String showEditProject(Model model, @PathVariable("project_id") int projectId, @PathVariable("user_id") int userId, HttpSession session) {
         if (isLoggedIn(session)) {
-            Project project = projectService.getProjectByIDs(project_id, user_id);
+            Project project = projectService.getProjectByIDs(projectId, userId);
             model.addAttribute("project", project);
-            model.addAttribute("project_id", project_id);
-            model.addAttribute("user_id", user_id);
+            model.addAttribute("project_id", projectId);
+            model.addAttribute("user_id", userId);
             return "Project/editProject";
         }
-       return "redirect:/sessionTimeout";
+        return "redirect:/sessionTimeout";
     }
 
-    //Edit project
-    @PostMapping(path = "/projects/{user_id}/edit/{project_id}")
-    public String editProject(@PathVariable int project_id, @PathVariable int user_id, @ModelAttribute Project updatedProject) {
-        Project existingProject = projectService.getProjectByIDs(project_id, user_id);
+    @PostMapping("/projects/{user_id}/edit/{project_id}")
+    public String editProject(@PathVariable("project_id") int projectId, @PathVariable("user_id") int userId, @ModelAttribute Project updatedProject) {
+        Project existingProject = projectService.getProjectByIDs(projectId, userId);
 
         existingProject.setProject_name(updatedProject.getProject_name());
         existingProject.setProject_description(updatedProject.getProject_description());
 
-        // Check and update start_date if not null
-        LocalDate updatedStartDate = updatedProject.getStart_date();
-        if (updatedStartDate != null) {
-            existingProject.setStart_date(updatedStartDate);
+        if (updatedProject.getStart_date() != null) {
+            existingProject.setStart_date(updatedProject.getStart_date());
         }
 
-        // Check and update end_date if not null
-        LocalDate updatedEndDate = updatedProject.getEnd_date();
-        if (updatedEndDate != null) {
-            existingProject.setEnd_date(updatedEndDate);
+        if (updatedProject.getEnd_date() != null) {
+            existingProject.setEnd_date(updatedProject.getEnd_date());
         }
 
-        projectService.editProject(existingProject, project_id, user_id);
-        return "redirect:/projects/" + user_id;
+        projectService.editProject(existingProject, projectId, userId);
+        return "redirect:/projects/" + userId;
     }
 
-
-
-    //Delete project page
-    @GetMapping(path = "/deleteProject/{project_id}")
-    public String deleteProject(@PathVariable("project_id") int project_id, Model model, HttpSession session) {
-
-        if (isLoggedIn(session))  {
-            model.addAttribute("project_id", project_id);
-            Project project = projectService.getProjectByProjectID(project_id);
+    @GetMapping("/deleteProject/{project_id}")
+    public String deleteProject(@PathVariable("project_id") int projectId, Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            Project project = projectService.getProjectByProjectID(projectId);
+            model.addAttribute("project_id", projectId);
             model.addAttribute("project", project);
             return "Project/deleteProject";
         }
         return "redirect:/sessionTimeout";
     }
 
-    //Delete Project
-    @PostMapping(path = "/deleteProject/{project_id}")
-    public String removeProject(@PathVariable("project_id") int project_id, Model model) {
-        int user_id = userService.getUserID(project_id);
-        projectService.deleteProject(project_id);
-        return "redirect:/projects/" + user_id;
+    @PostMapping("/deleteProject/{project_id}")
+    public String removeProject(@PathVariable("project_id") int projectId) {
+        int userId = userService.getUserID(projectId);
+        projectService.deleteProject(projectId);
+        return "redirect:/projects/" + userId;
     }
 }
