@@ -15,34 +15,37 @@ public class ConnectionManager {
     private static Connection conn = null;
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionManager.class);
 
-    //Load application properties
+    // Load application properties
     private static Properties loadProperties() {
         Properties properties = new Properties();
         try (InputStream input = ConnectionManager.class.getClassLoader().getResourceAsStream("application.properties")) {
-            properties.load(input);
+            if (input != null) {
+                properties.load(input);
+            } else {
+                LOGGER.error("Application properties file not found");
+            }
         } catch (IOException e) {
             LOGGER.error("Failed to load application properties", e);
         }
         return properties;
     }
 
-    //Check if role_id exists in the database connection
+    // Check if role_id exists in the database connection
     public boolean doesRoleIdExist(int roleId) {
-    try {
-        Connection con = ConnectionManager.getConnection();
         String SQL = "SELECT role_id FROM role WHERE role_id = ?";
-        PreparedStatement pstmt = con.prepareStatement(SQL);
-        pstmt.setInt(1, roleId);
-        ResultSet rs = pstmt.executeQuery();
-
-        // Returns true if the role_id exists and false if it does not
-        return rs.next();
-    } catch (SQLException e) {
-        throw new RuntimeException(e);
+        try (Connection con = getConnection();
+             PreparedStatement pstmt = con.prepareStatement(SQL)) {
+            pstmt.setInt(1, roleId);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                return rs.next(); // Returns true if the role_id exists and false if it does not
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error checking role_id existence", e);
+            throw new RuntimeException(e);
+        }
     }
-}
 
-    //Insert application properties into the database connection
+    // Get database connection
     public static Connection getConnection() {
         if (conn != null) {
             return conn;
@@ -60,8 +63,4 @@ public class ConnectionManager {
         }
         return conn;
     }
-
-
-
-
 }
