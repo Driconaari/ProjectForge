@@ -115,18 +115,25 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
 }
 
     //Edit task
-    @PostMapping(path = "/task/{project_id}/edit/{task_id}")
-    public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, Model model, HttpSession session) {
-        if (isLoggedIn(session)) {
-            if (result.hasErrors()) {
-                // Print all validation errors
-                for (ObjectError error : result.getAllErrors()) {
-                    System.out.println(error.getDefaultMessage());
-                }
-                model.addAttribute("errorMessage", "There were errors in your form. Please correct them and try again.");
-                return "Task/editTask";
+   @PostMapping(path = "/task/{project_id}/edit/{task_id}")
+public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, Model model, HttpSession session) {
+    if (isLoggedIn(session)) {
+        if (result.hasErrors()) {
+            // Print all validation errors
+            for (ObjectError error : result.getAllErrors()) {
+                System.out.println(error.getDefaultMessage());
             }
+            model.addAttribute("errorMessage", "There were errors in your form. Please correct them and try again.");
+            return "Task/editTask";
+        }
         Task task = taskService.getTaskByIDs(task_id, project_id);
+
+        // Fetch the Project object and set it in the Task object
+        Optional<Project> projectOptional = projectRepository.findById(updatedTask.getProject().getProject_id());
+        if (projectOptional.isPresent()) {
+            Project project = projectOptional.get();
+            task.setProject(project);
+        }
 
         task.setTask_name(updatedTask.getTask_name());
         task.setHours(updatedTask.getHours());

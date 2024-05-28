@@ -30,7 +30,8 @@
 
         <input type="hidden" th:field="*{task_id}" required>
 
-        <input type="hidden" th:name="project" th:value="*{project_id}" required>
+        <input type="hidden" th:field="*{project.project_id}"/>
+
 
         <p th:if="${errorMessage}" th:text="${errorMessage}" class="error"></p>
 
