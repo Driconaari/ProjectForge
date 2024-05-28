@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
 
+
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -111,33 +114,35 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
 }
 
     //Edit task
-    @PostMapping(path = "/task/{project_id}/edit/{task_id}")
-    public String editTask(@PathVariable int task_id, @PathVariable int project_id, @ModelAttribute Task updatedTask, HttpSession session) {
-        if (isLoggedIn(session)) {
-            Task task = taskService.getTaskByIDs(task_id, project_id);
-
-            task.setTask_name(updatedTask.getTask_name());
-            task.setHours(updatedTask.getHours());
-            task.setStatus(updatedTask.getStatus());
-
-            // Check and update start_date if not null
-            LocalDate updatedStartDate = updatedTask.getStart_date();
-            if (updatedStartDate != null) {
-                task.setStart_date(updatedStartDate);
-            }
-
-            // Check and update end_date if not null
-            LocalDate updatedEndDate = updatedTask.getEnd_date();
-            if (updatedEndDate != null) {
-                task.setEnd_date(updatedEndDate);
-            }
-
-            taskService.editTask(task, task_id, project_id);
-            return "redirect:/tasks/" + project_id;
+   @PostMapping(path = "/task/{project_id}/edit/{task_id}")
+public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, HttpSession session) {
+    if (isLoggedIn(session)) {
+        if (result.hasErrors()) {
+            return "Task/editTask";
         }
-        return "redirect:/sessionTimeout";
-    }
+        Task task = taskService.getTaskByIDs(task_id, project_id);
 
+        task.setTask_name(updatedTask.getTask_name());
+        task.setHours(updatedTask.getHours());
+        task.setStatus(updatedTask.getStatus());
+
+        // Check and update start_date if not null
+        LocalDate updatedStartDate = updatedTask.getStart_date();
+        if (updatedStartDate != null) {
+            task.setStart_date(updatedStartDate);
+        }
+
+        // Check and update end_date if not null
+        LocalDate updatedEndDate = updatedTask.getEnd_date();
+        if (updatedEndDate != null) {
+            task.setEnd_date(updatedEndDate);
+        }
+
+        taskService.editTask(task, task_id, project_id);
+        return "redirect:/tasks/" + project_id;
+    }
+    return "redirect:/sessionTimeout";
+}
 
     //Delete task page
     @GetMapping(path = "task/delete/{task_id}")
