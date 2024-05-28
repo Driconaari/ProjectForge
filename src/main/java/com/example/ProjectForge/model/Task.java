@@ -35,6 +35,19 @@ public class Task {
         this.status = status;
         this.project_id = project_id;
     }
+        @Override
+        public String toString() {
+            return "Task{" +
+                    "task_id=" + task_id +
+                    ", task_name='" + task_name + '\'' +
+                    ", hours=" + hours +
+                    ", start_date=" + start_date +
+                    ", end_date=" + end_date +
+                    ", status=" + status +
+                    ", project_id=" + project_id +
+                    '}';
+        }
+
 
     //Used to add calculatedTime to task
     public Task(int task_id, String task_name, double hours, double calculatedTime, LocalDate start_date, LocalDate end_date, int status, int project_id) {

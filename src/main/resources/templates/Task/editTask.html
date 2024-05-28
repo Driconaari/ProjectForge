@@ -17,17 +17,22 @@
         <input id="task_name" type="text" th:name="task_name" th:value="${task.task_name}">
 
         <label for="hours" class="form-label">Tid:</label>
-        <input id="hours" type="text" th:name="hours" th:value="${task.hours}" placeholder="hours" min="0" max="9999" pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
+        <input id="hours" type="text" th:name="hours" th:value="${task.hours}" placeholder="hours" min="0" max="9999"
+               pattern="[0-9]{1,4}" title="Hours must be between 0 and 9999">
 
         <label for="task_start_date" class="form-label">Start dato</label>
-        <input id="task_start_date" type="date" th:field="${task.start_date}" th:min="${project_start_date}" th:max="${project_end_date}">
+        <input id="task_start_date" type="date" th:field="${task.start_date}" th:min="${project_start_date}"
+               th:max="${project_end_date}">
 
         <label for="task_end_date" class="form-label">Slut dato</label>
-        <input id="task_end_date" type="date" th:field="${task.end_date}" th:min="${project_start_date}" th:max="${project_end_date}">
+        <input id="task_end_date" type="date" th:field="${task.end_date}" th:min="${project_start_date}"
+               th:max="${project_end_date}">
 
         <input type="hidden" th:field="*{task_id}" required>
 
         <input type="hidden" th:name="project" th:value="*{project_id}" required>
+
+        <p th:if="${errorMessage}" th:text="${errorMessage}" class="error"></p>
 
         <label for="status">Status</label>
         <label>

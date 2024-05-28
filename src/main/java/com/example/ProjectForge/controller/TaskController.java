@@ -10,6 +10,7 @@ import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -114,12 +115,17 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
 }
 
     //Edit task
-   @PostMapping(path = "/task/{project_id}/edit/{task_id}")
-public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, HttpSession session) {
-    if (isLoggedIn(session)) {
-        if (result.hasErrors()) {
-            return "Task/editTask";
-        }
+    @PostMapping(path = "/task/{project_id}/edit/{task_id}")
+    public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, Model model, HttpSession session) {
+        if (isLoggedIn(session)) {
+            if (result.hasErrors()) {
+                // Print all validation errors
+                for (ObjectError error : result.getAllErrors()) {
+                    System.out.println(error.getDefaultMessage());
+                }
+                model.addAttribute("errorMessage", "There were errors in your form. Please correct them and try again.");
+                return "Task/editTask";
+            }
         Task task = taskService.getTaskByIDs(task_id, project_id);
 
         task.setTask_name(updatedTask.getTask_name());

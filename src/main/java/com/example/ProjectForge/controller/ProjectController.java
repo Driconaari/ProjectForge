@@ -83,8 +83,9 @@ public class ProjectController {
         return "redirect:/sessionTimeout";
     }
 
-    @PostMapping("/projects/{user_id}/edit/{project_id}")
-    public String editProject(@PathVariable("project_id") int projectId, @PathVariable("user_id") int userId, @ModelAttribute Project updatedProject) {
+ @PostMapping("/projects/{user_id}/edit/{project_id}")
+public String editProject(@PathVariable("project_id") int projectId, @PathVariable("user_id") int userId, @ModelAttribute Project updatedProject) {
+    try {
         Project existingProject = projectService.getProjectByIDs(projectId, userId);
 
         existingProject.setProject_name(updatedProject.getProject_name());
@@ -99,8 +100,14 @@ public class ProjectController {
         }
 
         projectService.editProject(existingProject, projectId, userId);
-        return "redirect:/projects/" + userId;
+    } catch (Exception e) {
+        // Log the exception
+        System.out.println("Error while editing the project: " + e.getMessage());
+        // You can also return an error page here
+        return "error";
     }
+    return "redirect:/projects/" + userId;
+}
 
     @GetMapping("/deleteProject/{project_id}")
     public String deleteProject(@PathVariable("project_id") int projectId, Model model, HttpSession session) {
