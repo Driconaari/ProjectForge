@@ -101,15 +101,26 @@ public class GanttController {
 
     allTasks =ganttChartService.calculateOffsetsAndDurations(allTasks,projectStartDate);
 
-        for(
-    Project project :projects)
+   for (Project project : projects) {
+    long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
+    long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
+    project.setStartOffset(projectStartOffsetDays * 108); // assuming 108px per day
+    project.setDuration(projectDurationDays * 108); // assuming 108px per day
 
-    {
-        long projectStartOffsetDays = DAYS.between(projectStartDate, project.getStart_date());
-        long projectDurationDays = DAYS.between(project.getStart_date(), project.getEnd_date());
-        project.setStartOffset(projectStartOffsetDays * 108); // assuming 105px per day
-        project.setDuration(projectDurationDays * 108); // assuming 105px per day
+    for (Task task : project.getTasks()) {
+        long taskStartOffsetDays = DAYS.between(projectStartDate, task.getStart_date());
+        long taskDurationDays = DAYS.between(task.getStart_date(), task.getEnd_date());
+        task.setStartOffset(taskStartOffsetDays * 108); // assuming 108px per day
+        task.setDuration(taskDurationDays * 108); // assuming 108px per day
+
+        for (Subtask subtask : task.getSubtasks()) {
+            long subtaskStartOffsetDays = DAYS.between(projectStartDate, subtask.getStart_date());
+            long subtaskDurationDays = DAYS.between(subtask.getStart_date(), subtask.getEnd_date());
+            subtask.setStartOffset(subtaskStartOffsetDays * 108); // assuming 108px per day
+            subtask.setDuration(subtaskDurationDays * 108); // assuming 108px per day
+        }
     }
+}
 
         model.addAttribute("projects",projects);
         model.addAttribute("projectCalculatedTime",totalProjectCalculatedTime);

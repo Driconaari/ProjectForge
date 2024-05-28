@@ -10,11 +10,15 @@ import com.example.ProjectForge.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
 
+
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -111,33 +115,47 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
 }
 
     //Edit task
-    @PostMapping(path = "/task/{project_id}/edit/{task_id}")
-    public String editTask(@PathVariable int task_id, @PathVariable int project_id, @ModelAttribute Task updatedTask, HttpSession session) {
-        if (isLoggedIn(session)) {
-            Task task = taskService.getTaskByIDs(task_id, project_id);
-
-            task.setTask_name(updatedTask.getTask_name());
-            task.setHours(updatedTask.getHours());
-            task.setStatus(updatedTask.getStatus());
-
-            // Check and update start_date if not null
-            LocalDate updatedStartDate = updatedTask.getStart_date();
-            if (updatedStartDate != null) {
-                task.setStart_date(updatedStartDate);
+  @PostMapping(path = "/task/{project_id}/edit/{task_id}")
+public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, Model model, HttpSession session) {
+    if (isLoggedIn(session)) {
+        if (result.hasErrors()) {
+            // Print all validation errors
+            for (ObjectError error : result.getAllErrors()) {
+                System.out.println(error.getDefaultMessage());
             }
-
-            // Check and update end_date if not null
-            LocalDate updatedEndDate = updatedTask.getEnd_date();
-            if (updatedEndDate != null) {
-                task.setEnd_date(updatedEndDate);
-            }
-
-            taskService.editTask(task, task_id, project_id);
-            return "redirect:/tasks/" + project_id;
+            model.addAttribute("errorMessage", "There were errors in your form. Please correct them and try again.");
+            return "Task/editTask";
         }
-        return "redirect:/sessionTimeout";
-    }
+        Task task = taskService.getTaskByIDs(task_id, project_id);
 
+        // Fetch the Project object and set it in the Task object
+        Optional<Project> projectOptional = projectRepository.findById(project_id);
+        if (projectOptional.isPresent()) {
+            Project project = projectOptional.get();
+            task.setProject(project);
+        }
+
+        task.setTask_name(updatedTask.getTask_name());
+        task.setHours(updatedTask.getHours());
+        task.setStatus(updatedTask.getStatus());
+
+        // Check and update start_date if not null
+        LocalDate updatedStartDate = updatedTask.getStart_date();
+        if (updatedStartDate != null) {
+            task.setStart_date(updatedStartDate);
+        }
+
+        // Check and update end_date if not null
+        LocalDate updatedEndDate = updatedTask.getEnd_date();
+        if (updatedEndDate != null) {
+            task.setEnd_date(updatedEndDate);
+        }
+
+        taskService.editTask(task, task_id, project_id);
+        return "redirect:/tasks/" + project_id;
+    }
+    return "redirect:/sessionTimeout";
+}
 
     //Delete task page
     @GetMapping(path = "task/delete/{task_id}")
