@@ -115,7 +115,7 @@ public String showEditTask(Model model, @PathVariable int task_id, @PathVariable
 }
 
     //Edit task
-   @PostMapping(path = "/task/{project_id}/edit/{task_id}")
+  @PostMapping(path = "/task/{project_id}/edit/{task_id}")
 public String editTask(@PathVariable int task_id, @PathVariable int project_id, @Valid @ModelAttribute Task updatedTask, BindingResult result, Model model, HttpSession session) {
     if (isLoggedIn(session)) {
         if (result.hasErrors()) {
@@ -129,7 +129,7 @@ public String editTask(@PathVariable int task_id, @PathVariable int project_id, 
         Task task = taskService.getTaskByIDs(task_id, project_id);
 
         // Fetch the Project object and set it in the Task object
-        Optional<Project> projectOptional = projectRepository.findById(updatedTask.getProject().getProject_id());
+        Optional<Project> projectOptional = projectRepository.findById(project_id);
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
             task.setProject(project);
