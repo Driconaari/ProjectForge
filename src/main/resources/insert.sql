@@ -1,8 +1,8 @@
 USE eksamen;
 
 -- Insert into role
-INSERT INTO role (role) VALUES ('USER 1');
-INSERT INTO role (role) VALUES ('ADMIN 2');
+INSERT INTO role (role, role_name) VALUES ('USER 1', 'Role Name');
+INSERT INTO role (role) VALUES ('ADMIN 2', 'Role Name');
 
 
 -- Insert into user
