@@ -79,6 +79,36 @@
                     <target>17</target>
                 </configuration>
             </plugin>
+
+
+            <plugin>
+                <groupId>com.microsoft.azure</groupId>
+                <artifactId>azure-webapp-maven-plugin</artifactId>
+                <version>2.11.0</version>
+                <configuration>
+                    <subscriptionId>dd763a0a-0309-4a5d-ac20-dd7c7ea9d60b</subscriptionId>
+                    <resourceGroup>spring-boot-ProjectForge-rg</resourceGroup>
+                    <appName>spring-boot-ProjectForge</appName>
+                    <pricingTier>B2</pricingTier>
+                    <region>North Europe</region>
+                    <runtime>
+                        <os>Linux</os>
+                        <webContainer>Java SE</webContainer>
+                        <javaVersion>Java 17</javaVersion>
+                    </runtime>
+                    <deployment>
+                        <resources>
+                            <resource>
+                                <type>jar</type>
+                                <directory>${project.basedir}/target</directory>
+                                <includes>
+                                    <include>*.jar</include>
+                                </includes>
+                            </resource>
+                        </resources>
+                    </deployment>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
